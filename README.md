@@ -1,2 +1,2 @@
 # interid
-Internatioanl ID | Public Declarations | Agreements
+International ID | Public Declarations | Agreements
