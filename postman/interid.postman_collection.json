@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "8f2183f6-8773-479c-ba8a-f53d3b6eede5",
+		"name": "interid",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33380893"
+	},
+	"item": [
+		{
+			"name": "multiply",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 0.4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/multiply/",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"multiply",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://127.0.0.1:8000/api"
+		}
+	]
+}
