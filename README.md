@@ -34,5 +34,12 @@ Each user will receive an **Open International ID**:
 # Technologies To Be Used
 - Frontend: React
 - Backend: Django
-- Database: Postgres
+- Database: SQLite
 - Cloud Platform: AWS
+
+# What can be delivered in about three weeks
+- Basic backend and frontend code
+- Hosting both on AWS
+- Feature for user registration
+- Feature for public declaration
+- Feature for comments on public declration
