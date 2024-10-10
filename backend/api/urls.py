@@ -1,7 +1,6 @@
-# api/urls.py
 from django.urls import path
-from .views import multiply
+from .views import hello_world
 
 urlpatterns = [
-    path('multiply/', multiply, name='multiply'),
+    path('hello/', hello_world, name='hello_world'),
 ]
