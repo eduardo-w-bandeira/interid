@@ -1,6 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
-def hello_world(request):
-    return HttpResponse("<h1>Hello, World!</h1>")
+@csrf_exempt  # to bypass CSRF for simplicity (not recommended in production)
+def multiply_by_two(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            number = data.get('number')
+            if number is not None:
+                result = number * 2
+                return JsonResponse({'result': result})
+            else:
+                return JsonResponse({'error': 'No number provided'}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
