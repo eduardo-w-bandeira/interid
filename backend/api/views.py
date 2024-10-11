@@ -1,8 +1,10 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import trail
 
 
+@trail.autoendpoint
 @csrf_exempt  # to bypass CSRF for simplicity (not recommended in production)
 def multiply_by_two(request):
     if request.method == 'POST':

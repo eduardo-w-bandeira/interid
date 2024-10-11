@@ -8,7 +8,7 @@ const MultiplyForm = () => {
     e.preventDefault();
 
     // Send the number to the backend
-    const response = await fetch('http://localhost:8000/api/multiply/', {
+    const response = await fetch('http://localhost:8000/api/multiply_by_two/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
