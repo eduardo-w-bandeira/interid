@@ -2,16 +2,17 @@ from django.urls import path
 from databarn import Seed, Field, Barn
 
 
-class PathInfo(Seed):  # "Info" for avoiding collision with django.urls.path
+class Endpoint(Seed):
     view = Field(key=True)
     route = Field(str, none=False, unique=True)
     name = Field(str, none=False, unique=True)
+    kwargs = Field(dict, none=False)
 
 
-path_infos = Barn(PathInfo)
+endpoints = Barn(Endpoint)
 
 
-def autoendpoint(route: str = "", name: str = ""):
+def autoendpoint(route: str = "", name: str = "", **kwargs):
     """Decorator to add route and name to a view function."""
     def decor(view):
         nonlocal route, name
@@ -19,8 +20,8 @@ def autoendpoint(route: str = "", name: str = ""):
             route = view.__name__ + "/"
         if not name:
             name = view.__name__
-        info = PathInfo(view=view, route=route, name=name)
-        path_infos.append(info)
+        enpoint = Endpoint(view=view, route=route, name=name, kwargs=kwargs)
+        endpoints.append(enpoint)
         return view  # Return the original view
     return decor
 
@@ -30,11 +31,12 @@ def gen_urlpatterns(views):
     for use with autoendpoint."""
     urlpatterns = []
     ob_names = dir(views)
-    for info in path_infos:  # Get infos in order
-        if info.view.__name__ not in ob_names:
+    for enpoint in endpoints:  # Get path_info in order
+        if enpoint.view.__name__ not in ob_names:
             continue
-        ob = getattr(views, info.view.__name__)
-        if ob is info.view:
-            url_pattern = path(info.route, ob, name=info.name)
+        ob = getattr(views, enpoint.view.__name__)
+        if ob is enpoint.view:
+            url_pattern = path(enpoint.route, ob,
+                               name=enpoint.name, **enpoint.kwargs)
             urlpatterns.append(url_pattern)
     return urlpatterns
