@@ -1,13 +1,16 @@
+// frontend/src/App.jsx
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import MultiplyForm from './MultiplyForm';
-import './App.css';
+import HelloPage from './HelloPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <MultiplyForm />
-    </div>
+    <Routes>
+      <Route path="/" element={<MultiplyForm />} />
+      <Route path="/hello" element={<HelloPage />} />
+    </Routes>
   );
-}
+};
 
 export default App;
