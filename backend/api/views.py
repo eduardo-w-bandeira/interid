@@ -1,10 +1,12 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from trail import autoendpoint
+from trail import Router
+
+router = Router(__file__)
 
 
-@autoendpoint()
+@router.autoendpoint()
 @csrf_exempt  # to bypass CSRF for simplicity
 def multiply_by_two(request):
     if request.method == 'POST':
