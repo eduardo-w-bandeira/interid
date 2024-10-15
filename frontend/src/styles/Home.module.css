@@ -1,0 +1,13 @@
+/* src/styles/Home.module.css */
+
+.home {
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+}
+
+section {
+  margin-bottom: 20px;
+}
