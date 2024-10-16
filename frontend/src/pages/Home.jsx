@@ -1,23 +1,21 @@
 import React from 'react';
-import Header from '../components/Header';
-import Intro from '../components/Intro';
-import KeyFeatures from '../components/KeyFeatures';
-import HowItWorks from '../components/HowItWorks';
-import CallToAction from '../components/CallToAction';
-import Footer from '../components/Footer';
-import '@/styles/Home.module.css';
+import Navbar from '@/components/Navbar';
+import Descr from '@/components/Descr';
+import Features from '@/components/Features';
+import CTA from '@/components/CTA';
+import Footer from '@/components/Footer';
+import '@/styles/Home.css';
 
-const Home = () => {
+function Home() {
   return (
-    <div>
-      <Header />
-      <Intro />
-      <KeyFeatures />
-      <HowItWorks />
-      <CallToAction />
+    <div className="App">
+      <Navbar />
+      <Descr />
+      <Features />
+      <CTA />
       <Footer />
     </div>
   );
-};
+}
 
 export default Home;
