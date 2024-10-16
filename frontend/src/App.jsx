@@ -1,17 +1,16 @@
 // frontend/src/App.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MultiplyForm from './MultiplyForm';
 import Home from './pages/Home.jsx';
-import HelloPage from './HelloPage';
-import BlaPage from './BlaPage';
+import MultiplyForm from './pages/MultiplyForm';
+import Bla from './pages/Bla.jsx';
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/hello" element={<HelloPage />} />
-      <Route path="/bla" element={<BlaPage />} />
+      <Route path="/multiply" element={<MultiplyForm />} />
+      <Route path="/bla" element={<Bla />} />
     </Routes>
   );
 };

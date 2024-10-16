@@ -1,8 +1,8 @@
 // frontend/src/BlaPage.jsx
 import React from 'react';
 
-const BlaPage = () => {
+const Bla = () => {
     return <div>Bla bla bla!</div>;
 };
 
-export default BlaPage;
+export default Bla;
