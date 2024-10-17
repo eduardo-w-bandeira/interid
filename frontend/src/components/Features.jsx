@@ -8,7 +8,7 @@ const Features = () => {
         <h3>Why Choose InterId?</h3>
         <div className="features-grid">
           <div className="feature-box">
-            <h4>Open International ID</h4>
+            <h4>International ID</h4>
             <p>Receive a permanent, unique, and immutable identifier recognized globally for all civil actions.</p>
           </div>
           <div className="feature-box">

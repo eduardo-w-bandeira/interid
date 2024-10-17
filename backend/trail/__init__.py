@@ -21,14 +21,48 @@ app_confs = Barn(AppConf)
 
 
 class Router:
+    """Router class for managing application endpoints.
 
-    def __init__(self, file):
+    Attributes:
+        app_name (str): The name of the application derived from the file path.
+        endpoints (Barn): A collection of Endpoint instances.
+
+    Methods:
+        __init__(file):
+            Initializes the Router with the given file path.
+        autoendpoint(route: str = "", name: str = "", **kwargs):
+            A decorator to automatically register an endpoint with the application.
+                route (str): The route for the endpoint. Defaults to the view function name with a trailing slash.
+                name (str): The name for the endpoint. Defaults to the view function name.
+    """
+
+    def __init__(self, file: str):
+        """Initializes the Router with the given file path.
+
+        Args:
+            file: The special var name __file__ in your view.py.
+        """
         self.app_name = pathlib.Path(file).parent.name
         self.endpoints = Barn(Endpoint)
 
     def autoendpoint(self, route: str = "", name: str = "", **kwargs):
-        """Decorator to add route and name to a view function."""
+        """A decorator to automatically register an endpoint with the application.
+
+        Args:
+            route: The route for the endpoint. Defaults to the view function name with a trailing slash.
+            name: The name for the endpoint. Defaults to the view function name.
+            **kwargs: Additional keyword arguments to be passed to the Endpoint.
+
+        Returns:
+            Callable: The original view function.
+
+        Example:
+            @router.autoendpoint("custom_route/", "custom_name")
+            def my_view():
+                ...
+        """
         def decor(view: Callable):
+            """The actual decorator function."""
             global app_confs
             nonlocal route, name
             if not route:
@@ -46,7 +80,7 @@ class Router:
 
 def gen_urlpatterns(views_mod: ModuleType):
     """Generates a list of url patterns from a views module,
-    based on the functions that use the @app.autoendpoint
+    based on the functions that use the @router.autoendpoint()
 
     Args:
         views_mod: The module containing the views.

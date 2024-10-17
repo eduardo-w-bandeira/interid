@@ -1,18 +1,18 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
-import Descr from '@/components/Descr';
+import Hero from '@/components/Hero';
 import Features from '@/components/Features';
-import CTA from '@/components/CTA';
+import Engage from '@/components/Engage';
 import Footer from '@/components/Footer';
 import '@/styles/Home.css';
 
 function Home() {
   return (
-    <div className="App">
+    <div className="Home">
       <Navbar />
-      <Descr />
+      <Hero />
       <Features />
-      <CTA />
+      <Engage />
       <Footer />
     </div>
   );
