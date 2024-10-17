@@ -1,0 +1,59 @@
+Table Users {
+  id SERIAL [pk]
+  user_type ENUM ('individual', 'legal_entity') [not null]
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table Individuals {
+  user_id INT [pk, unique, ref: - Users.id]
+  first_name VARCHAR(200) [not null]
+  last_name VARCHAR(200) [not null]
+  birth_date DATE
+  gov_id VARCHAR(50) [unique]
+  issuing_authority VARCHAR(100)
+  country VARCHAR(100)
+}
+
+Table LegalEntities {
+  user_id INT [pk, unique, ref: - Users.id]
+  legal_name VARCHAR(200) [not null]
+  business_name VARCHAR(200) [not null]
+  reg_num VARCHAR(50) [unique]
+  reg_date DATE
+}
+
+Table Declarations {
+  id SERIAL [pk]
+  user_id INT [not null, ref: > Users.id]
+  title VARCHAR(100)
+  cont TEXT [not null]
+  allow_comments BOOLEAN [default: true]
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+
+Table Agreements {
+  id SERIAL [pk]
+  title VARCHAR(100)
+  cont TEXT [not null]
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table AgreementParticipants {
+  id SERIAL [pk]
+  agreement_id INT [not null, ref: > Agreements.id]
+  user_id INT [not null, ref: > Users.id]
+  
+  indexes {
+    (agreement_id, user_id) [unique]
+  }
+}
+
+Table DeclarationComments {
+  id SERIAL [pk]
+  declaration_id INT [not null, ref: > Declarations.id]
+  user_id INT [not null, ref: > Users.id]
+  cont TEXT [not null]
+  parent_comment_id INT
+  created_at TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}

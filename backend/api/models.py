@@ -1,93 +1,62 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import User
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, open_id, real_name, email, password=None, is_legal_entity=False, **extra_fields):
-        if not email:
-            raise ValueError('The Email field must be set.')
-        email = self.normalize_email(email)
-        user = self.model(open_id=open_id, real_name=real_name,
-                          email=email, is_legal_entity=is_legal_entity, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+class UserProfile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('individual', 'Individual'),
+        ('legal_entity', 'Legal Entity'),
+    ]
 
-    def create_superuser(self, open_id, real_name, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(open_id, real_name, email, password, **extra_fields)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
-    open_id = models.CharField(
-        max_length=50, unique=True)  # Open International ID
-    real_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    # Identifies if the user is a legal entity
-    is_legal_entity = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
-    USERNAME_FIELD = 'open_id'
-    REQUIRED_FIELDS = ['real_name', 'email']
-
-    objects = UserManager()
-
-    def __str__(self):
-        return self.real_name
-
-# Legal entity model
+class Individual(models.Model):
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    birth_date = models.DateField(null=True, blank=True)
+    gov_id = models.CharField(max_length=255, unique=True)
+    issuing_authority = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
 
 
 class LegalEntity(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, primary_key=True, related_name='legal_entity')
-    # Legal entity's registration number
-    registration_number = models.CharField(max_length=100, unique=True)
-    representative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,
-                                       related_name='represented_entities')  # Representative is an individual user
-
-    def __str__(self):
-        return f"{self.user.real_name} (Legal Entity)"
-
-# Public declaration model
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    legal_name = models.CharField(max_length=255)
+    business_name = models.CharField(max_length=255)
+    reg_num = models.CharField(max_length=255, unique=True)
+    reg_date = models.DateField(null=True, blank=True)
 
 
 class Declaration(models.Model):
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='declarations')
-    title = models.CharField(max_length=255)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True)
     content = models.TextField()
-    declared_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.title} by {self.user.name}"
-
-# Formal agreement model
+    allow_comments = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Agreement(models.Model):
-    parties = models.ManyToManyField(User, related_name='agreements')
-    legal_entities = models.ManyToManyField(
-        LegalEntity, blank=True, related_name='agreements')
-    title = models.CharField(max_length=255)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True)
     content = models.TextField()
-    is_public = models.BooleanField(default=False)  # Default private
-    signed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-# Contract signature model
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Signature(models.Model):
-    agreement = models.ForeignKey(
-        Agreement, on_delete=models.CASCADE, related_name='signatures')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    signed_at = models.DateTimeField(null=True, blank=True)
-    is_signed = models.BooleanField(default=False)
+class AgreementParticipant(models.Model):
+    agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.user.name} signed: {self.is_signed}"
+    class Meta:
+        unique_together = ('agreement', 'user_profile')
+
+
+class DeclarationComment(models.Model):
+    declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    content = models.TextField()
+    parent_comment_id = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
