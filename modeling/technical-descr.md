@@ -21,3 +21,7 @@ A declaration is a formal statement made by an user (individual or legal entity)
 
 # Agreements
 An agreement is a formal and legally binding contract between two or more users (individuals or legal entities) to do or not do something.
+
+# Techonologies
+- Frontend: React+Vite
+- Backend: Django
