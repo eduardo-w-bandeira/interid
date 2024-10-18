@@ -117,7 +117,3 @@
 - **401 Unauthorized**: Authentication required or invalid token.
 - **404 Not Found**: Resource does not exist.
 - **409 Conflict**: Resource conflict (e.g., duplicate entries).
-
-## Notes
-- Ensure to handle pagination for endpoints that return lists (e.g., comments).
-- All timestamps returned should be in ISO 8601 format.
