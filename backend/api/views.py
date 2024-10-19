@@ -1,9 +1,11 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 import json
-from trail import Router
+from databarn import Seed
+import trail
 
-router = Router(__file__)
+router = trail.Router(__file__)
 
 
 @router.autoendpoint()
@@ -13,6 +15,7 @@ def multiply_by_two(request):
         try:
             data = json.loads(request.body)
             number = data.get('number')
+            print(type(number))
             if number is not None:
                 result = number * 2
                 return JsonResponse({'result': result})
@@ -22,3 +25,14 @@ def multiply_by_two(request):
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+@router.autoendpoint()
+@csrf_exempt
+@require_POST
+def register_user(request):
+    data = json.loads(request.body)
+    user = Seed(**data)
+    user.birth_date = trail.str_to_date(user.birth_date)
+    user.reg_date = trail.str_to_date(user.reg_date)
+    return JsonResponse({'message': str(user)})
