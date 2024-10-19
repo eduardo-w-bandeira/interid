@@ -5,7 +5,7 @@ import json
 from databarn import Seed
 import trail
 
-router = trail.Router(__file__)
+router = trail.Router()
 
 
 @router.autoendpoint()
@@ -15,7 +15,6 @@ def multiply_by_two(request):
         try:
             data = json.loads(request.body)
             number = data.get('number')
-            print(type(number))
             if number is not None:
                 result = number * 2
                 return JsonResponse({'result': result})
