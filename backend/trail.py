@@ -31,7 +31,7 @@ class Router:
                 route = view.__name__ + "/"
             if not url_name:
                 url_name = view.__name__
-            url_patt = path(route, view, url_name, **kwargs)
+            url_patt = path(route, view, name=url_name, **kwargs)
             self.url_patts.append(url_patt)
             return view  # Return the original view
         return decor
