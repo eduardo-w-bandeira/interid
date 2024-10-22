@@ -1,6 +1,8 @@
 -- Base table for Individual and Legal Entity users
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
     user_type ENUM('individual', 'legal_entity') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
