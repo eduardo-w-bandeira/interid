@@ -4,6 +4,8 @@ from django.views.decorators.http import require_POST
 import json
 from databarn import Seed
 import trail
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 router = trail.Router()
 
@@ -29,7 +31,11 @@ def multiply_by_two(request):
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
-def register_user(request):
+def register_individual(request):
     data = json.loads(request.body)
-
+    try:
+        user = User.objects.create_user(**data)
+    except ValidationError as e:
+        return JsonResponse({'error': e.message_dict}, status=400)
+    user.save()
     return JsonResponse({'message': "User registered successfully"})
