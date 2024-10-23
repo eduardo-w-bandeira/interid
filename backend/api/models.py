@@ -1,10 +1,13 @@
 from django.db import models
 
+__all__ = ["User", "Individual", "LegalEntity",
+           "Declaration", "Agreement", "AgreementParticipant", "DeclarationComment"]
+
 
 class User(models.Model):
     USER_TYPE_CHOICES = [
-        ('individual', 'Individual'),
-        ('legal_entity', 'Legal Entity'),
+        ("individual", "Individual"),
+        ("legal_entity", "Legal Entity"),
     ]
     id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=100, unique=True, null=False)
@@ -19,12 +22,12 @@ class User(models.Model):
         max_length=100, default="Canada", null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = 'email'  # Use email as the unique identifier
+    USERNAME_FIELD = "email"  # Use email as the unique identifier
     REQUIRED_FIELDS = []  # Email & password are required by default
 
     class Meta:
-        unique_together = ('gov_id', 'gov_id_type',
-                           'issuing_authority', 'country')
+        unique_together = ("gov_id", "gov_id_type",
+                           "issuing_authority", "country")
 
     def __str__(self):
         return self.email
@@ -47,16 +50,17 @@ class LegalEntity(models.Model):
 class Declaration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
-    content = models.TextField()
+    body = models.TextField()
     allow_comments = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-# class DeclarationComment(models.Model):
-#     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     content = models.TextField()
-#     parent_comment_id = models.IntegerField(null=True, blank=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
+
+class DeclarationComment(models.Model):
+    declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    # parent_comment_id = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Agreement(models.Model):
@@ -71,4 +75,4 @@ class AgreementParticipant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('agreement', 'user')
+        unique_together = ("agreement", "user")
