@@ -17,11 +17,12 @@ class UserView(APIView):
     serializer_class = UserSer
 
     def get(self, request):
-        detail = [{"id": user.id, "email": user.email, "user_type": user.user_type,
-                   "gov_id": user.gov_id, "gov_id_type": user.gov_id_type,
-                   "issuing_authority": user.issuing_authority, "country": user.country}
-                  for user in User.objects.all()]
-        return Response(detail)
+        user_maps = [{"id": user.id, "email": user.email, "user_type": user.user_type,
+                      "gov_id": user.gov_id, "gov_id_type": user.gov_id_type,
+                      "issuing_authority": user.issuing_authority, "country": user.country,
+                      "created_at": user.created_at}
+                     for user in User.objects.all()]
+        return Response(user_maps)
 
     def post(self, request):
         ser = UserSer(data=request.data)
