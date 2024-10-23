@@ -32,5 +32,19 @@ def multiply_by_two(request):
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
-def register_individual(request):
+def register_user(request):
     data = json.loads(request.body)
+    try:
+        user = User.objects.create(
+            email=data.get('email'),
+            password=data.get('password'),
+            user_type=data.get('user_type'),
+            gov_id=data.get('gov_id'),
+            gov_id_type=data.get('gov_id_type'),
+            issuing_authority=data.get('issuing_authority'),
+            country=data.get('country')
+        )
+        user.save()
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'message': f"User saved | {user}"})
