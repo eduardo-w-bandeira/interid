@@ -71,10 +71,13 @@ def register_individual(request):
         user = create_user(seed)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-    individual = Individual.objects.create(
-        user=user,
-        first_name=seed.first_name,
-        last_name=seed.last_name,
-        birth_date=seed.birth_date)
-    individual.save()
-    return JsonResponse({'message': f"Individual saved | {user.seed}"})
+    try:
+        individual = Individual.objects.create(
+            user=user,
+            first_name=seed.first_name,
+            last_name=seed.last_name,
+            birth_date=seed.birth_date)
+        individual.save()
+    except Exception as err:
+        return JsonResponse({'error': str(err)}, status=400)
+    return JsonResponse({'message': f"Individual saved | {seed}"})
