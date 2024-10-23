@@ -37,11 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Corsheaders
-    'corsheaders',
-    # apps
-    'api',
+    'rest_framework',  # rest framework
+    'corsheaders',  # Corsheaders
+    'api',  # app
 ]
+
+# Customazation
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vite development server
+]  # Corsheaders
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+REST_FRAMEWORK = {"DEFAULT_PERMISSION_CLASSES": [
+    "rest_framework.permissions.AllowAny"]}  # rest framework
+# /Customazation
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,8 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # Corsheaders
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Corsheaders
 ]
 
 ROOT_URLCONF = 'base.urls'
@@ -127,10 +136,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Corsheaders
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite development server
-]
-
-CORS_ALLOW_ALL_ORIGINS = True

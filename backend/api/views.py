@@ -1,14 +1,34 @@
 import json
+# from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from databarn import Seed
 import trails
-from .models import User, Individual, LegalEntity, Declaration, Agreement, AgreementParticipant
+from . models import *
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .ser import UserSer
 
 
-# Pre-defined here
-# from django.shortcuts import render
+class UserView(APIView):
+
+    serializer_class = UserSer
+
+    def get(self, request):
+        detail = [{"id": user.id, "email": user.email, "user_type": user.user_type,
+                   "gov_id": user.gov_id, "gov_id_type": user.gov_id_type,
+                   "issuing_authority": user.issuing_authority, "country": user.country}
+                  for user in User.objects.all()]
+        return Response(detail)
+
+    def post(self, request):
+        ser = UserSer(data=request.data)
+        if ser.is_valid(raise_exception=True):
+            ser.save()
+            return Response(ser.data)
+
 
 router = trails.Router()
 
