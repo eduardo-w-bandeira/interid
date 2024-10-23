@@ -30,11 +30,11 @@ class User(models.Model):
         return self.email
 
 
-# class Individual(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     first_name = models.CharField(max_length=200)
-#     last_name = models.CharField(max_length=200)
-#     birth_date = models.DateField(null=False, blank=False)
+class Individual(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    birth_date = models.DateField(null=False, blank=False)
 
 
 # class LegalEntity(models.Model):

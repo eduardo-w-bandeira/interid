@@ -2,8 +2,10 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import User
+from databarn import Seed
 import trails
+from .models import User
+
 
 # Pre-defined here
 # from django.shortcuts import render
@@ -34,17 +36,20 @@ def multiply_by_two(request):
 @require_POST
 def register_user(request):
     data = json.loads(request.body)
+    seed = Seed(**data)
     try:
         user = User.objects.create(
-            email=data.get('email'),
-            password=data.get('password'),
-            user_type=data.get('user_type'),
-            gov_id=data.get('gov_id'),
-            gov_id_type=data.get('gov_id_type'),
-            issuing_authority=data.get('issuing_authority'),
-            country=data.get('country')
+            email=seed.email,
+            password=seed.password,
+            user_type=seed.user_type,
+            gov_id=seed.gov_id,
+            gov_id_type=seed.gov_id_type,
+            issuing_authority=seed.issuing_authority,
+            country=seed.country
         )
         user.save()
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-    return JsonResponse({'message': f"User saved | {user}"})
+    seed.__dna__._create_dynamic_field("id")
+    seed.id = user.id
+    return JsonResponse({'message': f"User saved | {seed}"})
