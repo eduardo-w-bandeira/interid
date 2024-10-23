@@ -37,11 +37,11 @@ class Individual(models.Model):
     birth_date = models.DateField(null=False, blank=False)
 
 
-# class LegalEntity(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     legal_name = models.CharField(max_length=200)
-#     business_name = models.CharField(max_length=200)
-#     reg_date = models.DateField(null=False, blank=False)
+class LegalEntity(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    legal_name = models.CharField(max_length=200)
+    business_name = models.CharField(max_length=200)
+    reg_date = models.DateField(null=False, blank=False)
 
 
 # class Declaration(models.Model):

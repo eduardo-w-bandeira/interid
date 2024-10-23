@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from databarn import Seed
 import trails
-from .models import User, Individual
+from .models import User, Individual, LegalEntity
 
 
 # Pre-defined here
@@ -81,3 +81,27 @@ def register_individual(request):
     except Exception as err:
         return JsonResponse({'error': str(err)}, status=400)
     return JsonResponse({'message': f"Individual saved | {seed}"})
+
+
+@router.autoendpoint()
+@csrf_exempt
+@require_POST
+def register_legal_entity(request):
+    data: dict = json.loads(request.body)
+    seed = Seed(**data)
+    seed.reg_date = trails.str_to_date(seed.reg_date)
+    try:
+        user = create_user(seed)
+    except Exception as err:
+        return JsonResponse({'error': str(err)}, status=400)
+    try:
+        legal_entity = LegalEntity.objects.create(
+            user=user,
+            legal_name=seed.legal_name,
+            business_name=seed.business_name,
+            reg_date=seed.reg_date
+        )
+        legal_entity.save()
+    except Exception as err:
+        return JsonResponse({'error': str(err)}, status=400)
+    return JsonResponse({'message': f"Legal entity saved | {seed}"})
