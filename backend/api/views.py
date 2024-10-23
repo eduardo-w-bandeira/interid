@@ -31,25 +31,31 @@ def multiply_by_two(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
+def add_user(data: dict) -> User:
+    seed = Seed(**data)
+    user = User.objects.create(
+        email=seed.email,
+        password=seed.password,
+        user_type=seed.user_type,
+        gov_id=seed.gov_id,
+        gov_id_type=seed.gov_id_type,
+        issuing_authority=seed.issuing_authority,
+        country=seed.country
+    )
+    user.save()
+    seed.__dna__._create_dynamic_field("id")
+    seed.id = user.id
+    user.seed = seed
+    return user
+
+
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
 def register_user(request):
-    data = json.loads(request.body)
-    seed = Seed(**data)
+    data: dict = json.loads(request.body)
     try:
-        user = User.objects.create(
-            email=seed.email,
-            password=seed.password,
-            user_type=seed.user_type,
-            gov_id=seed.gov_id,
-            gov_id_type=seed.gov_id_type,
-            issuing_authority=seed.issuing_authority,
-            country=seed.country
-        )
-        user.save()
+        user = add_user(data)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
-    seed.__dna__._create_dynamic_field("id")
-    seed.id = user.id
-    return JsonResponse({'message': f"User saved | {seed}"})
+    return JsonResponse({'message': f"User saved | {user.seed}"})
