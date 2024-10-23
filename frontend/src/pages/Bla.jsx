@@ -1,8 +1,48 @@
-// frontend/src/BlaPage.jsx
-import React from 'react';
+// Filename - src/App.js
 
-const Bla = () => {
-    return <div>Bla bla bla!</div>;
-};
+import React from 'react';
+import axios from 'axios';
+
+class Bla extends React.Component {
+
+    state = {
+        details : [],
+    }
+
+    componentDidMount() {
+
+        let data ;
+
+        axios.get('http://localhost:8000/api/')
+        .then(res => {
+            data = res.data;
+            this.setState({
+                details : data    
+            });
+        })
+        .catch(err => {})
+    }
+
+  render() {
+    return(
+      <div>
+            {this.state.details.map((detail, id) =>  (
+            <div key={id}>
+            <div >
+                  <div >
+                        <h1>{detail.detail} </h1>
+                        <footer >--- by
+                        <cite title="Source Title">
+                        {detail.name}</cite>
+                        </footer>
+                  </div>
+            </div>
+            </div>
+            )
+        )}
+      </div>
+      );
+  }
+}
 
 export default Bla;
