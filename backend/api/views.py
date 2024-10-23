@@ -47,7 +47,7 @@ def create_user(seed: Seed) -> User:
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
-def register_user(request):
+def post_user(request):
     data: dict = json.loads(request.body)
     seed = Seed(**data)
     try:
@@ -63,7 +63,7 @@ def register_user(request):
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
-def register_individual(request):
+def post_individual(request):
     data: dict = json.loads(request.body)
     seed = Seed(**data)
     seed.birth_date = trails.str_to_date(seed.birth_date)
@@ -86,7 +86,7 @@ def register_individual(request):
 @router.autoendpoint()
 @csrf_exempt
 @require_POST
-def register_legal_entity(request):
+def post_legal_entity(request):
     data: dict = json.loads(request.body)
     seed = Seed(**data)
     seed.reg_date = trails.str_to_date(seed.reg_date)
@@ -105,3 +105,23 @@ def register_legal_entity(request):
     except Exception as err:
         return JsonResponse({'error': str(err)}, status=400)
     return JsonResponse({'message': f"Legal entity saved | {seed}"})
+
+
+@router.autoendpoint()
+@csrf_exempt
+@require_POST
+def post_declaration(request):
+    data: dict = json.loads(request.body)
+    seed = Seed(**data)
+    user = User.objects.get(id=seed.user_id)
+    try:
+        declaration = Declaration.objects.create(
+            user=user,
+            title=seed.title,
+            content=seed.content,
+            allow_comments=seed.allow_comments
+        )
+        declaration.save()
+    except Exception as err:
+        return JsonResponse({'error': str(err)}, status=400)
+    return JsonResponse({'message': f"Declaration saved | {seed}"})
