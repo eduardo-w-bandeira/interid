@@ -44,28 +44,12 @@ class LegalEntity(models.Model):
     reg_date = models.DateField(null=False, blank=False)
 
 
-# class Declaration(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     title = models.CharField(max_length=100, blank=True)
-#     content = models.TextField()
-#     allow_comments = models.BooleanField(default=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# class Agreement(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     title = models.CharField(max_length=100, blank=True)
-#     content = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
-# class AgreementParticipant(models.Model):
-#     agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     class Meta:
-#         unique_together = ('agreement', 'user')
-
+class Declaration(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True)
+    content = models.TextField()
+    allow_comments = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 # class DeclarationComment(models.Model):
 #     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
@@ -73,3 +57,18 @@ class LegalEntity(models.Model):
 #     content = models.TextField()
 #     parent_comment_id = models.IntegerField(null=True, blank=True)
 #     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Agreement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AgreementParticipant(models.Model):
+    agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('agreement', 'user')

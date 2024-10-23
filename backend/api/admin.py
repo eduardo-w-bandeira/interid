@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Individual, LegalEntity
+from .models import User, Individual, LegalEntity, Declaration, Agreement, AgreementParticipant
 
 
 class UserAdmin(admin.ModelAdmin):
