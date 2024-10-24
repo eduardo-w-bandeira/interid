@@ -5,7 +5,7 @@ const Bla = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/')
+    axios.get('http://localhost:8000/api/users/')
       .then(response => {
         setData(response.data);
       })
