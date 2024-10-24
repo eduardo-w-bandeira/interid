@@ -4,9 +4,9 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import Engage from '@/components/Engage';
 import Footer from '@/components/Footer';
-import '@/styles/Home.css';
+import '@/styles/Global.css';
 
-function Home() {
+function HomePage() {
   return (
     <div className="Home">
       <Navbar />
@@ -18,4 +18,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

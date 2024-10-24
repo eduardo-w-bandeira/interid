@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const MultiplyForm = () => {
+const MultiplyPage = () => {
   const [number, setNumber] = useState('');
   const [result, setResult] = useState(null);
 
@@ -43,4 +43,4 @@ const MultiplyForm = () => {
   );
 };
 
-export default MultiplyForm;
+export default MultiplyPage;
