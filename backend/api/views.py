@@ -14,21 +14,32 @@ from .ser import UserSer
 
 class UserView(APIView):
 
-    serializer_class = UserSer
-
     def get(self, request):
-        user_maps = [{"id": user.id, "email": user.email, "user_type": user.user_type,
-                      "gov_id": user.gov_id, "gov_id_type": user.gov_id_type,
-                      "issuing_authority": user.issuing_authority, "country": user.country,
-                      "created_at": user.created_at}
-                     for user in User.objects.all()]
-        return Response(user_maps)
+        users = User.objects.all()
+        serializer = UserSer(users, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
-        ser = UserSer(data=request.data)
-        if ser.is_valid(raise_exception=True):
-            ser.save()
-            return Response(ser.data)
+        serializer = UserSer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+class IndividualView(APIView):
+
+    def get(self, request):
+        individuals = Individual.objects.all()
+        serializer = UserSer(individuals, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = UserSer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 
 router = trails.Router()
