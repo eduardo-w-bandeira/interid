@@ -2,15 +2,11 @@ import json
 # from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-# from databarn import Seed
-# import trails
+# from django.views.decorators.http import require_POST
 from . models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .ser import UserSer, IndividualSer
-
-# router = trails.Router()
+from .ser import UserSer, IndividualSer, LegalEntitySer
 
 
 class UserView(APIView):
@@ -36,8 +32,7 @@ class IndividualView(APIView):
         return Response(ser.data)
 
     def post(self, request):
-        user_data = request.data
-        user_ser = UserSer(data=user_data)
+        user_ser = UserSer(data=request.data)
         if user_ser.is_valid():
             user = user_ser.save()  # Save the user first
             individual_data = request.data
@@ -51,6 +46,72 @@ class IndividualView(APIView):
                 user.delete()
                 return Response(individual_ser.errors, status=400)
         return Response(user_ser.errors, status=400)
+
+
+class IndividualDetail(APIView):
+
+    def get(self, request, id):
+        individual = Individual.objects.get(id=id)
+        ser = IndividualSer(individual)
+        return Response(ser.data)
+
+    def put(self, request, id):
+        individual = Individual.objects.get(id=id)
+        ser = IndividualSer(individual, data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=201)
+        return Response(ser.errors, status=400)
+
+    def delete(self, request, id):
+        individual = Individual.objects.get(id=id)
+        individual.delete()
+        return Response(status=204)
+
+
+class LegalEntityView(APIView):
+
+    def get(self, request):
+        leg_entities = LegalEntity.objects.all()
+        ser = LegalEntitySer(leg_entities, many=True)
+        return Response(ser.data)
+
+    def post(self, request):
+        user_ser = UserSer(data=request.data)
+        if user_ser.is_valid():
+            user = user_ser.save()  # Save the user first
+            leg_entity_data = request.data
+            # Add the user ID to the individual data
+            leg_entity_data['user'] = user.id
+            leg_entity_ser = LegalEntitySer(data=leg_entity_data)
+            if leg_entity_ser.is_valid():
+                leg_entity_ser.save()
+                return Response(leg_entity_ser.data, status=201)
+            else:
+                user.delete()
+                return Response(leg_entity_ser.errors, status=400)
+        return Response(user_ser.errors, status=400)
+
+
+class LegalEntityDetail(APIView):
+
+    def get(self, request, id):
+        legal_entity = LegalEntity.objects.get(id=id)
+        ser = LegalEntitySer(legal_entity)
+        return Response(ser.data)
+
+    def put(self, request, id):
+        legal_entity = LegalEntity.objects.get(id=id)
+        ser = LegalEntitySer(legal_entity, data=request.data)
+        if ser.is_valid():
+            ser.save()
+            return Response(ser.data, status=201)
+        return Response(ser.errors, status=400)
+
+    def delete(self, request, id):
+        legal_entity = LegalEntity.objects.get(id=id)
+        legal_entity.delete()
+        return Response(status=204)
 
 
 @csrf_exempt  # to bypass CSRF for simplicity

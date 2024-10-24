@@ -46,3 +46,14 @@ def str_to_date(date_str):
     if not date_str:
         return date_str
     return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+
+
+def pascal_to_snake(string):
+    """Converts a PascalCase string to a snake_case string."""
+    new = ""
+    for char in string:
+        if char.isupper():
+            new += "_" + char.lower()
+        else:
+            new += char
+    return new.lstrip("_")
