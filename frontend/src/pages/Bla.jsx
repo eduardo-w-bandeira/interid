@@ -1,48 +1,29 @@
-// Filename - src/App.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-class Bla extends React.Component {
+const Bla = () => {
+  const [data, setData] = useState(null);
 
-    state = {
-        details : [],
-    }
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
-    componentDidMount() {
-
-        let data ;
-
-        axios.get('http://localhost:8000/api/')
-        .then(res => {
-            data = res.data;
-            this.setState({
-                details : data    
-            });
-        })
-        .catch(err => {})
-    }
-
-  render() {
-    return(
-      <div>
-            {this.state.details.map((detail, id) =>  (
-            <div key={id}>
-            <div >
-                  <div >
-                        <h1>{detail.detail} </h1>
-                        <footer >--- by
-                        <cite title="Source Title">
-                        {detail.name}</cite>
-                        </footer>
-                  </div>
-            </div>
-            </div>
-            )
-        )}
-      </div>
-      );
-  }
-}
+  return (
+    <div>
+      <h1>API Data</h1>
+      {data ? (
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+};
 
 export default Bla;
