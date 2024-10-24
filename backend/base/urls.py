@@ -20,8 +20,8 @@ from api.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('api/', include('api.urls')),
-    path(f'api/{multiply_by_two.__name__}/',
-         multiply_by_two, name=multiply_by_two.__name__),
-    path('api/users/', UserView.as_view(), name=UserView.__name__),
+    path('api/', include('api.urls')),
+    # path(f'api/{multiply_by_two.__name__}/',
+    #      multiply_by_two, name=multiply_by_two.__name__),
+    # path('api/users/', UserView.as_view(), name=UserView.__name__),
 ]

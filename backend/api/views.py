@@ -36,7 +36,7 @@ router = trails.Router()
 
 @router.autoendpoint()
 @csrf_exempt  # to bypass CSRF for simplicity
-def multiply_by_two(request):
+def multiply(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)

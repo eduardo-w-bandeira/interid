@@ -1,8 +1,9 @@
 from django.urls import path
-from . import views
+from .views import *
 
-# urlpatterns = [
-#     path('multiply_by_two/', views.multiply_by_two, name='multiply_by_two'),
-# ]
+urlpatterns = [
+    path('multiply/', multiply, name=multiply.__name__),
+    path('users/', UserView.as_view(), name=UserView.__name__),
+]
 
-urlpatterns = views.router.get_urlpatterns()
+# urlpatterns = views.router.get_urlpatterns()
