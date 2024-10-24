@@ -36,11 +36,21 @@ class IndividualView(APIView):
         return Response(ser.data)
 
     def post(self, request):
-        ser = IndividualSer(data=request.data)
-        if ser.is_valid():
-            ser.save()
-            return Response(ser.data, status=201)
-        return Response(ser.errors, status=400)
+        user_data = request.data
+        user_ser = UserSer(data=user_data)
+        if user_ser.is_valid():
+            user = user_ser.save()  # Save the user first
+            individual_data = request.data
+            # Add the user ID to the individual data
+            individual_data['user'] = user.id
+            individual_ser = IndividualSer(data=individual_data)
+            if individual_ser.is_valid():
+                individual_ser.save()
+                return Response(individual_ser.data, status=201)
+            else:
+                user.delete()
+                return Response(individual_ser.errors, status=400)
+        return Response(user_ser.errors, status=400)
 
 
 @csrf_exempt  # to bypass CSRF for simplicity
