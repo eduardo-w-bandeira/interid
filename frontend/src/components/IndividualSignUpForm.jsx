@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '@/styles/Global.css';
+import '@/styles/IndividualSignUpForm.css';
 
 const IndividualSignUpForm = () => {
     const userType = 'individual';
