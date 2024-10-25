@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '@/styles/Engage.module.css';
+import '@/styles/Engage.css';
 
 const Engage = () => {
   return (
