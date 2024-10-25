@@ -15,11 +15,11 @@
     color: #333;
   }
   
-  .options {
+  .SelectionSignUp .options {
     margin-bottom: 15px;
   }
   
-  .option-btn {
+  .SelectionSignUp .option-btn {
     width: 100%;
     padding: 10px;
     border: 1px solid #007bff;
@@ -31,10 +31,10 @@
     margin-bottom: 10px; /* Added margin-bottom to create space between buttons */
   }
   
-  .option-btn:hover {
+  .SelectionSignUp .option-btn:hover {
     background-color: #0056b3;
   }
   
-  .option-btn:focus {
+  .SelectionSignUp .option-btn:focus {
     background-color: #0056b3;
   }
