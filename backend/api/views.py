@@ -2,6 +2,7 @@ import json
 # from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import trails
 # from django.views.decorators.http import require_POST
 from . models import *
 from rest_framework.views import APIView
@@ -9,7 +10,11 @@ from rest_framework.response import Response
 from .ser import UserSer, IndividualSer, LegalEntitySer
 
 
-class UserView(APIView):
+router = trails.Router()
+
+
+@router.auto_route()
+class UserViews(APIView):
 
     def get(self, request):
         users = User.objects.all()
@@ -24,7 +29,8 @@ class UserView(APIView):
         return Response(ser.errors, status=400)
 
 
-class IndividualView(APIView):
+@router.auto_route()
+class IndividualViews(APIView):
 
     def get(self, request):
         individuals = Individual.objects.all()
@@ -48,6 +54,7 @@ class IndividualView(APIView):
         return Response(user_ser.errors, status=400)
 
 
+@router.auto_route(add_param="<int:id>")
 class IndividualDetail(APIView):
 
     def get(self, request, id):
@@ -69,7 +76,8 @@ class IndividualDetail(APIView):
         return Response(status=204)
 
 
-class LegalEntityView(APIView):
+@router.auto_route()
+class LegalEntityViews(APIView):
 
     def get(self, request):
         leg_entities = LegalEntity.objects.all()
@@ -93,6 +101,7 @@ class LegalEntityView(APIView):
         return Response(user_ser.errors, status=400)
 
 
+@router.auto_route(add_param="<int:id>")
 class LegalEntityDetail(APIView):
 
     def get(self, request, id):
@@ -114,6 +123,7 @@ class LegalEntityDetail(APIView):
         return Response(status=204)
 
 
+@router.auto_route()
 @csrf_exempt  # to bypass CSRF for simplicity
 def multiply(request):
     if request.method == 'POST':
@@ -144,7 +154,7 @@ def multiply(request):
 #     return user
 
 
-# @router.autoendpoint()
+# @router.auto_route()
 # @csrf_exempt
 # @require_POST
 # def post_user(request):
@@ -160,7 +170,7 @@ def multiply(request):
 #     return JsonResponse({'message': f"User saved | {seed}"})
 
 
-# @router.autoendpoint()
+# @router.auto_route()
 # @csrf_exempt
 # @require_POST
 # def post_individual(request):
@@ -183,7 +193,7 @@ def multiply(request):
 #     return JsonResponse({'message': f"Individual saved | {seed}"})
 
 
-# @router.autoendpoint()
+# @router.auto_route()
 # @csrf_exempt
 # @require_POST
 # def post_legal_entity(request):
@@ -207,7 +217,7 @@ def multiply(request):
 #     return JsonResponse({'message': f"Legal entity saved | {seed}"})
 
 
-# @router.autoendpoint()
+# @router.auto_route()
 # @csrf_exempt
 # @require_POST
 # def post_declaration(request):
