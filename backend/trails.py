@@ -12,12 +12,12 @@ class Router:
     def __init__(self):
         self.url_patts = []
 
-    def auto_route(self, endpoint: str = "", add_param: str = "", url_name: str = "", **kwargs):
+    def auto_route(self, endpoint: str = "", param: str = "", url_name: str = "", **kwargs):
         """A decorator to automatically generate and register a URL route for a given view.
 
         Args:
             endpoint: The URL endpoint for the view. Defaults to the view's name.
-            add_param: Additional parameter to append to the endpoint. Defaults to "".
+            param: Additional parameter to append to the endpoint. Defaults to "".
                 Example: "<int:user_id>/comments"
             url_name: The name of the URL pattern. Defaults to the view's name.
             **kwargs: Additional keyword arguments to pass to the URL pattern.
@@ -39,7 +39,7 @@ class Router:
 
         def decor(view: Callable):
             """The actual decorator function."""
-            nonlocal self, endpoint, add_param, url_name, kwargs
+            nonlocal self, endpoint, param, url_name, kwargs
             is_api_view = inspect.isclass(view) and issubclass(view, APIView)
             if is_api_view:
                 # APIView.as_view() returns a view function
@@ -59,8 +59,8 @@ class Router:
                             break
             if not endpoint.endswith("/"):
                 endpoint += "/"
-            if add_param:
-                endpoint = endpoint + add_param.strip("/") + "/"
+            if param:
+                endpoint = endpoint + param.strip("/") + "/"
             if not url_name:
                 url_name = view.__name__
             url_patt = path(endpoint, bound_view, name=url_name, **kwargs)

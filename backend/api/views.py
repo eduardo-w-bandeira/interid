@@ -54,7 +54,7 @@ class IndividualViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@router.auto_route(add_param="<int:id>")
+@router.auto_route(param="<int:id>")
 class IndividualDetail(APIView):
 
     def get(self, request, id):
@@ -101,7 +101,7 @@ class LegalEntityViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@router.auto_route(add_param="<int:id>")
+@router.auto_route(param="<int:id>")
 class LegalEntityDetail(APIView):
 
     def get(self, request, id):
