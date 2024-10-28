@@ -7,7 +7,7 @@ import trails
 from . models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .ser import UserSer, IndividualSer, LegalEntitySer
+from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer
 
 
 router = trails.Router()
@@ -18,15 +18,15 @@ class UserViews(APIView):
 
     def get(self, request):
         users = User.objects.all()
-        ser = UserSer(users, many=True)
-        return Response(ser.data)
+        slized = UserSlizer(users, many=True)
+        return Response(slized.data)
 
     def post(self, request):
-        ser = UserSer(data=request.data)
-        if ser.is_valid():
-            ser.save()
-            return Response(ser.data, status=201)
-        return Response(ser.errors, status=400)
+        slized = UserSlizer(data=request.data)
+        if slized.is_valid():
+            slized.save()
+            return Response(slized.data, status=201)
+        return Response(slized.errors, status=400)
 
 
 @router.auto_route()
@@ -34,17 +34,17 @@ class IndividualViews(APIView):
 
     def get(self, request):
         individuals = Individual.objects.all()
-        ser = IndividualSer(individuals, many=True)
-        return Response(ser.data)
+        slized = IndividualSlizer(individuals, many=True)
+        return Response(slized.data)
 
     def post(self, request):
-        user_ser = UserSer(data=request.data)
+        user_ser = UserSlizer(data=request.data)
         if user_ser.is_valid():
             user = user_ser.save()  # Save the user first
             individual_data = request.data
             # Add the user ID to the individual data
             individual_data['user'] = user.id
-            individual_ser = IndividualSer(data=individual_data)
+            individual_ser = IndividualSlizer(data=individual_data)
             if individual_ser.is_valid():
                 individual_ser.save()
                 return Response(individual_ser.data, status=201)
@@ -59,16 +59,16 @@ class IndividualDetail(APIView):
 
     def get(self, request, id):
         individual = Individual.objects.get(id=id)
-        ser = IndividualSer(individual)
-        return Response(ser.data)
+        slized = IndividualSlizer(individual)
+        return Response(slized.data)
 
     def put(self, request, id):
         individual = Individual.objects.get(id=id)
-        ser = IndividualSer(individual, data=request.data)
-        if ser.is_valid():
-            ser.save()
-            return Response(ser.data, status=201)
-        return Response(ser.errors, status=400)
+        slized = IndividualSlizer(individual, data=request.data)
+        if slized.is_valid():
+            slized.save()
+            return Response(slized.data, status=201)
+        return Response(slized.errors, status=400)
 
     def delete(self, request, id):
         individual = Individual.objects.get(id=id)
@@ -81,17 +81,17 @@ class LegalEntityViews(APIView):
 
     def get(self, request):
         leg_entities = LegalEntity.objects.all()
-        ser = LegalEntitySer(leg_entities, many=True)
-        return Response(ser.data)
+        slized = LegalEntitySlizer(leg_entities, many=True)
+        return Response(slized.data)
 
     def post(self, request):
-        user_ser = UserSer(data=request.data)
+        user_ser = UserSlizer(data=request.data)
         if user_ser.is_valid():
             user = user_ser.save()  # Save the user first
             leg_entity_data = request.data
             # Add the user ID to the individual data
             leg_entity_data['user'] = user.id
-            leg_entity_ser = LegalEntitySer(data=leg_entity_data)
+            leg_entity_ser = LegalEntitySlizer(data=leg_entity_data)
             if leg_entity_ser.is_valid():
                 leg_entity_ser.save()
                 return Response(leg_entity_ser.data, status=201)
@@ -106,16 +106,16 @@ class LegalEntityDetail(APIView):
 
     def get(self, request, id):
         legal_entity = LegalEntity.objects.get(id=id)
-        ser = LegalEntitySer(legal_entity)
-        return Response(ser.data)
+        slized = LegalEntitySlizer(legal_entity)
+        return Response(slized.data)
 
     def put(self, request, id):
         legal_entity = LegalEntity.objects.get(id=id)
-        ser = LegalEntitySer(legal_entity, data=request.data)
-        if ser.is_valid():
-            ser.save()
-            return Response(ser.data, status=201)
-        return Response(ser.errors, status=400)
+        slized = LegalEntitySlizer(legal_entity, data=request.data)
+        if slized.is_valid():
+            slized.save()
+            return Response(slized.data, status=201)
+        return Response(slized.errors, status=400)
 
     def delete(self, request, id):
         legal_entity = LegalEntity.objects.get(id=id)
