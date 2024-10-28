@@ -6,7 +6,7 @@ const Navbar = () => {
         <header>
             <nav className="flex justify-between items-center p-5 bg-gray-950 text-lg">
                 <div className="logo">
-                    <h1 className="text-white">InterId</h1>
+                    <h1 className="text-white text-2xl">InterId</h1>
                 </div>
                 <ul className="flex space-x-6 list-none">
                     <li><Link to="/" className="text-white no-underline">Home</Link></li>
