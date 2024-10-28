@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 const LegalEntitySignUpPage = () => {
 
   return (
-    <div className="legal-entity-sign-up-page">
+    <div>
       <Navbar />
       <LegalEntitySignUpForm />
       <Footer />
