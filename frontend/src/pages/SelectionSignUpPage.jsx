@@ -1,13 +1,11 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import SelectionSignUp from '../components/SelectionSignUp';
-
-// import '@/styles/Home.module.css';
+import SelectionSignUp from '@/components/SelectionSignUp';
 
 const SelectionSignUpPage = () => {
     return (
-        <div className="SelectionSignUpPage">
+        <div>
             <Navbar />
             <SelectionSignUp />
             <Footer />
