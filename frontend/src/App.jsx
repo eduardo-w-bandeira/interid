@@ -15,9 +15,9 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/multiply" element={<MultiplyPage />} />
       <Route path="/bla" element={<Bla />} />
-      <Route path="/selection_sign_up" element={<SelectionSignUpPage />} />
-      <Route path="/individual-sign-up" element={<IndividualSignUpPage />} />
-      <Route path="/legal-entity-sign-up" element={<LegalEntitySignUpPage />} />
+      <Route path="/selection-signup" element={<SelectionSignUpPage />} />
+      <Route path="/individual-signup" element={<IndividualSignUpPage />} />
+      <Route path="/legal-entity-signup" element={<LegalEntitySignUpPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

@@ -8,10 +8,10 @@ const SelectionSignUp = () => {
         <div className="SelectionSignUp">
             <h1>Select User Type</h1>
             <div className="options">
-                <Link to="/individual-sign-up">
+                <Link to="/individual-signup">
                     <button className="btn option-btn">Individual</button>
                 </Link>
-                <Link to="/legal-entity-sign-up">
+                <Link to="/legal-entity-signup">
                     <button className="btn option-btn">Legal Entity</button>
                 </Link>
             </div>
