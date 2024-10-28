@@ -6,6 +6,8 @@ import MultiplyPage from './pages/MultiplyPage';
 import Bla from '@/pages/Bla.jsx';
 import IndividualSignUpPage from './pages/IndividualSignUpPage';
 import SelectionSignUpPage from './pages/SelectionSignUpPage';
+import LegalEntitySignUpPage from './pages/LegalEntitySignUpPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
       <Route path="/bla" element={<Bla />} />
       <Route path="/selection_sign_up" element={<SelectionSignUpPage />} />
       <Route path="/individual_sign_up" element={<IndividualSignUpPage />} />
+      <Route path="/legal_entity_sign_up" element={<LegalEntitySignUpPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

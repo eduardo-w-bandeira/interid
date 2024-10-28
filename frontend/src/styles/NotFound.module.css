@@ -1,0 +1,22 @@
+.not-found-page {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .not-found-page h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .not-found-page p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #666;
+  }
