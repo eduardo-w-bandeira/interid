@@ -8,7 +8,7 @@ import '@/styles/Home.module.css';
 
 function HomePage() {
   return (
-    <div className="Home">
+    <div className="bg-gray-100 text-gray-800 leading-relaxed">
       <Navbar />
       <Hero />
       <Features />
