@@ -41,7 +41,7 @@ const IndividualSignUpForm = () => {
     return (
         <div className="SignUpForm">
             <form onSubmit={handleSubmit}>
-                <h1>Individual Sign Up</h1>
+                <h1>Legal Entity Sign Up</h1>
                 <div className="form-group">
                     <label htmlFor="email">Email:</label>
                     <input

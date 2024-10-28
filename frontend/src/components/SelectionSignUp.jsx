@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// import '@/styles/Home.module.css';
 import '@/styles/SelectionSignUp.css';
 
 const SelectionSignUp = () => {
