@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import '@/styles/NotFound.module.css';
-
 
 const NotFoundPage = () => {
-
     return (
-        <div className="not-found-page">
+        <div className="flex flex-col min-h-screen">
             <Navbar />
-            <h1>404: Page Not Found</h1>
-            <p>Sorry, the page you're looking for doesn't exist.</p>
+            <div className="flex-grow flex flex-col items-center justify-center text-center">
+                <h1 className="text-4xl font-bold mb-4">404: Page Not Found</h1>
+                <p className="text-lg">Sorry, the page you're looking for doesn't exist.</p>
+            </div>
             <Footer />
         </div>
     );
