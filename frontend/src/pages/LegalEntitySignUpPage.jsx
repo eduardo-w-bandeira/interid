@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
-import LegalEntitySignUpForm from '@/components/LegalEntitySignUpForm';
+import LegalEntitySignupForm from '@/components/LegalEntitySignupForm';
 import Footer from '@/components/Footer';
 
-const LegalEntitySignUpPage = () => {
+const LegalEntitySignupPage = () => {
 
   return (
     <div>
       <Navbar />
-      <LegalEntitySignUpForm />
+      <LegalEntitySignupForm />
       <Footer />
     </div>
   );
 };
 
-export default LegalEntitySignUpPage;
+export default LegalEntitySignupPage;

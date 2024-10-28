@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const SelectionSignUp = () => {
+const SelectionSignup = () => {
     return (
         <div className="max-w-md mx-auto p-5 bg-gray-100 rounded-lg shadow-md">
             <h1 className="text-2xl mb-8 text-center text-gray-800">Select User Type</h1> {/* Increased margin-bottom */}
@@ -21,4 +21,4 @@ const SelectionSignUp = () => {
     );
 };
 
-export default SelectionSignUp;
+export default SelectionSignup;

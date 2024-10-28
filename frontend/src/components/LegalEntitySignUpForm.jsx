@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const LegalEntitySignUpForm = () => {
+const LegalEntitySignupForm = () => {
     const userType = 'individual';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -153,4 +153,4 @@ const LegalEntitySignUpForm = () => {
     );
 };
 
-export default LegalEntitySignUpForm;
+export default LegalEntitySignupForm;

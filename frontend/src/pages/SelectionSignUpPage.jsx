@@ -1,16 +1,16 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import SelectionSignUp from '@/components/SelectionSignUp';
+import SelectionSignup from '@/components/SelectionSignup';
 
-const SelectionSignUpPage = () => {
+const SelectionSignupPage = () => {
     return (
         <div>
             <Navbar />
-            <SelectionSignUp />
+            <SelectionSignup />
             <Footer />
         </div>
     );
 };
 
-export default SelectionSignUpPage;
+export default SelectionSignupPage;

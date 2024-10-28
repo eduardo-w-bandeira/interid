@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
-import IndividualSignUpForm from '@/components/IndividualSignUpForm';
+import IndividualSignupForm from '@/components/IndividualSignupForm';
 import Footer from '@/components/Footer';
 
-const IndividualSignUpPage = () => {
+const IndividualSignupPage = () => {
 
   return (
     <div>
       <Navbar />
-      <IndividualSignUpForm />
+      <IndividualSignupForm />
       <Footer />
     </div>
   );
 };
 
-export default IndividualSignUpPage;
+export default IndividualSignupPage;
