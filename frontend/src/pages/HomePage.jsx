@@ -4,7 +4,6 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import Engage from '@/components/Engage';
 import Footer from '@/components/Footer';
-import '@/styles/Home.module.css';
 
 function HomePage() {
   return (
