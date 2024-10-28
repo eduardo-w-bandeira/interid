@@ -13,7 +13,7 @@ class Router:
         self.url_patts = []
 
     def auto_route(self, endpoint: str = "", param: str = "", url_name: str = "", **kwargs):
-        """A decorator to automatically generate and register a URL route for a given view.
+        """A decorator to automatically generate and register a django.urls.path() for a given view.
 
         Args:
             endpoint: The URL endpoint for the view. Defaults to the view's name.
@@ -30,8 +30,8 @@ class Router:
             def my_view(request):
                 ...
 
-        If the view is an APIView subclass, the decor will:
-        - Remove the APIView suffix from the class name (see API_VIEW_SUFFIXES).
+        If the view is an APIView subclass, the decor will use tha class name and:
+        - Remove the APIView suffix from it (see API_VIEW_SUFFIXES).
         - Convert it to snake_case.
         - Add an "s" to it if it hasn't already.
         - Use the API_VIEW_FUNC_GENERATOR method to generate the view func for django.urls.path().
