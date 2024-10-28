@@ -9,10 +9,10 @@ const SelectionSignUp = () => {
         <div className="SelectionSignUp">
             <h1>Select User Type</h1>
             <div className="options">
-                <Link to="/individual_sign_up">
+                <Link to="/individual-sign-up">
                     <button className="btn option-btn">Individual</button>
                 </Link>
-                <Link to="/legal_entity_sign_up">
+                <Link to="/legal-entity-sign-up">
                     <button className="btn option-btn">Legal Entity</button>
                 </Link>
             </div>

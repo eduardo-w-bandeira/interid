@@ -1,0 +1,62 @@
+.legal-entity-sign-up-form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.legal-entity-sign-up-form h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.legal-entity-sign-up-form .form-group {
+    margin-bottom: 15px;
+}
+
+.legal-entity-sign-up-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.legal-entity-sign-up-form input[type="email"],
+.legal-entity-sign-up-form input[type="password"],
+.legal-entity-sign-up-form input[type="text"],
+.legal-entity-sign-up-form input[type="date"],
+.legal-entity-sign-up-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.legal-entity-sign-up-form input[type="email"]:focus,
+.legal-entity-sign-up-form input[type="password"]:focus,
+.legal-entity-sign-up-form input[type="text"]:focus,
+.legal-entity-sign-up-form input[type="date"]:focus,
+.legal-entity-sign-up-form select:focus {
+    border-color: #007bff;
+}
+
+.legal-entity-sign-up-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.legal-entity-sign-up-form button:hover {
+    background-color: #0056b3;
+}
