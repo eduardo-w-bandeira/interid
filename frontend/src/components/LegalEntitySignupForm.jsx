@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const LegalEntitySignupForm = () => {
-    const userType = 'individual';
+    const userType = 'legal_entity';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [birthDate, setBirthDate] = useState('');
+    const [legalName, setLegalName] = useState('');
+    const [businessName, setBusinessName] = useState('');
+    const [regDate, setRegDate] = useState('');
     const [govId, setGovId] = useState('');
-    const [govIdType, setGovIdType] = useState("driver's license");
+    const [govIdType, setGovIdType] = useState("Business Number");
     const [issuingAuthority, setIssuingAuthority] = useState('');
     const [country, setCountry] = useState('Canada');
 
@@ -17,17 +17,17 @@ const LegalEntitySignupForm = () => {
         event.preventDefault();
         const data = {
             user_type: userType,
-            email,
-            password,
-            first_name: firstName,
-            last_name: lastName,
-            birth_date: birthDate,
+            email: email,
+            password: password,
+            legal_name: legalName,
+            business_name: businessName,
+            reg_date: regDate,
             gov_id: govId,
             gov_id_type: govIdType,
             issuing_authority: issuingAuthority,
-            country
+            country: country
         };
-        axios.post('http://localhost:8000/api/individuals/', data)
+        axios.post('http://localhost:8000/api/legal_entitys/', data)
             .then((response) => {
                 alert(JSON.stringify(response.data));
             })
@@ -63,34 +63,34 @@ const LegalEntitySignupForm = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="firstName" className="block mb-1 font-bold text-gray-700">First Name:</label>
+                    <label htmlFor="legalName" className="block mb-1 font-bold text-gray-700">Legal Name:</label>
                     <input
                         type="text"
-                        id="firstName"
-                        value={firstName}
-                        onChange={(event) => setFirstName(event.target.value)}
+                        id="legalName"
+                        value={legalName}
+                        onChange={(event) => setLegalName(event.target.value)}
                         required
                         className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="lastName" className="block mb-1 font-bold text-gray-700">Last Name:</label>
+                    <label htmlFor="BusinessName" className="block mb-1 font-bold text-gray-700">Business Name:</label>
                     <input
                         type="text"
-                        id="lastName"
-                        value={lastName}
-                        onChange={(event) => setLastName(event.target.value)}
+                        id="BusinessName"
+                        value={businessName}
+                        onChange={(event) => setBusinessName(event.target.value)}
                         required
                         className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="birthDate" className="block mb-1 font-bold text-gray-700">Birth Date:</label>
+                    <label htmlFor="RegDate" className="block mb-1 font-bold text-gray-700">Registration Date:</label>
                     <input
                         type="date"
-                        id="birthDate"
-                        value={birthDate}
-                        onChange={(event) => setBirthDate(event.target.value)}
+                        id="RegDate"
+                        value={regDate}
+                        onChange={(event) => setRegDate(event.target.value)}
                         required
                         className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
                     />
@@ -113,12 +113,9 @@ const LegalEntitySignupForm = () => {
                         value={govIdType}
                         onChange={(event) => setGovIdType(event.target.value)}
                         required
-                        className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
-                    >
-                        <option value="driver's license">Driver's License</option>
-                        <option value="provincial id">Provincial ID</option>
-                        <option value="state id">State ID</option>
-                        <option value="passport">Passport</option>
+                        className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none">
+                        <option value="business number">Business Number</option>
+                        <option value="state registration number">State Registration Number</option>
                     </select>
                 </div>
                 <div className="mb-4">
@@ -139,8 +136,7 @@ const LegalEntitySignupForm = () => {
                         value={country}
                         onChange={(event) => setCountry(event.target.value)}
                         required
-                        className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none"
-                    >
+                        className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:outline-none">
                         <option value="Canada">Canada</option>
                         <option value="USA">USA</option>
                     </select>

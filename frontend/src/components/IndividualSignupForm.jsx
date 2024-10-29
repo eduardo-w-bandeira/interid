@@ -17,15 +17,15 @@ const IndividualSignupForm = () => {
         event.preventDefault();
         const data = {
             user_type: userType,
-            email,
-            password,
+            email: email,
+            password: password,
             first_name: firstName,
             last_name: lastName,
             birth_date: birthDate,
             gov_id: govId,
             gov_id_type: govIdType,
             issuing_authority: issuingAuthority,
-            country
+            country: country
         };
         axios.post('http://localhost:8000/api/individuals/', data)
             .then((response) => {
