@@ -1,20 +1,13 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from api import views
-# from .views import *
+from .views import UserViewSet
 
-# urlpatterns = [
-#     path('multiply/', multiply,
-#          name=multiply.__name__),
-#     path('users/', UserViews.as_view(),
-#          name=UserViews.__name__),
-#     path("individuals/", IndividualViews.as_view(),
-#          name=IndividualViews.__name__),
-#     path("individuals/<int:id>/", IndividualDetail.as_view(),
-#          name=IndividualDetail.__name__),
-#     path("legal_entitys/", LegalEntityViews.as_view(),
-#          name=LegalEntityViews.__name__),
-#     path("legal_entitys/<int:id>/", LegalEntityDetail.as_view(),
-#          name=LegalEntityDetail.__name__),
-# ]
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
 
-urlpatterns = views.router.get_urlpatterns()
+urlpatterns = [
+    path('', include(router.urls)),]
+
+for url_pattern in views.router.get_urlpatterns():
+    urlpatterns.append(url_pattern)

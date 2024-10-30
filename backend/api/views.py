@@ -1,32 +1,20 @@
 import json
 # from django.shortcuts import render
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import trails
-# from django.views.decorators.http import require_POST
-from . models import *
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import trails
+from .models import *
 from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer
 
 
 router = trails.Router()
 
 
-@router.auto_route()
-class UserViews(APIView):
-
-    def get(self, request):
-        users = User.objects.all()
-        slized = UserSlizer(users, many=True)
-        return Response(slized.data)
-
-    def post(self, request):
-        slized = UserSlizer(data=request.data)
-        if slized.is_valid():
-            slized.save()
-            return Response(slized.data, status=201)
-        return Response(slized.errors, status=400)
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSlizer
 
 
 @router.auto_route()
