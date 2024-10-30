@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # Corsheaders
+    'corsheaders.middleware.CorsMiddleware',  # Customizatino: Corsheaders
 ]
 
 ROOT_URLCONF = 'base.urls'
@@ -113,6 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Customization
+AUTH_USER_MODEL = 'api.User'
 
 
 # Internationalization
