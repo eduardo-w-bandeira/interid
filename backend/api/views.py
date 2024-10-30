@@ -1,5 +1,5 @@
 import json
-# from django.shortcuts import render
+# from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
@@ -18,7 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSlizer
 
 
-@wizroute.include()
+@wizroute.auto_reg()
 class IndividualViews(APIView):
 
     def get(self, request):
@@ -43,7 +43,7 @@ class IndividualViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@wizroute.include(param="<int:id>")
+@wizroute.auto_reg(param="<int:id>")
 class IndividualDetail(APIView):
 
     def get(self, request, id):
@@ -65,7 +65,7 @@ class IndividualDetail(APIView):
         return Response(status=204)
 
 
-@wizroute.include()
+@wizroute.auto_reg()
 class LegalEntityViews(APIView):
 
     def get(self, request):
@@ -90,7 +90,7 @@ class LegalEntityViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@wizroute.include(param="<int:id>")
+@wizroute.auto_reg(param="<int:id>")
 class LegalEntityDetail(APIView):
 
     def get(self, request, id):
@@ -112,7 +112,7 @@ class LegalEntityDetail(APIView):
         return Response(status=204)
 
 
-@wizroute.include()
+@wizroute.auto_reg()
 @csrf_exempt  # to bypass CSRF for simplicity
 def multiply(request):
     if request.method == 'POST':

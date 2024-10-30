@@ -12,12 +12,12 @@ class Wizrouter:
     def __init__(self):
         self.url_patts = []
 
-    def include(self, endpoint: str = "", param: str = "", url_name: str = "", **kwargs):
+    def auto_reg(self, endpoint: str | None = None, param: str | None = None, url_name: str | None = None, **kwargs):
         """A decorator to automatically generate and register a django.urls.path() for a given view.
 
         Args:
             endpoint: The URL endpoint for the view. Defaults to the view's name.
-            param: Additional parameter to append to the endpoint. Defaults to "".
+            param: Additional parameter to append to the endpoint. Defaults to None.
                 Example: "<int:user_id>/comments"
             url_name: The name of the URL pattern. Defaults to the view's name.
             **kwargs: Additional keyword arguments to pass to the URL pattern.
@@ -47,7 +47,7 @@ class Wizrouter:
                 bound_view = generator()
             else:
                 bound_view = view
-            if not endpoint:
+            if endpoint is None:
                 endpoint = view.__name__
                 if is_api_view:
                     for suffix in self.API_VIEW_SUFFIXES:
@@ -59,9 +59,9 @@ class Wizrouter:
                             break
             if not endpoint.endswith("/"):
                 endpoint += "/"
-            if param:
+            if param is not None:
                 endpoint = endpoint + param.strip("/") + "/"
-            if not url_name:
+            if url_name is None:
                 url_name = view.__name__
             url_patt = path(endpoint, bound_view, name=url_name, **kwargs)
             self.url_patts.append(url_patt)
