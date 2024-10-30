@@ -1,5 +1,6 @@
 import json
 # from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -9,7 +10,7 @@ from .models import *
 from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer
 
 
-router = trails.Router()
+wizroute = trails.Wizrouter()
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSlizer
 
 
-@router.auto_route()
+@wizroute.include()
 class IndividualViews(APIView):
 
     def get(self, request):
@@ -42,7 +43,7 @@ class IndividualViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@router.auto_route(param="<int:id>")
+@wizroute.include(param="<int:id>")
 class IndividualDetail(APIView):
 
     def get(self, request, id):
@@ -64,7 +65,7 @@ class IndividualDetail(APIView):
         return Response(status=204)
 
 
-@router.auto_route()
+@wizroute.include()
 class LegalEntityViews(APIView):
 
     def get(self, request):
@@ -89,7 +90,7 @@ class LegalEntityViews(APIView):
         return Response(user_ser.errors, status=400)
 
 
-@router.auto_route(param="<int:id>")
+@wizroute.include(param="<int:id>")
 class LegalEntityDetail(APIView):
 
     def get(self, request, id):
@@ -111,7 +112,7 @@ class LegalEntityDetail(APIView):
         return Response(status=204)
 
 
-@router.auto_route()
+@wizroute.include()
 @csrf_exempt  # to bypass CSRF for simplicity
 def multiply(request):
     if request.method == 'POST':

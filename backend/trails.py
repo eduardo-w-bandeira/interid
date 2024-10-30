@@ -5,14 +5,14 @@ from rest_framework.views import APIView
 import inspect
 
 
-class Router:
+class Wizrouter:
     API_VIEW_SUFFIXES: list = ["APIView", "View", "Views", "ViewSet", "Detail"]
     API_VIEW_FUNC_GENERATOR: str = "as_view"
 
     def __init__(self):
         self.url_patts = []
 
-    def auto_route(self, endpoint: str = "", param: str = "", url_name: str = "", **kwargs):
+    def include(self, endpoint: str = "", param: str = "", url_name: str = "", **kwargs):
         """A decorator to automatically generate and register a django.urls.path() for a given view.
 
         Args:

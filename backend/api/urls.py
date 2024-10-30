@@ -9,5 +9,5 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),]
 
-for url_pattern in views.router.get_urlpatterns():
+for url_pattern in views.wizroute.get_urlpatterns():
     urlpatterns.append(url_pattern)
