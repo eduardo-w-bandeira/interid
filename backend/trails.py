@@ -1,8 +1,8 @@
+import inspect
 # import datetime
 from typing import Callable
 from django.urls import path
 from rest_framework.views import APIView
-import inspect
 
 
 class Wizrouter:
