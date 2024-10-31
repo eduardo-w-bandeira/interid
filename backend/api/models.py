@@ -56,14 +56,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Individual(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     birth_date = models.DateField(null=False, blank=False)
 
 
 class LegalEntity(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, primary_key=True)
     legal_name = models.CharField(max_length=200)
     business_name = models.CharField(max_length=200)
     reg_date = models.DateField(null=False, blank=False)

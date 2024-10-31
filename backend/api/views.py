@@ -56,54 +56,53 @@ class AgreementParticipantViewSet(ModelViewSet):
     queryset = AgreementParticipant.objects.all()
     serializer_class = AgreementParticipantSlizer
 
-# @wizroute.auto_reg()
-# class IndividualViews(APIView):
 
-#     def get(self, request):
-#         individuals = Individual.objects.all()
-#         slized = IndividualSlizer(individuals, many=True)
-#         return Response(slized.data)
+class IndividualViews(APIView):
 
-#     def post(self, request):
-#         user_ser = UserSlizer(data=request.data)
-#         if user_ser.is_valid():
-#             user = user_ser.save()  # Save the user first
-#             individual_data = request.data
-#             # Add the user ID to the individual data
-#             individual_data['user'] = user.id
-#             individual_ser = IndividualSlizer(data=individual_data)
-#             if individual_ser.is_valid():
-#                 individual_ser.save()
-#                 return Response(individual_ser.data, status=201)
-#             else:
-#                 user.delete()
-#                 return Response(individual_ser.errors, status=400)
-#         return Response(user_ser.errors, status=400)
+    def get(self, request):
+        individuals = Individual.objects.all()
+        slized = IndividualSlizer(individuals, many=True)
+        return Response(slized.data)
 
-
-# @wizroute.auto_reg(param="<int:id>")
-# class IndividualDetail(APIView):
-
-#     def get(self, request, id):
-#         individual = Individual.objects.get(id=id)
-#         slized = IndividualSlizer(individual)
-#         return Response(slized.data)
-
-#     def put(self, request, id):
-#         individual = Individual.objects.get(id=id)
-#         slized = IndividualSlizer(individual, data=request.data)
-#         if slized.is_valid():
-#             slized.save()
-#             return Response(slized.data, status=201)
-#         return Response(slized.errors, status=400)
-
-#     def delete(self, request, id):
-#         individual = Individual.objects.get(id=id)
-#         individual.delete()
-#         return Response(status=204)
+    def post(self, request):
+        user_slized = UserSlizer(data=request.data)
+        if user_slized.is_valid():
+            user = user_slized.save()  # Save the user first
+            individual_data = request.data
+            # Add the user ID to the individual data
+            individual_data['user'] = user.id
+            individual_ser = IndividualSlizer(data=individual_data)
+            if individual_ser.is_valid():
+                individual_ser.save()
+                return Response(individual_ser.data, status=201)
+            else:
+                # Delete the user if the individual is not valid
+                user.delete()
+                return Response(individual_ser.errors, status=400)
+        return Response(user_slized.errors, status=400)
 
 
-@wizroute.auto_reg()
+class IndividualDetail(APIView):
+
+    def get(self, request, pk):
+        individual = Individual.objects.get(pk=pk)
+        slized = IndividualSlizer(individual)
+        return Response(slized.data)
+
+    def put(self, request, pk):
+        individual = Individual.objects.get(pk=pk)
+        slized = IndividualSlizer(individual, data=request.data)
+        if slized.is_valid():
+            slized.save()
+            return Response(slized.data, status=201)
+        return Response(slized.errors, status=400)
+
+    def delete(self, request, pk):
+        individual = Individual.objects.get(pk=pk)
+        individual.delete()
+        return Response(status=204)
+
+
 class LegalEntityViews(APIView):
 
     def get(self, request):
@@ -112,9 +111,9 @@ class LegalEntityViews(APIView):
         return Response(slized.data)
 
     def post(self, request):
-        user_ser = UserSlizer(data=request.data)
-        if user_ser.is_valid():
-            user = user_ser.save()  # Save the user first
+        user_slized = UserSlizer(data=request.data)
+        if user_slized.is_valid():
+            user = user_slized.save()  # Save the user first
             leg_entity_data = request.data
             # Add the user ID to the individual data
             leg_entity_data['user'] = user.id
@@ -125,27 +124,26 @@ class LegalEntityViews(APIView):
             else:
                 user.delete()
                 return Response(leg_entity_ser.errors, status=400)
-        return Response(user_ser.errors, status=400)
+        return Response(user_slized.errors, status=400)
 
 
-@wizroute.auto_reg(param="<int:id>")
 class LegalEntityDetail(APIView):
 
-    def get(self, request, id):
-        legal_entity = LegalEntity.objects.get(id=id)
+    def get(self, request, pk):
+        legal_entity = LegalEntity.objects.get(pk=pk)
         slized = LegalEntitySlizer(legal_entity)
         return Response(slized.data)
 
-    def put(self, request, id):
-        legal_entity = LegalEntity.objects.get(id=id)
+    def put(self, request, pk):
+        legal_entity = LegalEntity.objects.get(pk=pk)
         slized = LegalEntitySlizer(legal_entity, data=request.data)
         if slized.is_valid():
             slized.save()
             return Response(slized.data, status=201)
         return Response(slized.errors, status=400)
 
-    def delete(self, request, id):
-        legal_entity = LegalEntity.objects.get(id=id)
+    def delete(self, request, pk):
+        legal_entity = LegalEntity.objects.get(pk=pk)
         legal_entity.delete()
         return Response(status=204)
 
@@ -193,14 +191,15 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        if user.user_type == 'individual':
-            individual = Individual.objects.get(user=user)
-            data = IndividualSlizer(individual).data
-        elif user.user_type == 'legal_entity':
-            legal_entity = LegalEntity.objects.get(user=user)
-            data = LegalEntitySlizer(legal_entity).data
+        data = UserSlizer(user).data
+        # if user.user_type == 'individual':
+        #     individual = Individual.objects.get(user=user)
+        #     data = IndividualSlizer(individual).data
+        # elif user.user_type == 'legal_entity':
+        #     legal_entity = LegalEntity.objects.get(user=user)
+        #     data = LegalEntitySlizer(legal_entity).data
         refresh = RefreshToken.for_user(user)
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user_spec': data}, status=status.HTTP_200_OK)
+            'user': data}, status=status.HTTP_200_OK)
