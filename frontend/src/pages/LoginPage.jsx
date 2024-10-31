@@ -27,9 +27,9 @@ const LoginPage = () => {
             }
         } catch (error) {
             if (error.response) {
-                setError(error.response.data.detail || 'Error logging in');
+                setError(error.response.data.detail || "INVALID USERNAME OR PASSWORD.");
             } else {
-                setError('Error logging in');
+                setError("INVALID USERNAME OR PASSWORD.");
             }
         }
     };
@@ -70,7 +70,7 @@ const LoginPage = () => {
                     <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded w-full">
                         Login
                     </button>
-                    {error && <div className="text-red-500">{error}</div>}
+                    {error && <div className="text-red-600 mt-3">{error}</div>}
                 </form>
             </section>
             <Footer />

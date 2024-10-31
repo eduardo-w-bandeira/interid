@@ -168,5 +168,4 @@ class LoginView(generics.GenericAPIView):
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user': UserSlizer(user).data
-        }, status=status.HTTP_200_OK)
+            'user': UserSlizer(user).data}, status=status.HTTP_200_OK)
