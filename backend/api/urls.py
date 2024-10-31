@@ -7,6 +7,7 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 # router.register(r'individuals', views.IndividualViewSet)
 # router.register(r'legal-entitys', views.LegalEntityViewSet)
+router.register(r'declarations', views.DeclarationViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

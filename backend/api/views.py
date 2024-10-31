@@ -41,6 +41,12 @@ class DeclarationViewSet(ModelViewSet):
     queryset = Declaration.objects.all()
     serializer_class = DeclarationSlizer
 
+    def get_queryset(self):
+        user_id = self.request.GET.get('user')
+        if user_id:
+            return Declaration.objects.filter(user=user_id)
+        return Declaration.objects.all()
+
 
 class DeclarationCommentViewSet(ModelViewSet):
     queryset = DeclarationComment.objects.all()

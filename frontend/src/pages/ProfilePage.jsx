@@ -6,11 +6,7 @@ import user_image from '@/assets/generic-user.png';
 
 const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
-    const userDeclarations = [
-        { id: 1, title: 'My First Declaration', body: 'This is my first public declaration! \nWait for me, world!' },
-        { id: 2, title: 'My Second Declaration', body: 'I love using InterId for my formal actions.' },
-        { id: 3, title: 'My Third Declaration', body: 'Just completed a public declaration!' },
-    ];
+    const [userDeclarations, setUserDeclarations] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -18,14 +14,24 @@ const ProfilePage = () => {
             const userType = localStorage.getItem('user_type');
             try {
                 const response = await axios.get(`http://localhost:8000/api/${userType}s/${userId}/`);
-                // alert(JSON.stringify(response.data));
                 setUserData(response.data);
             } catch (error) {
                 console.error("Error fetching user data", error);
             }
         };
 
+        const fetchUserDeclarations = async () => {
+            const userId = localStorage.getItem('user_id');
+            try {
+                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`);
+                setUserDeclarations(response.data);
+            } catch (error) {
+                console.error("Error fetching user declarations", error);
+            }
+        };
+
         fetchUserData();
+        fetchUserDeclarations();
     }, []);
 
     return (
