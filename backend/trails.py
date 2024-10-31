@@ -1,5 +1,5 @@
 import inspect
-# import datetime
+from databarn import Seed
 from typing import Callable
 from django.urls import path
 from rest_framework.views import APIView
@@ -53,7 +53,7 @@ class Wizrouter:
                     for suffix in self.API_VIEW_SUFFIXES:
                         if endpoint.endswith(suffix):
                             endpoint = endpoint[:-len(suffix)]
-                            endpoint = pascal_to_snake(endpoint)
+                            endpoint = pascal_to_kebab(endpoint)
                             if not endpoint.endswith("s"):
                                 endpoint += "s"
                             break
@@ -80,12 +80,31 @@ class Wizrouter:
 #     return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
 
 
-def pascal_to_snake(string):
-    """Converts a PascalCase string to a snake_case string."""
-    new = ""
+def _break_down_edge_underscores(string):
+    """Breaks down a string with leading and trailing underscores."""
+    leading_times = len(string) - len(string.lstrip('_'))
+    trailing_times = len(string) - len(string.rstrip('_'))
+    prefix = '_' * leading_times
+    suffix = '_' * trailing_times
+    core = string.strip('_')
+    return Seed(core=core, prefix=prefix, suffix=suffix)
+
+
+def pascal_to_kebab(string):
+    """Converts a PascalCase to a snake_case, ignoring leading and trailing underscores."""
+    breakdown = _break_down_edge_underscores(string)
+    kebab = breakdown.core
     for char in string:
         if char.isupper():
-            new += "_" + char.lower()
+            kebab += "_" + char.lower()
         else:
-            new += char
-    return new.lstrip("_")
+            kebab += char
+    kebab = kebab.lstrip("_")
+    return breakdown.prefix + kebab + breakdown.suffix
+
+
+def snake_to_kebab(string):
+    """Converts a snake_case to a kebab-case, ignoring leading and trailing underscores."""
+    breakdown = _break_down_edge_underscores(string)
+    kebab = breakdown.core.replace('_', '-')
+    return breakdown.prefix + kebab + breakdown.suffix
