@@ -27,7 +27,7 @@ const LegalEntitySignupForm = () => {
             issuing_authority: issuingAuthority,
             country: country
         };
-        axios.post('http://localhost:8000/api/legal_entitys/', data)
+        axios.post('http://localhost:8000/api/legal-entitys/', data)
             .then((response) => {
                 alert(JSON.stringify(response.data));
             })
