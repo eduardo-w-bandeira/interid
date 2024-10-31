@@ -5,7 +5,7 @@ import HomePage from '@/pages/HomePage.jsx';
 import MultiplyPage from '@/pages/MultiplyPage';
 import Bla from '@/pages/Bla.jsx';
 import IndividualSignupPage from '@/pages/IndividualSignupPage';
-import SelectionSignupPage from '@/pages/SelectionSignupPage';
+import SignupPage from '@/pages/SignupPage';
 import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage';
 import LoginPage from '@/pages/LoginPage';
 import NotFoundPage from '@/pages/NotFoundPage';
@@ -16,7 +16,7 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/multiply" element={<MultiplyPage />} />
       <Route path="/bla" element={<Bla />} />
-      <Route path="/selection-signup" element={<SelectionSignupPage />} />
+      <Route path="/selection-signup" element={<SignupPage />} />
       <Route path="/individual-signup" element={<IndividualSignupPage />} />
       <Route path="/legal-entity-signup" element={<LegalEntitySignupPage />} />
       <Route path="/login" element={<LoginPage />} />
