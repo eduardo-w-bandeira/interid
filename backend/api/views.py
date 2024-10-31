@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 import trails
 from .models import (User, Individual, LegalEntity, Declaration,
                      DeclarationComment, Agreement, AgreementParticipant)
-from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer, LoginSlizer
+from .slizer import *
 
 
 wizroute = trails.Wizrouter()
@@ -27,51 +27,80 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSlizer
 
 
-@wizroute.auto_reg()
-class IndividualViews(APIView):
-
-    def get(self, request):
-        individuals = Individual.objects.all()
-        slized = IndividualSlizer(individuals, many=True)
-        return Response(slized.data)
-
-    def post(self, request):
-        user_ser = UserSlizer(data=request.data)
-        if user_ser.is_valid():
-            user = user_ser.save()  # Save the user first
-            individual_data = request.data
-            # Add the user ID to the individual data
-            individual_data['user'] = user.id
-            individual_ser = IndividualSlizer(data=individual_data)
-            if individual_ser.is_valid():
-                individual_ser.save()
-                return Response(individual_ser.data, status=201)
-            else:
-                user.delete()
-                return Response(individual_ser.errors, status=400)
-        return Response(user_ser.errors, status=400)
+class IndividualViewSet(ModelViewSet):
+    queryset = Individual.objects.all()
+    serializer_class = IndividualSlizer
 
 
-@wizroute.auto_reg(param="<int:id>")
-class IndividualDetail(APIView):
+class LegalEntityViewSet(ModelViewSet):
+    queryset = LegalEntity.objects.all()
+    serializer_class = LegalEntitySlizer
 
-    def get(self, request, id):
-        individual = Individual.objects.get(id=id)
-        slized = IndividualSlizer(individual)
-        return Response(slized.data)
 
-    def put(self, request, id):
-        individual = Individual.objects.get(id=id)
-        slized = IndividualSlizer(individual, data=request.data)
-        if slized.is_valid():
-            slized.save()
-            return Response(slized.data, status=201)
-        return Response(slized.errors, status=400)
+class DeclarationViewSet(ModelViewSet):
+    queryset = Declaration.objects.all()
+    serializer_class = DeclarationSlizer
 
-    def delete(self, request, id):
-        individual = Individual.objects.get(id=id)
-        individual.delete()
-        return Response(status=204)
+
+class DeclarationCommentViewSet(ModelViewSet):
+    queryset = DeclarationComment.objects.all()
+    serializer_class = DeclarationCommentSlizer
+
+
+class AgreementViewSet(ModelViewSet):
+    queryset = Agreement.objects.all()
+    serializer_class = AgreementSlizer
+
+
+class AgreementParticipantViewSet(ModelViewSet):
+    queryset = AgreementParticipant.objects.all()
+    serializer_class = AgreementParticipantSlizer
+
+# @wizroute.auto_reg()
+# class IndividualViews(APIView):
+
+#     def get(self, request):
+#         individuals = Individual.objects.all()
+#         slized = IndividualSlizer(individuals, many=True)
+#         return Response(slized.data)
+
+#     def post(self, request):
+#         user_ser = UserSlizer(data=request.data)
+#         if user_ser.is_valid():
+#             user = user_ser.save()  # Save the user first
+#             individual_data = request.data
+#             # Add the user ID to the individual data
+#             individual_data['user'] = user.id
+#             individual_ser = IndividualSlizer(data=individual_data)
+#             if individual_ser.is_valid():
+#                 individual_ser.save()
+#                 return Response(individual_ser.data, status=201)
+#             else:
+#                 user.delete()
+#                 return Response(individual_ser.errors, status=400)
+#         return Response(user_ser.errors, status=400)
+
+
+# @wizroute.auto_reg(param="<int:id>")
+# class IndividualDetail(APIView):
+
+#     def get(self, request, id):
+#         individual = Individual.objects.get(id=id)
+#         slized = IndividualSlizer(individual)
+#         return Response(slized.data)
+
+#     def put(self, request, id):
+#         individual = Individual.objects.get(id=id)
+#         slized = IndividualSlizer(individual, data=request.data)
+#         if slized.is_valid():
+#             slized.save()
+#             return Response(slized.data, status=201)
+#         return Response(slized.errors, status=400)
+
+#     def delete(self, request, id):
+#         individual = Individual.objects.get(id=id)
+#         individual.delete()
+#         return Response(status=204)
 
 
 @wizroute.auto_reg()
@@ -164,8 +193,14 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        if user.user_type == 'individual':
+            individual = Individual.objects.get(user=user)
+            data = IndividualSlizer(individual).data
+        elif user.user_type == 'legal_entity':
+            legal_entity = LegalEntity.objects.get(user=user)
+            data = LegalEntitySlizer(legal_entity).data
         refresh = RefreshToken.for_user(user)
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
-            'user': UserSlizer(user).data}, status=status.HTTP_200_OK)
+            'user_spec': data}, status=status.HTTP_200_OK)

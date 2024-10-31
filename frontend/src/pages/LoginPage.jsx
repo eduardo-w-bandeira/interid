@@ -18,9 +18,11 @@ const LoginPage = () => {
             });
             const data = response.data;
             if (data.refresh && data.access) {
-                // Set tokens in local storage
+                // Set tokens and user info in local storage
                 localStorage.setItem('refresh_token', data.refresh);
                 localStorage.setItem('access_token', data.access);
+                localStorage.setItem('user_type', data.user_spec.user_type); // Store user type
+                localStorage.setItem('user_spec_id', data.user_spec.id); // Store user ID
                 setIsLoggedIn(true);
             } else {
                 setError('Invalid credentials');
@@ -35,8 +37,7 @@ const LoginPage = () => {
     };
 
     if (isLoggedIn) {
-        // Redirect to protected route or display logged-in content
-        return <div>You are now logged in!</div>;
+        window.location.href = "/profile";
     }
 
     return (

@@ -21,6 +21,30 @@ class LegalEntitySlizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DeclarationSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = Declaration
+        fields = '__all__'
+
+
+class DeclarationCommentSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = DeclarationComment
+        fields = '__all__'
+
+
+class AgreementSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = Agreement
+        fields = '__all__'
+
+
+class AgreementParticipantSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = AgreementParticipant
+        fields = '__all__'
+
+
 class LoginSlizer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -31,12 +55,10 @@ class LoginSlizer(serializers.Serializer):
 
         if username and password:
             user = authenticate(username=username, password=password)
-
             if user:
                 if not user.is_active:
                     msg = 'User account is disabled.'
                     raise serializers.ValidationError(msg)
-
                 data['user'] = user
             else:
                 msg = 'Unable to log in with provided credentials.'
