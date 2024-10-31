@@ -1,16 +1,18 @@
-from django.contrib.auth import authenticate, login
-from .slizer import LoginSlizer
-from rest_framework import status
 import json
+from django.contrib.auth import authenticate
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 import trails
 from .models import *
-from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer
+from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer, LoginSlizer
 
 
 wizroute = trails.Wizrouter()
@@ -135,3 +137,37 @@ def multiply(request):
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+class LoginView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = LoginSlizer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user': UserSerializer(user).data
+        }, status=status.HTTP_200_OK)
+
+
+class LoginView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = LoginSlizer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user': UserSlizer(user).data
+        }, status=status.HTTP_200_OK)

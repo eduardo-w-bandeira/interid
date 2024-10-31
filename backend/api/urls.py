@@ -7,7 +7,9 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),]
+    path('', include(router.urls)),
+    path('login/', views.LoginView.as_view(), name='login')
+]
 
 for url_pattern in views.wizroute.get_urlpatterns():
     urlpatterns.append(url_pattern)
