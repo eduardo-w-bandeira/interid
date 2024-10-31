@@ -29,7 +29,7 @@ const LegalEntitySignupForm = () => {
         };
         axios.post('http://localhost:8000/api/legal-entitys/', data)
             .then((response) => {
-                alert(JSON.stringify(response.data));
+                window.location.href = '/login';
             })
             .catch((error) => {
                 alert(JSON.stringify(error.response.data));
