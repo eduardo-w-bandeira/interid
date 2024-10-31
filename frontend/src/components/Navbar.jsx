@@ -15,7 +15,7 @@ const Navbar = () => {
                     <li><a href="#" className="text-white no-underline">Contact</a></li>
                 </ul>
                 <div className="flex items-center">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded mr-2 cursor-pointer">Login</button>
+                    <Link to="/login"><button className="bg-blue-500 text-white py-2 px-4 rounded mr-2 cursor-pointer">Login</button></Link>
                     <Link to="/selection-signup">
                         <button className="bg-orange-500 text-white py-2 px-4 rounded cursor-pointer">Sign Up</button>
                     </Link>
