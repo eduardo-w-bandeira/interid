@@ -1,5 +1,5 @@
 import json
-# from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
@@ -11,6 +11,10 @@ from .slizer import UserSlizer, IndividualSlizer, LegalEntitySlizer
 
 
 wizroute = trails.Wizrouter()
+
+
+def home(request):
+    return redirect('api/')
 
 
 class UserViewSet(viewsets.ModelViewSet):

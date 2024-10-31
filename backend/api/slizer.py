@@ -5,8 +5,7 @@ from .models import *
 class UserSlizer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'user_type', 'gov_id',
-                  'gov_id_type', 'issuing_authority', 'country']
+        fields = '__all__'
 
 
 class IndividualSlizer(serializers.ModelSerializer):
