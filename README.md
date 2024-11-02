@@ -32,7 +32,7 @@ Each user will receive an **International ID**:
 - The declarant may allow comments on their declarations, and users can optionally delete their own comments.
 
 # Technologies To Be Used
-- Frontend: React
+- Frontend: React and Tailwind
 - Backend: Django
 - Database: SQLite
 - Cloud Platform: AWS
