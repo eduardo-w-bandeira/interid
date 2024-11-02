@@ -180,30 +180,7 @@ class LoginView(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-
-        refresh = RefreshToken.for_user(user)
-        return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'user': UserSerializer(user).data
-        }, status=status.HTTP_200_OK)
-
-
-class LoginView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = LoginSlizer
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
         data = UserSlizer(user).data
-        # if user.user_type == 'individual':
-        #     individual = Individual.objects.get(user=user)
-        #     data = IndividualSlizer(individual).data
-        # elif user.user_type == 'legal_entity':
-        #     legal_entity = LegalEntity.objects.get(user=user)
-        #     data = LegalEntitySlizer(legal_entity).data
         refresh = RefreshToken.for_user(user)
         return Response({
             'refresh': str(refresh),
