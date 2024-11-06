@@ -2,14 +2,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '@/pages/HomePage.jsx';
-import MultiplyPage from '@/pages/MultiplyPage';
+import MultiplyPage from '@/pages/MultiplyPage.jsx';
 import Bla from '@/pages/Bla.jsx';
-import IndividualSignupPage from '@/pages/IndividualSignupPage';
-import SignupPage from '@/pages/SignupPage';
-import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage';
-import LoginPage from '@/pages/LoginPage';
-import NotFoundPage from '@/pages/NotFoundPage';
-import ProfilePage from './pages/ProfilePage';
+import IndividualSignupPage from '@/pages/IndividualSignupPage.jsx';
+import SignupPage from '@/pages/SignupPage.jsx';
+import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage.jsx';
+import LoginPage from '@/pages/LoginPage.jsx';
+import NotFoundPage from '@/pages/NotFoundPage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 
 const App = () => {
   return (
