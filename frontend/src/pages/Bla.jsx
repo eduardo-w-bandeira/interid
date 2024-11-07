@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
 const Bla = () => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/users/')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  const { userId } = useParams();
 
   return (
     <div>
-      <h1>API Data</h1>
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <h1>Item ID: {userId}</h1>
     </div>
   );
 };

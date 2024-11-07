@@ -14,8 +14,13 @@ const ProfilePage = () => {
         const fetchUserData = async () => {
             const userId = localStorage.getItem('user_id');
             const userType = localStorage.getItem('user_type');
+            const accessToken = localStorage.getItem('access_token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/${userType}s/${userId}/`);
+                const response = await axios.get(`http://localhost:8000/api/${userType}s/${userId}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
                 setUserData(response.data);
             } catch (error) {
                 console.error("Error fetching user data", error);
@@ -24,8 +29,13 @@ const ProfilePage = () => {
 
         const fetchUserDeclarations = async () => {
             const userId = localStorage.getItem('user_id');
+            const accessToken = localStorage.getItem('access_token');
             try {
-                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`);
+                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
                 setUserDeclarations(response.data);
             } catch (error) {
                 console.error("Error fetching user declarations", error);

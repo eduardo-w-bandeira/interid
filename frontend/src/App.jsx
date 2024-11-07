@@ -16,12 +16,12 @@ const App = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/multiply" element={<MultiplyPage />} />
-      <Route path="/bla" element={<Bla />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/individual-signup" element={<IndividualSignupPage />} />
       <Route path="/legal-entity-signup" element={<LegalEntitySignupPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/:userId" element={<Bla />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
