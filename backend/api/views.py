@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 import trails
 from .models import (User, Individual, LegalEntity, Declaration,
@@ -30,6 +31,7 @@ class UserViewSet(ModelViewSet):
 class IndividualViewSet(ModelViewSet):
     queryset = Individual.objects.all()
     serializer_class = IndividualSlizer
+    permission_classes = [IsAuthenticated]
 
 
 class LegalEntityViewSet(ModelViewSet):
