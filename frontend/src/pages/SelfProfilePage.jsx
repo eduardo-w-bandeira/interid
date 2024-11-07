@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ProfileLeftPanel from '@/components/ProfileLeftPanel';
+import UserProfile from '@/components/UserProfile';
 
 const SelfProfilePage = () => {
     const [userData, setUserData] = useState(null);
@@ -74,7 +74,7 @@ const SelfProfilePage = () => {
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
-                <ProfileLeftPanel />
+            <UserProfile userData={userData} />
                 <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
                     <button 
                         className="bg-blue-500 text-white py-2 px-4 rounded mb-4" 
