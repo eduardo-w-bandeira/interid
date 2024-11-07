@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import user_image from '@/assets/generic-user.png';
 
-const ProfilePage = () => {
+const SelfProfilePage = () => {
     const [userData, setUserData] = useState(null);
     const [userDeclarations, setUserDeclarations] = useState([]);
 
@@ -71,4 +71,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default SelfProfilePage;
