@@ -42,6 +42,7 @@ class LegalEntityViewSet(ModelViewSet):
 class DeclarationViewSet(ModelViewSet):
     queryset = Declaration.objects.all()
     serializer_class = DeclarationSlizer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user_id = self.request.GET.get('user')

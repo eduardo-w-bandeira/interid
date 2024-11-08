@@ -6,16 +6,17 @@ const Posts = ({
     newDeclaration, 
     handleDeclareClick, 
     handleInputChange, 
-    handlePublishDeclaration 
-}) => {
+    handlePublishDeclaration,
+    showMakeDeclarationButton}
+) => {
     return (
         <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
-            <button 
+            {showMakeDeclarationButton && (<button 
                 className="bg-blue-500 text-white py-2 px-4 rounded mb-4" 
                 onClick={handleDeclareClick}
             >
                 Make a Public Declaration
-            </button>
+            </button>)}
 
             {isDeclaring && (
                 <div className="mb-4">
