@@ -9,6 +9,7 @@ const Posts = ({
     handlePublishDeclaration,
     showMakeDeclarationButton}
 ) => {
+    const reversedDeclarations = [...userDeclarations].reverse();
     return (
         <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
             {showMakeDeclarationButton && (<button 
@@ -47,7 +48,7 @@ const Posts = ({
 
             <h3 className="text-lg font-semibold mb-3">Your Declarations</h3>
             <div>
-                {userDeclarations.map(declaration => (
+                {reversedDeclarations.map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
                         <h4 className="font-bold">{declaration.title}</h4>
                         <p>{declaration.body}</p>
