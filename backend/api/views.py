@@ -37,6 +37,7 @@ class IndividualViewSet(ModelViewSet):
 class LegalEntityViewSet(ModelViewSet):
     queryset = LegalEntity.objects.all()
     serializer_class = LegalEntitySlizer
+    permission_classes = [IsAuthenticated]
 
 
 class DeclarationViewSet(ModelViewSet):
@@ -185,7 +186,8 @@ class LoginView(generics.GenericAPIView):
         user = serializer.validated_data['user']
         data = UserSlizer(user).data
         refresh = RefreshToken.for_user(user)
-        return Response({
-            'refresh': str(refresh),
-            'access': str(refresh.access_token),
-            'user': data}, status=status.HTTP_200_OK)
+        return Response(
+            {'refresh': str(refresh),
+             'access': str(refresh.access_token),
+             'user': data},
+            status=status.HTTP_200_OK)

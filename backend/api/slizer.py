@@ -5,12 +5,19 @@ from django.contrib.auth.hashers import make_password
 
 
 class UserSlizer(serializers.ModelSerializer):
+    related_user = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = '__all__'
 
     def validate_password(self, value: str) -> str:
         return make_password(value)
+
+    def get_related_user(self, obj):
+        if obj.user_type == "individual":
+            return IndividualSlizer(obj.individual).data
+        return LegalEntitySlizer(obj.legalentity).data
 
 
 class IndividualSlizer(serializers.ModelSerializer):

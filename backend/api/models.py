@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.exceptions import ValidationError
 from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
@@ -43,6 +44,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    @property
+    def related_user(self):
+        if self.user_type == "individual":
+            return self.individual
+        return self.legalentity
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['user_type', 'gov_id',
                        'gov_id_type', 'issuing_authority', 'country']
@@ -62,6 +69,13 @@ class Individual(models.Model):
     last_name = models.CharField(max_length=200)
     birth_date = models.DateField(null=False, blank=False)
 
+    def save(self, *args, **kwargs):
+        # Check if the User is associated with a LegalEntity
+        if LegalEntity.objects.filter(user=self.user).exists():
+            raise ValidationError(
+                "This user is already associated with a Legal Entity.")
+        super().save(*args, **kwargs)
+
 
 class LegalEntity(models.Model):
     user = models.OneToOneField(
@@ -69,6 +83,13 @@ class LegalEntity(models.Model):
     legal_name = models.CharField(max_length=200)
     business_name = models.CharField(max_length=200)
     reg_date = models.DateField(null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        # Check if the User is associated with an Individual
+        if Individual.objects.filter(user=self.user).exists():
+            raise ValidationError(
+                "This user is already associated with an Individual.")
+        super().save(*args, **kwargs)
 
 
 class Declaration(models.Model):
