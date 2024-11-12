@@ -4,7 +4,7 @@ import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import UserProfile from '@/components/UserProfile';
-import Posts from '@/components/Posts'; // Import the new Posts component
+import DeclarationsAndAgreements from '@/components/DeclarationsAndAgreements';
 
 const ThirdProfilePage = () => {
     const [userData, setUserData] = useState(null);
@@ -13,10 +13,23 @@ const ThirdProfilePage = () => {
     const [newDeclaration, setNewDeclaration] = useState({ title: '', body: '' });
     // const userId = localStorage.getItem('user_id');
     const { userId } = useParams();
-    const userType = "individual";
+    // const userType = "individual";
     const accessToken = localStorage.getItem('access_token');
 
     useEffect(() => {
+        const fetchUserType = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/users/${userId}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const userType = response.data.user_type;
+            } catch (error) {
+                console.error("Error fetching user data", error);
+            }
+        };
+
         const fetchUserData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8000/api/${userType}s/${userId}/`, {
@@ -79,7 +92,7 @@ const ThirdProfilePage = () => {
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 <UserProfile userData={userData} />
-                <Posts 
+                <DeclarationsAndAgreements 
                     userDeclarations={userDeclarations}
                     isDeclaring={isDeclaring}
                     newDeclaration={newDeclaration}

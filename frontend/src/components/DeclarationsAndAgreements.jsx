@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Posts = ({ 
+const DeclarationsAndAgreements = ({ 
     userDeclarations, 
     isDeclaring, 
     newDeclaration, 
@@ -59,4 +59,4 @@ const Posts = ({
     );
 };
 
-export default Posts;
+export default DeclarationsAndAgreements;

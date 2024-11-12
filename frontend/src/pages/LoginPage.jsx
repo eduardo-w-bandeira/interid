@@ -17,12 +17,12 @@ const LoginPage = () => {
                 password,
             });
             const data = response.data;
+            // alert(JSON.stringify(data.user, null, 2));
             if (data.refresh && data.access) {
                 // Set tokens and user info in local storage
                 localStorage.setItem('refresh_token', data.refresh);
                 localStorage.setItem('access_token', data.access);
-                localStorage.setItem('user_type', data.user.user_type); // Store user type
-                localStorage.setItem('user_id', data.user.id); // Store user ID
+                localStorage.setItem('user_data', JSON.stringify(data.user));
                 setIsLoggedIn(true);
             } else {
                 setError('Invalid credentials');
