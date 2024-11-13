@@ -6,7 +6,6 @@ import UserProfile from '@/components/UserProfile';
 import DeclarationsAndAgreements from '@/components/DeclarationsAndAgreements';
 
 const SelfProfilePage = () => {
-    // const [userData, setUserData] = useState(null);
     const [userDeclarations, setUserDeclarations] = useState([]);
     const [isDeclaring, setIsDeclaring] = useState(false);
     const [newDeclaration, setNewDeclaration] = useState({ title: '', body: '' });

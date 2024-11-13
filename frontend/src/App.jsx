@@ -10,7 +10,7 @@ import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage.jsx';
 import LoginPage from '@/pages/LoginPage.jsx';
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import SelfProfilePage from '@/pages/SelfProfilePage.jsx';
-import ThirdProfilePage from './pages/ThirdProfilePage';
+import ThirdProfilePage from '@/pages/ThirdProfilePage';
 
 const App = () => {
   return (
