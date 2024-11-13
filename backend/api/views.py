@@ -26,6 +26,7 @@ def home(request):
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSlizer
+    permission_classes = [IsAuthenticated]
 
 
 class IndividualViewSet(ModelViewSet):
