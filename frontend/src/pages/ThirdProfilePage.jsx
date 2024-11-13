@@ -83,7 +83,7 @@ const ThirdProfilePage = () => {
                     handleDeclareClick={handleDeclareClick}
                     handleInputChange={handleInputChange}
                     handlePublishDeclaration={handlePublishDeclaration}
-                    showMakeDeclarationButton={true}
+                    showMakeDeclarationButton={false}
                 />
             </div>
             <Footer />

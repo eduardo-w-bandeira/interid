@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const LegalEntitySignupForm = () => {
-    const userType = 'legal_entity';
+    const userType = 'legal entity';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [legalName, setLegalName] = useState('');

@@ -31,13 +31,55 @@ class UserViewSet(ModelViewSet):
 class IndividualViewSet(ModelViewSet):
     queryset = Individual.objects.all()
     serializer_class = IndividualSlizer
-    permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def create(self, request, *args, **kwargs):
+        user_slizer = UserSlizer(data=request.data)
+        if user_slizer.is_valid():
+            user = user_slizer.save()  # Save the user first
+            individual_data = request.data.copy()
+            # Add the user ID to the individual data
+            individual_data['user'] = user.id
+            individual_slizer = IndividualSlizer(data=individual_data)
+            if individual_slizer.is_valid():
+                individual_slizer.save()
+                return Response(individual_slizer.data, status=status.HTTP_201_CREATED)
+            else:
+                # Delete the user if the individual is not valid
+                user.delete()
+                return Response(individual_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(user_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LegalEntityViewSet(ModelViewSet):
     queryset = LegalEntity.objects.all()
     serializer_class = LegalEntitySlizer
     permission_classes = [IsAuthenticated]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAuthenticated()]
+
+    def create(self, request, *args, **kwargs):
+        user_slizer = UserSlizer(data=request.data)
+        if user_slizer.is_valid():
+            user = user_slizer.save()  # Save the user first
+            leg_entity_data = request.data.copy()
+            # Add the user ID to the individual data
+            leg_entity_data['user'] = user.id
+            leg_entity_slizer = LegalEntitySlizer(data=leg_entity_data)
+            if leg_entity_slizer.is_valid():
+                leg_entity_slizer.save()
+                return Response(leg_entity_slizer.data, status=status.HTTP_201_CREATED)
+            else:
+                user.delete()
+                return Response(leg_entity_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(user_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DeclarationViewSet(ModelViewSet):
