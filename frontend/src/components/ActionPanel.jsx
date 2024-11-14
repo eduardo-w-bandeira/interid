@@ -1,4 +1,5 @@
 import React from 'react';
+// import logo from '@/assets/logo.png';
 
 const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }) => {
     const relatedUser = userData.related_user;
@@ -18,7 +19,7 @@ const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }
             )}
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-4">
                 <div className="flex items-center mb-4">
-                    <img src="https://via.placeholder.com/40" alt="Instagram Logo" className="h-8 w-8 mr-2" />
+                    <img src="/logo.png" alt="InterId Logo" className="h-8 w-8 mr-2" />
                     <span className="font-bold text-gray-800 text-lg">InterId</span>
                 </div>
                 <nav className="space-y-4">
