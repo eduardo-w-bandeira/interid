@@ -22,15 +22,17 @@ const UserProfile = ({
     return (
         <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
             {relatedUser && (
-                <>
+                <div className="flex items-center mb-4">
                     <img
                         src={userImage}
                         alt="User Profile"
-                        className="rounded-full mb-4 w-32 object-cover"
+                        className="rounded-full w-32 object-cover mr-4"
                     />
-                    <h2 className="text-xl font-bold">{fullName}</h2>
-                    <p className="text-gray-600">ID: {userData.id}</p>
-                </>
+                    <div>
+                        <h2 className="text-xl font-bold">{fullName}</h2>
+                        <p className="text-gray-600">ID: {userData.id}</p>
+                    </div>
+                </div>
             )}
             {isDeclaring && (
                 <div className="mb-4">
@@ -54,7 +56,7 @@ const UserProfile = ({
                         className="bg-green-500 text-white py-2 px-4 rounded" 
                         onClick={handlePublishDeclaration}
                     >
-                        Publish Declaration
+                        PUBLISH DECLARATION
                     </button>
                 </div>
             )}
