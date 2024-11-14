@@ -74,6 +74,10 @@ const LoginPage = () => {
                         Login
                     </button>
                     {error && <div className="text-red-600 mt-3">{error}</div>}
+                    <div className="mt-4 text-center">
+                        <span className="text-gray-700">Don't have an account? </span>
+                        <a href="/signup" className="text-blue-500 hover:underline">Sign up</a>
+                    </div>
                 </form>
             </section>
             <Footer />
