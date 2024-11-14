@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -6,6 +7,7 @@ import ActionPanel from '@/components/ActionPanel';
 import UserProfile from '@/components/UserProfile';
 
 const ProfilePage = () => {
+    const { userId } = useParams();
     const [userDeclarations, setUserDeclarations] = useState([]);
     const [isDeclaring, setIsDeclaring] = useState(false);
     const [newDeclaration, setNewDeclaration] = useState({ title: '', body: '' });
@@ -22,7 +24,7 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserDeclarations = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userData.id}`, {
+                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
                     }

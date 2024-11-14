@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [userId, setUserId] = useState(null);
     const [error, setError] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -23,6 +24,7 @@ const LoginPage = () => {
                 localStorage.setItem('refresh_token', data.refresh);
                 localStorage.setItem('access_token', data.access);
                 localStorage.setItem('user_data', JSON.stringify(data.user));
+                setUserId(data.user.id);
                 setIsLoggedIn(true);
             } else {
                 setError('Invalid credentials');
@@ -37,7 +39,7 @@ const LoginPage = () => {
     };
 
     if (isLoggedIn) {
-        window.location.href = "/profile";
+        window.location.href = `/${userId}`;
     }
 
     return (

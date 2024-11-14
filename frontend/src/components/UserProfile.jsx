@@ -59,7 +59,7 @@ const UserProfile = ({
                 </div>
             )}
 
-            <h3 className="text-lg font-semibold mb-3">Your Declarations</h3>
+            <h3 className="text-lg font-semibold mb-3">Public Declarations</h3>
             <div>
                 {reversedDeclarations.map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">

@@ -5,18 +5,6 @@ const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }
     const relatedUser = userData.related_user;
     return (
         <div className="md:w-1/4 p-5 bg-white rounded-lg shadow-lg">
-            {relatedUser && (
-                <>
-                    {showMakeDeclarationButton && (
-                        <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded mb-4"
-                            onClick={handleDeclareClick}
-                        >
-                            Make a Public Declaration
-                        </button>
-                    )}
-                </>
-            )}
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-4">
                 <div className="flex items-center mb-4">
                     <img src="/logo.png" alt="InterId Logo" className="h-8 w-8 mr-2" />
@@ -40,12 +28,6 @@ const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                         </svg>
                         <span>Explore</span>
-                    </a>
-                    <a href="#" className="flex items-center text-gray-600 hover:text-gray-800">
-                        <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
-                        </svg>
-                        <span>Reels</span>
                     </a>
                     <a href="#" className="flex items-center text-gray-600 hover:text-gray-800">
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
