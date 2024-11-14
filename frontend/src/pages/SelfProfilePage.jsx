@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ActionPanel from '@/components/ActionPanel';
 import UserProfile from '@/components/UserProfile';
-import DeclarationsAndAgreements from '@/components/DeclarationsAndAgreements';
 
 const SelfProfilePage = () => {
     const [userDeclarations, setUserDeclarations] = useState([]);
@@ -68,15 +68,20 @@ const SelfProfilePage = () => {
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
-                <UserProfile userData={userData} />
-                <DeclarationsAndAgreements 
+                <ActionPanel 
+                    userData={userData} 
+                    handleDeclareClick={handleDeclareClick} 
+                    showMakeDeclarationButton={true} 
+                />
+                <UserProfile 
                     userDeclarations={userDeclarations}
                     isDeclaring={isDeclaring}
                     newDeclaration={newDeclaration}
                     handleDeclareClick={handleDeclareClick}
                     handleInputChange={handleInputChange}
                     handlePublishDeclaration={handlePublishDeclaration}
-                    showMakeDeclarationButton={true}
+                    showMakeDeclarationButton={false}
+                    userData={userData}
                 />
             </div>
             <Footer />
