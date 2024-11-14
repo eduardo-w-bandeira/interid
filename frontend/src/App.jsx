@@ -9,7 +9,7 @@ import SignupPage from '@/pages/SignupPage.jsx';
 import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage.jsx';
 import LoginPage from '@/pages/LoginPage.jsx';
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
-import SelfProfilePage from '@/pages/SelfProfilePage.jsx';
+import ProfilePage from '@/pages/ProfilePage.jsx';
 import ThirdProfilePage from '@/pages/ThirdProfilePage';
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
       <Route path="/individual-signup" element={<IndividualSignupPage />} />
       <Route path="/legal-entity-signup" element={<LegalEntitySignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/profile" element={<SelfProfilePage />} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route path="/:userId" element={<ThirdProfilePage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

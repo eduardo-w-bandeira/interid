@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import ActionPanel from '@/components/ActionPanel';
 import UserProfile from '@/components/UserProfile';
 
-const SelfProfilePage = () => {
+const ProfilePage = () => {
     const [userDeclarations, setUserDeclarations] = useState([]);
     const [isDeclaring, setIsDeclaring] = useState(false);
     const [newDeclaration, setNewDeclaration] = useState({ title: '', body: '' });
@@ -89,4 +89,4 @@ const SelfProfilePage = () => {
     );
 };
 
-export default SelfProfilePage;
+export default ProfilePage;

@@ -1,5 +1,5 @@
 import React from 'react';
-// import logo from '@/assets/logo.png';
+import { Link } from 'react-router-dom';
 
 const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }) => {
     const relatedUser = userData.related_user;
@@ -23,12 +23,12 @@ const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }
                     <span className="font-bold text-gray-800 text-lg">InterId</span>
                 </div>
                 <nav className="space-y-4">
-                    <a href="#" className="flex items-center text-gray-600 hover:text-gray-800">
+                    <Link to="/" className="flex items-center text-gray-600 hover:text-gray-800">
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
                         <span>Home</span>
-                    </a>
+                    </Link>
                     <a href="#" className="flex items-center text-gray-600 hover:text-gray-800">
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -59,12 +59,12 @@ const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }
                         </svg>
                         <span>Notifications</span>
                     </a>
-                    <a href="#" className="flex items-center text-gray-600 hover:text-gray-800">
+                    <button className="flex items-center text-gray-600 hover:text-gray-800"  onClick={handleDeclareClick}>
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
-                        <span>Create</span>
-                    </a>
+                        <span>Make a Declaration</span>
+                    </button>
                 </nav>
             </div>
         </div>
