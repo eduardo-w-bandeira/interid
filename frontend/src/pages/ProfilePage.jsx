@@ -74,14 +74,8 @@ const ProfilePage = () => {
                     userData={userData} 
                 />
                 <UserProfile 
-                    userDeclarations={userDeclarations}
-                    isDeclaring={isDeclaring}
-                    newDeclaration={newDeclaration}
-                    handleDeclareClick={handleDeclareClick}
-                    handleInputChange={handleInputChange}
-                    handlePublishDeclaration={handlePublishDeclaration}
-                    showMakeDeclarationButton={false}
                     userData={userData}
+                    userDeclarations={userDeclarations}
                 />
             </div>
             <Footer />

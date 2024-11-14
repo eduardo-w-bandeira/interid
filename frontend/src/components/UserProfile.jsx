@@ -1,16 +1,7 @@
 import React from 'react';
 import userImage from '@/assets/generic-user.png';
 
-const UserProfile = ({ 
-    userDeclarations, 
-    isDeclaring, 
-    newDeclaration, 
-    handleDeclareClick, 
-    handleInputChange, 
-    handlePublishDeclaration,
-    showMakeDeclarationButton,
-    userData
-}) => {
+const UserProfile = ({ userData, userDeclarations }) => {
     const relatedUser = userData.related_user;
     let fullName;
     if (userData.user_type === "individual") {
