@@ -34,33 +34,6 @@ const UserProfile = ({
                     </div>
                 </div>
             )}
-            {isDeclaring && (
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Title"
-                        value={newDeclaration.title}
-                        onChange={handleInputChange}
-                        className="border rounded w-full p-2 mb-2"
-                    />
-                    <textarea
-                        name="body"
-                        placeholder="Body"
-                        value={newDeclaration.body}
-                        onChange={handleInputChange}
-                        className="border rounded w-full p-2 mb-2"
-                        rows="4"
-                    />
-                    <button 
-                        className="bg-green-500 text-white py-2 px-4 rounded" 
-                        onClick={handlePublishDeclaration}
-                    >
-                        Publish Declaration
-                    </button>
-                </div>
-            )}
-
             <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
                 {reversedDeclarations.map(declaration => (
