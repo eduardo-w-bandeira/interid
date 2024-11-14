@@ -56,12 +56,12 @@ const UserProfile = ({
                         className="bg-green-500 text-white py-2 px-4 rounded" 
                         onClick={handlePublishDeclaration}
                     >
-                        PUBLISH DECLARATION
+                        Publish Declaration
                     </button>
                 </div>
             )}
 
-            <h3 className="text-lg font-semibold mb-3">Public Declarations</h3>
+            <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
                 {reversedDeclarations.map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
