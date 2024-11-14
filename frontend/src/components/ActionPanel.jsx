@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MakeADeclaration from './MakeADeclaration';
 
-const ActionPanel = ({ userData, handleDeclareClick, showMakeDeclarationButton }) => {
+const ActionPanel = ({ userData }) => {
     const [showDialog, setShowDialog] = useState(false);
-    const relatedUser = userData.related_user;
 
     const handlePublish = (declaration) => {
         console.log('Declaration published:', declaration);

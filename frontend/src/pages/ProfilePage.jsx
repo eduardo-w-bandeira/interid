@@ -72,8 +72,6 @@ const ProfilePage = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 <ActionPanel 
                     userData={userData} 
-                    handleDeclareClick={handleDeclareClick} 
-                    showMakeDeclarationButton={true} 
                 />
                 <UserProfile 
                     userDeclarations={userDeclarations}
