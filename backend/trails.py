@@ -31,6 +31,33 @@ class Wizrouter:
                 return True
         return False
 
+    def _break_down_edge_underscores(self, string):
+        """Breaks down a string with leading and trailing underscores."""
+        leading_times = len(string) - len(string.lstrip('_'))
+        trailing_times = len(string) - len(string.rstrip('_'))
+        prefix = '_' * leading_times
+        suffix = '_' * trailing_times
+        core = string.strip('_')
+        return SimpleNamespace(core=core, prefix=prefix, suffix=suffix)
+
+    def _pascal_to_kebab(self, string):
+        """Converts a PascalCase to a snake_case, ignoring leading and trailing underscores."""
+        breakdown = self._break_down_edge_underscores(string)
+        kebab = ""
+        for char in breakdown.core:
+            if char.isupper():
+                kebab += "-" + char.lower()
+            else:
+                kebab += char
+        kebab = kebab.lstrip("-")
+        return breakdown.prefix + kebab + breakdown.suffix
+
+    def _snake_to_kebab(self, string):
+        """Converts a snake_case to a kebab-case, ignoring leading and trailing underscores."""
+        breakdown = self._break_down_edge_underscores(string)
+        kebab = breakdown.core.replace('_', '-')
+        return breakdown.prefix + kebab + breakdown.suffix
+
     def auto_route(self, endpoint: str | None = None, url_name: str | None = None, **kwargs):
         """A decorator to automatically generate and register a django.urls.path() for a given view.
 
@@ -74,20 +101,20 @@ class Wizrouter:
                     for suffix in suffixes:
                         if endpoint.endswith(suffix):
                             endpoint = endpoint[:-len(suffix)]
-                            endpoint = pascal_to_kebab(endpoint)
+                            endpoint = self._pascal_to_kebab(endpoint)
                             if not endpoint.endswith("s") and suffix in self.REST_VIEW_PLURAL_SUFFIXES:
                                 endpoint += "s"
                             break
                 else:
-                    endpoint = snake_to_kebab(endpoint)
+                    endpoint = self._snake_to_kebab(endpoint)
             url_name = url_name or endpoint
             if is_view_set:
                 self.rest_router.register(endpoint, view, **kwargs)
-                print("is_view_set:", endpoint, view, kwargs)
+                # print("is_view_set:", endpoint, view, kwargs)
             else:
                 endpoint += "/"
                 url_patt = path(endpoint, bound_view, name=url_name, **kwargs)
-                print("is_not_view_set:", endpoint, bound_view, kwargs)
+                # print("is_not_view_set:", endpoint, bound_view, kwargs)
                 self.non_view_set_url_patts.append(url_patt)
             return view  # Return the original view
         return decorator
@@ -100,33 +127,3 @@ class Wizrouter:
         """Includes the given urlpatterns in the app's urlpatterns."""
         for url_patt in self.get_urlpatterns():
             urlpatterns.append(url_patt)
-
-
-def _break_down_edge_underscores(string):
-    """Breaks down a string with leading and trailing underscores."""
-    leading_times = len(string) - len(string.lstrip('_'))
-    trailing_times = len(string) - len(string.rstrip('_'))
-    prefix = '_' * leading_times
-    suffix = '_' * trailing_times
-    core = string.strip('_')
-    return SimpleNamespace(core=core, prefix=prefix, suffix=suffix)
-
-
-def pascal_to_kebab(string):
-    """Converts a PascalCase to a snake_case, ignoring leading and trailing underscores."""
-    breakdown = _break_down_edge_underscores(string)
-    kebab = ""
-    for char in breakdown.core:
-        if char.isupper():
-            kebab += "-" + char.lower()
-        else:
-            kebab += char
-    kebab = kebab.lstrip("-")
-    return breakdown.prefix + kebab + breakdown.suffix
-
-
-def snake_to_kebab(string):
-    """Converts a snake_case to a kebab-case, ignoring leading and trailing underscores."""
-    breakdown = _break_down_edge_underscores(string)
-    kebab = breakdown.core.replace('_', '-')
-    return breakdown.prefix + kebab + breakdown.suffix
