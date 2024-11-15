@@ -8,18 +8,15 @@ import UserProfile from '@/components/UserProfile';
 
 const ProfilePage = () => {
     const { userId } = useParams();
-    const [userDeclarations, setUserDeclarations] = useState([]);
-    const [isDeclaring, setIsDeclaring] = useState(false);
-    const [newDeclaration, setNewDeclaration] = useState({ title: '', body: '' });
     const userDataStr = localStorage.getItem('user_data');
     let userData = null;
     if (userDataStr) {
-        // Parse the string back to an object
         userData = JSON.parse(userDataStr);
-        } else {
+    } else {
         console.error("User data not found in local storage");
-    };
+    }
     const accessToken = localStorage.getItem('access_token');
+    const [userDeclarations, setUserDeclarations] = useState([]);
 
     useEffect(() => {
         const fetchUserDeclarations = async () => {
@@ -35,34 +32,23 @@ const ProfilePage = () => {
             }
         };
 
-        // fetchUserData();
         fetchUserDeclarations();
-    }, []);
+    }, [userId, accessToken]);
 
-    const handleDeclareClick = () => {
-        setIsDeclaring(true);
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewDeclaration(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handlePublishDeclaration = async () => {
+    const postAndShow = async (declarationData) => {
+        const completeData = {
+            ...declarationData,
+            user: userData.id,
+        };
         try {
-            const response = await axios.post('http://localhost:8000/api/declarations/', {
-                ...newDeclaration,
-                user: userData.id,
-            }, {
+            const response = await axios.post('http://localhost:8000/api/declarations/', completeData, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            setUserDeclarations(prev => [...prev, response.data]);
-            setNewDeclaration({ title: '', body: '' });
-            setIsDeclaring(false);
+            setUserDeclarations((prevDeclarations) => [response.data, ...prevDeclarations]);
         } catch (error) {
-            console.error("Error publishing declaration", error);
+            console.error("Error posting declaration", error);
         }
     };
 
@@ -71,7 +57,8 @@ const ProfilePage = () => {
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 <ActionPanel 
-                    userData={userData} 
+                    userData={userData}
+                    postAndShow={postAndShow}
                 />
                 <UserProfile 
                     userData={userData}
