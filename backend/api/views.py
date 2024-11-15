@@ -97,6 +97,11 @@ class DeclarationViewSet(ModelViewSet):
             return Declaration.objects.filter(user=user_id)
         return Declaration.objects.all()
 
+    def get_permissions(self):
+        if self.action == 'list':
+            return [AllowAny()]
+        return super().get_permissions()
+
 
 @wizrouter.auto_route()
 class DeclarationCommentViewSet(ModelViewSet):

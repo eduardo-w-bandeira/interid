@@ -13,27 +13,17 @@ export const pageNameToKebab = (name) => {
     return pascalToKebab(removePageSuffix);
 };
 
-export const loadPages = async (ignorePrivate = true) => {
-    // Use import.meta.glob to import all .jsx files in the specified directory
-    const pages = import.meta.glob('../pages/**/*.jsx');
-
-    // Create an object to hold the component mappings
-    const components = {};
-
-    // Iterate over the pages object
-    for (const path in pages) {
-        // Extract the function name from the file path
-        const functionName = path.split('/').pop().replace('.jsx', '');
-
-        // Ignore private functions
-        if (ignorePrivate && functionName.startsWith('_')) {
-            continue;
-        };
-
-        // Dynamically import the component
-        const module = await pages[path]();
-        components[functionName] = module.default; // Assuming the default export is the component
-    }
-
-    return components;
+export const getCredentials = () => {
+    const accessToken = localStorage.getItem('access_token');
+    const isLoggedIn = accessToken ? true : false;
+    let userData = localStorage.getItem('user_data');
+    if (userData) {
+        userData = JSON.parse(userData);
+    };
+    return {
+        isLoggedIn: isLoggedIn,
+        refreshToken: localStorage.getItem('refresh_token'),
+        accessToken: localStorage.getItem('access_token'),
+        userData: userData
+    };
 };

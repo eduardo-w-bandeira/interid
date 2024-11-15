@@ -6,8 +6,10 @@ import Footer from '@/components/Footer';
 import ActionPanel from '@/components/ActionPanel';
 import UserProfile from '@/components/UserProfile';
 
+
 const ProfilePage = () => {
     const { userId } = useParams();
+    // const [userData, setUserData] = useState(null);
     const userDataStr = localStorage.getItem('user_data');
     let userData = null;
     if (userDataStr) {
@@ -21,19 +23,17 @@ const ProfilePage = () => {
     useEffect(() => {
         const fetchUserDeclarations = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
+                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${userId}`);
                 setUserDeclarations(response.data);
             } catch (error) {
                 console.error("Error fetching user declarations", error);
             }
         };
 
+
+
         fetchUserDeclarations();
-    }, [userId, accessToken]);
+    }, [userId]);
 
     const postAndShow = async (declarationData) => {
         const completeData = {
