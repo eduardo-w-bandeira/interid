@@ -13,18 +13,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .models import (User, Individual, LegalEntity, Declaration,
                      DeclarationComment, Agreement, AgreementParticipant)
 from .slizer import *
+from trails import Wizrouter
+
+wizrouter = Wizrouter()
 
 
 def home(request):
     return redirect('api/')
 
 
+@wizrouter.auto_route()
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSlizer
     permission_classes = [IsAuthenticated]
 
 
+@wizrouter.auto_route()
 class IndividualViewSet(ModelViewSet):
     queryset = Individual.objects.all()
     serializer_class = IndividualSlizer
@@ -52,6 +57,7 @@ class IndividualViewSet(ModelViewSet):
         return Response(user_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@wizrouter.auto_route()
 class LegalEntityViewSet(ModelViewSet):
     queryset = LegalEntity.objects.all()
     serializer_class = LegalEntitySlizer
@@ -79,6 +85,7 @@ class LegalEntityViewSet(ModelViewSet):
         return Response(user_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@wizrouter.auto_route()
 class DeclarationViewSet(ModelViewSet):
     queryset = Declaration.objects.all()
     serializer_class = DeclarationSlizer
@@ -91,19 +98,40 @@ class DeclarationViewSet(ModelViewSet):
         return Declaration.objects.all()
 
 
+@wizrouter.auto_route()
 class DeclarationCommentViewSet(ModelViewSet):
     queryset = DeclarationComment.objects.all()
     serializer_class = DeclarationCommentSlizer
 
 
+@wizrouter.auto_route()
 class AgreementViewSet(ModelViewSet):
     queryset = Agreement.objects.all()
     serializer_class = AgreementSlizer
 
 
+@wizrouter.auto_route()
 class AgreementParticipantViewSet(ModelViewSet):
     queryset = AgreementParticipant.objects.all()
     serializer_class = AgreementParticipantSlizer
+
+
+@wizrouter.auto_route()
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSlizer
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        user_data = UserSlizer(user).data
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {'refresh': str(refresh),
+             'access': str(refresh.access_token),
+             'user': user_data},
+            status=status.HTTP_200_OK)
 
 
 # class IndividualViews(APIView):
@@ -196,7 +224,7 @@ class AgreementParticipantViewSet(ModelViewSet):
 #         legal_entity.delete()
 #         return Response(status=204)
 
-
+# @wizrouter.auto_route()
 # @csrf_exempt  # to bypass CSRF for simplicity
 # def multiply(request):
 #     if request.method == 'POST':
@@ -212,20 +240,3 @@ class AgreementParticipantViewSet(ModelViewSet):
 #             return JsonResponse({'error': 'Invalid JSON'}, status=400)
 #     else:
 #         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-class LoginView(generics.GenericAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = LoginSlizer
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        user_data = UserSlizer(user).data
-        refresh = RefreshToken.for_user(user)
-        return Response(
-            {'refresh': str(refresh),
-             'access': str(refresh.access_token),
-             'user': user_data},
-            status=status.HTTP_200_OK)
