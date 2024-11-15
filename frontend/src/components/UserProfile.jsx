@@ -9,7 +9,7 @@ const UserProfile = ({ userData, userDeclarations }) => {
     } else {
         fullName = `${relatedUser.business_name}`;
     }
-    const reversedDeclarations = [...userDeclarations].reverse();
+    // const reversedDeclarations = [...userDeclarations].reverse();
     return (
         <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
             {relatedUser && (
@@ -27,7 +27,7 @@ const UserProfile = ({ userData, userDeclarations }) => {
             )}
             <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
-                {reversedDeclarations.map(declaration => (
+                {userDeclarations.reverse().map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
                         <h4 className="font-bold">{declaration.title}</h4>
                         <p>{declaration.body}</p>

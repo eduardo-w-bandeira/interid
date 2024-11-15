@@ -46,7 +46,7 @@ const ProfilePage = () => {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            setUserDeclarations((prevDeclarations) => [response.data, ...prevDeclarations]);
+            setUserDeclarations((prevDeclarations) => [...prevDeclarations, response.data]);
         } catch (error) {
             console.error("Error posting declaration", error);
         }
