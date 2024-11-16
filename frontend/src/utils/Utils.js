@@ -17,7 +17,7 @@ export const getCredentials = () => {
     const accessToken = localStorage.getItem('access_token');
     const isLoggedIn = accessToken ? true : false;
     const userDataStr = localStorage.getItem('user_data');
-    let userData;
+    let userData = null;
     if (userDataStr) {
         userData = JSON.parse(userDataStr);
     };
