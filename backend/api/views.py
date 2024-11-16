@@ -28,6 +28,11 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSlizer
     permission_classes = [IsAuthenticated]
 
+    # def get_permissions(self):
+    #     if self.action == 'retrieve':
+    #         return [AllowAny()]
+    #     return super().get_permissions()
+
 
 @wizrouter.auto_route()
 class IndividualViewSet(ModelViewSet):
@@ -97,10 +102,10 @@ class DeclarationViewSet(ModelViewSet):
             return Declaration.objects.filter(user=user_id)
         return Declaration.objects.all()
 
-    def get_permissions(self):
-        if self.action == 'list':
-            return [AllowAny()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
+    #     return super().get_permissions()
 
 
 @wizrouter.auto_route()

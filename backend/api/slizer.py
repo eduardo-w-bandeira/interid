@@ -33,9 +33,14 @@ class LegalEntitySlizer(serializers.ModelSerializer):
 
 
 class DeclarationSlizer(serializers.ModelSerializer):
+    # user = serializers.SerializerMethodField()
+
     class Meta:
         model = Declaration
         fields = '__all__'
+
+    # def get_user(self, obj):
+    #     return UserSlizer(obj.user).data
 
 
 class DeclarationCommentSlizer(serializers.ModelSerializer):
