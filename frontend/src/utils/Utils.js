@@ -16,9 +16,10 @@ export const pageNameToKebab = (name) => {
 export const getCredentials = () => {
     const accessToken = localStorage.getItem('access_token');
     const isLoggedIn = accessToken ? true : false;
-    let userData = localStorage.getItem('user_data');
-    if (userData) {
-        userData = JSON.parse(userData);
+    const userDataStr = localStorage.getItem('user_data');
+    let userData;
+    if (userDataStr) {
+        userData = JSON.parse(userDataStr);
     };
     return {
         isLoggedIn: isLoggedIn,
