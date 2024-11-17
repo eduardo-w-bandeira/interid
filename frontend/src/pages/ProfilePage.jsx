@@ -21,30 +21,44 @@ const ProfilePage = () => {
         if (!accessToken) {
             navigate('/login');
         }
-    }, [accessToken, navigate]);  
+    }, [accessToken, navigate]);
 
     useEffect(() => {
         const fetchThirdData = async () => {
-            if (accessToken) {
-                if (thirdId === userData.id) {
-                    setThirdData(userData);
-                } else {
-                    alert(`thirdId: ${thirdId}, typeof thirdId: ${typeof thirdId}`);
-                    try {
-                        const response = await axios.get(`http://localhost:8000/api/users/${thirdId}/`, {
-                            headers: {
-                                'Authorization': `Bearer ${accessToken}`
-                            }
-                        });
-                        setThirdData(response.data);
-                    } catch (error) {
-                        console.error("Error fetching third party data", error);
-                    }
+            if (thirdId === userData.id) {
+                setThirdData(userData);
+            } else {
+                alert(`thirdId: ${thirdId}, typeof thirdId: ${typeof thirdId}`);
+                try {
+                    const response = await axios.get(`http://localhost:8000/api/users/${thirdId}/`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    });
+                    setThirdData(response.data);
+                } catch (error) {
+                    console.error("Error fetching third party data", error);
                 }
             }
         };
 
-        fetchThirdData();
+        const fetchDeclarations = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${thirdId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                setDeclarations(response.data);
+            } catch (error) {
+                console.error("Error fetching user data", error);
+            }
+        };
+
+        if (accessToken) {
+            fetchThirdData();
+            fetchDeclarations();
+        };
     }, [thirdId, accessToken, userData]);
 
     const postAndShow = async (declarationData) => {
@@ -74,7 +88,7 @@ const ProfilePage = () => {
                 />
                 <UserProfile
                     thirdData={thirdData}
-                    userDeclarations={Declarations}
+                    Declarations={Declarations}
                 />
             </div>
             <Footer />
