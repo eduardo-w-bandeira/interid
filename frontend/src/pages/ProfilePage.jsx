@@ -18,6 +18,12 @@ const ProfilePage = () => {
     const [Declarations, setDeclarations] = useState(null);
 
     useEffect(() => {
+        if (!accessToken) {
+            navigate('/login');
+        }
+    }, [accessToken, navigate]);  
+
+    useEffect(() => {
         const fetchThirdData = async () => {
             if (accessToken) {
                 if (thirdId === userData.id) {
