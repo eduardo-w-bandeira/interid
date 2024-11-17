@@ -5,21 +5,41 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ActionPanel from '@/components/ActionPanel';
 import UserProfile from '@/components/UserProfile';
-import { getCredentials } from '@/utils/Utils';
 
 const ProfilePage = () => {
-    const { userId: thirdId } = useParams();
     const navigate = useNavigate();
-    const { isLoggedIn, accessToken, userData } = getCredentials();
-    console.log("isLoggedIn", isLoggedIn, "accessToken", accessToken, "userData", userData);
-    let thirdData = userData;
+    const { userId: thirdIdStr } = useParams();
+    const [thirdId, setThirdId] = useState(parseInt(thirdIdStr));
+    const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
+    const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refresh_token'));
+    const userDataStr = localStorage.getItem('user_data');
+    const [userData, setUserData] = useState(userDataStr ? JSON.parse(userDataStr) : null);
+    const [thirdData, setThirdData] = useState(null);
     const [Declarations, setDeclarations] = useState(null);
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('/login');
-        }
-    }, [isLoggedIn, navigate]);
+        const fetchThirdData = async () => {
+            if (accessToken) {
+                if (thirdId === userData.id) {
+                    setThirdData(userData);
+                } else {
+                    alert(`thirdId: ${thirdId}, typeof thirdId: ${typeof thirdId}`);
+                    try {
+                        const response = await axios.get(`http://localhost:8000/api/users/${thirdId}/`, {
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`
+                            }
+                        });
+                        setThirdData(response.data);
+                    } catch (error) {
+                        console.error("Error fetching third party data", error);
+                    }
+                }
+            }
+        };
+
+        fetchThirdData();
+    }, [thirdId, accessToken, userData]);
 
     const postAndShow = async (declarationData) => {
         const completeData = {
