@@ -71,6 +71,9 @@ const ProfilePage = () => {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
+            if (thirdId !== userData.id) {
+                navigate(`/${userData.id}`);
+            }
             setDeclarations((prevDeclarations) => [...prevDeclarations, response.data]);
         } catch (error) {
             console.error("Error posting declaration", error);
