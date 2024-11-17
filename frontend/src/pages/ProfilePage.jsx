@@ -28,7 +28,6 @@ const ProfilePage = () => {
             if (thirdId === userData.id) {
                 setThirdData(userData);
             } else {
-                alert(`thirdId: ${thirdId}, typeof thirdId: ${typeof thirdId}`);
                 try {
                     const response = await axios.get(`http://localhost:8000/api/users/${thirdId}/`, {
                         headers: {
