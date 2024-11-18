@@ -6,13 +6,15 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
 
 class Wizrouter:
     REST_VIEW_PLURAL_SUFFIXES: list = ["APIViews", "ViewSet", "Views"]
     REST_VIEW_SINGULAR_SUFFIXES: list = ["APIView", "View"]
-    REST_API_VIEWS: tuple = (APIView, GenericAPIView)
-    REST_API_VIEW_FUNC_GENTOR: str = "as_view"
+    REST_AS_VIEW_FUNC_TYPES: tuple = (
+        APIView, GenericAPIView, TokenRefreshView, TokenObtainPairView)
+    REST_AS_VIEW_FUNC_GENTOR: str = "as_view"
 
     def __init__(self):
         self.rest_router = DefaultRouter()
@@ -86,11 +88,11 @@ class Wizrouter:
             nonlocal self, endpoint, url_name, kwargs
             is_view_set = self._is_immediate_subclass(view, ModelViewSet)
             is_api_view = self._is_immediate_subclass(
-                view, self.REST_API_VIEWS)
+                view, self.REST_AS_VIEW_FUNC_TYPES)
             bound_view = view
             if is_api_view:
                 # APIView.as_view() returns a view function
-                gentor = getattr(view, self.REST_API_VIEW_FUNC_GENTOR)
+                gentor = getattr(view, self.REST_AS_VIEW_FUNC_GENTOR)
                 bound_view = gentor()
             if endpoint:
                 endpoint = endpoint.strip("/")
