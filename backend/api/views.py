@@ -10,6 +10,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenRefreshView
 from .models import (User, Individual, LegalEntity, Declaration,
                      DeclarationComment, Agreement, AgreementParticipant)
 from .slizer import *
@@ -144,109 +145,6 @@ class LoginView(generics.GenericAPIView):
             status=status.HTTP_200_OK)
 
 
-# class IndividualViews(APIView):
-
-#     def get(self, request):
-#         individuals = Individual.objects.all()
-#         slized = IndividualSlizer(individuals, many=True)
-#         return Response(slized.data)
-
-#     def post(self, request):
-#         user_slized = UserSlizer(data=request.data)
-#         if user_slized.is_valid():
-#             user = user_slized.save()  # Save the user first
-#             individual_data = request.data
-#             # Add the user ID to the individual data
-#             individual_data['user'] = user.id
-#             individual_ser = IndividualSlizer(data=individual_data)
-#             if individual_ser.is_valid():
-#                 individual_ser.save()
-#                 return Response(individual_ser.data, status=201)
-#             else:
-#                 # Delete the user if the individual is not valid
-#                 user.delete()
-#                 return Response(individual_ser.errors, status=400)
-#         return Response(user_slized.errors, status=400)
-
-
-# class IndividualDetail(APIView):
-
-#     def get(self, request, pk):
-#         individual = Individual.objects.get(pk=pk)
-#         slized = IndividualSlizer(individual)
-#         return Response(slized.data)
-
-#     def put(self, request, pk):
-#         individual = Individual.objects.get(pk=pk)
-#         slized = IndividualSlizer(individual, data=request.data)
-#         if slized.is_valid():
-#             slized.save()
-#             return Response(slized.data, status=201)
-#         return Response(slized.errors, status=400)
-
-#     def delete(self, request, pk):
-#         individual = Individual.objects.get(pk=pk)
-#         individual.delete()
-#         return Response(status=204)
-
-
-# class LegalEntityViews(APIView):
-
-#     def get(self, request):
-#         leg_entities = LegalEntity.objects.all()
-#         slized = LegalEntitySlizer(leg_entities, many=True)
-#         return Response(slized.data)
-
-#     def post(self, request):
-#         user_slized = UserSlizer(data=request.data)
-#         if user_slized.is_valid():
-#             user = user_slized.save()  # Save the user first
-#             leg_entity_data = request.data
-#             # Add the user ID to the individual data
-#             leg_entity_data['user'] = user.id
-#             leg_entity_ser = LegalEntitySlizer(data=leg_entity_data)
-#             if leg_entity_ser.is_valid():
-#                 leg_entity_ser.save()
-#                 return Response(leg_entity_ser.data, status=201)
-#             else:
-#                 user.delete()
-#                 return Response(leg_entity_ser.errors, status=400)
-#         return Response(user_slized.errors, status=400)
-
-
-# class LegalEntityDetail(APIView):
-
-#     def get(self, request, pk):
-#         legal_entity = LegalEntity.objects.get(pk=pk)
-#         slized = LegalEntitySlizer(legal_entity)
-#         return Response(slized.data)
-
-#     def put(self, request, pk):
-#         legal_entity = LegalEntity.objects.get(pk=pk)
-#         slized = LegalEntitySlizer(legal_entity, data=request.data)
-#         if slized.is_valid():
-#             slized.save()
-#             return Response(slized.data, status=201)
-#         return Response(slized.errors, status=400)
-
-#     def delete(self, request, pk):
-#         legal_entity = LegalEntity.objects.get(pk=pk)
-#         legal_entity.delete()
-#         return Response(status=204)
-
-# @wizrouter.auto_route()
-# @csrf_exempt  # to bypass CSRF for simplicity
-# def multiply(request):
-#     if request.method == 'POST':
-#         try:
-#             data = json.loads(request.body)
-#             number = data.get('number')
-#             if number is not None:
-#                 result = number * 2
-#                 return JsonResponse({'result': result})
-#             else:
-#                 return JsonResponse({'error': 'No number provided'}, status=400)
-#         except json.JSONDecodeError:
-#             return JsonResponse({'error': 'Invalid JSON'}, status=400)
-#     else:
-#         return JsonResponse({'error': 'Invalid request method'}, status=405)
+@wizrouter.auto_route()
+class TokenRefreshView(TokenRefreshView):
+    pass
