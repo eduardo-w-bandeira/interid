@@ -34,11 +34,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         ("legal entity", "Legal Entity"),]
 
     email = models.EmailField(unique=True)
-    user_type = models.CharField(max_length=50, choices=USER_TYPE_CHOICES)
-    gov_id = models.CharField(max_length=100)
-    gov_id_type = models.CharField(max_length=50)
-    issuing_authority = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    user_type = models.CharField(
+        max_length=50, choices=USER_TYPE_CHOICES, null=False)
+    gov_id = models.CharField(max_length=100, null=False)
+    gov_id_type = models.CharField(max_length=50, null=False)
+    issuing_authority = models.CharField(max_length=100, null=False)
+    country = models.CharField(max_length=100, null=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -65,8 +66,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Individual(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200, null=False)
+    last_name = models.CharField(max_length=200, null=False)
     birth_date = models.DateField(null=False, blank=False)
 
     def save(self, *args, **kwargs):
@@ -80,7 +81,7 @@ class Individual(models.Model):
 class LegalEntity(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    legal_name = models.CharField(max_length=200)
+    legal_name = models.CharField(max_length=200, null=False)
     business_name = models.CharField(max_length=200)
     reg_date = models.DateField(null=False, blank=False)
 
@@ -95,7 +96,7 @@ class LegalEntity(models.Model):
 class Declaration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
-    body = models.TextField()
+    body = models.TextField(null=False)
     allow_comments = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -103,7 +104,7 @@ class Declaration(models.Model):
 class DeclarationComment(models.Model):
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField()
+    body = models.TextField(null=False)
     # parent_comment_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -111,7 +112,7 @@ class DeclarationComment(models.Model):
 class Agreement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
-    content = models.TextField()
+    content = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
