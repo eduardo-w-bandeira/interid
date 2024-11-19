@@ -112,7 +112,7 @@ class DeclarationComment(models.Model):
 class Agreement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
-    content = models.TextField(null=False)
+    body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
