@@ -11,8 +11,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
-from .models import (User, Individual, LegalEntity, Declaration,
-                     DeclarationComment, Agreement, AgreementParty)
+from .models import *
 from .slizer import *
 from trails import Wizrouter
 
@@ -125,6 +124,18 @@ class AgreementViewSet(ModelViewSet):
 class AgreementPartyViewSet(ModelViewSet):
     queryset = AgreementParty.objects.all()
     serializer_class = AgreementPartySlizer
+
+
+@wizrouter.auto_route()
+class ProposalViewSet(ModelViewSet):
+    queryset = Proposal.objects.all()
+    serializer_class = ProposalSlizer
+
+
+@wizrouter.auto_route()
+class ProposalPartyViewSet(ModelViewSet):
+    queryset = ProposalParty.objects.all()
+    serializer_class = ProposalPartySlizer
 
 
 @wizrouter.auto_route()

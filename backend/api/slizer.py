@@ -33,14 +33,10 @@ class LegalEntitySlizer(serializers.ModelSerializer):
 
 
 class DeclarationSlizer(serializers.ModelSerializer):
-    # user = serializers.SerializerMethodField()
 
     class Meta:
         model = Declaration
         fields = '__all__'
-
-    # def get_user(self, obj):
-    #     return UserSlizer(obj.user).data
 
 
 class DeclarationCommentSlizer(serializers.ModelSerializer):
@@ -58,6 +54,18 @@ class AgreementSlizer(serializers.ModelSerializer):
 class AgreementPartySlizer(serializers.ModelSerializer):
     class Meta:
         model = AgreementParty
+        fields = '__all__'
+
+
+class ProposalSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = Proposal
+        fields = '__all__'
+
+
+class ProposalPartySlizer(serializers.ModelSerializer):
+    class Meta:
+        model = ProposalParty
         fields = '__all__'
 
 

@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
-           "Agreement", "AgreementParty", "DeclarationComment"]
+           "Agreement", "AgreementParty", "DeclarationComment",
+           "Proposal", "ProposalParty"]
 
 
 class UserManager(BaseUserManager):
@@ -122,3 +123,28 @@ class AgreementParty(models.Model):
 
     class Meta:
         unique_together = ("agreement", "user")
+
+
+class Proposal(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    body = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # Indicates if the proposal has been converted to an agreement
+    is_finalized = models.BooleanField(default=False)
+
+
+class ProposalParty(models.Model):
+    PROPOSAL_ROLE_CHOICES = [
+        ('proponent', 'Proponent'),
+        ('recipient', 'Recipient'),
+    ]
+    proposal = models.ForeignKey(
+        Proposal, on_delete=models.CASCADE, related_name="parties")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10, choices=PROPOSAL_ROLE_CHOICES)
+    # None for pending, True/False for decision
+    has_approved = models.BooleanField(default=None, null=True)
+
+    class Meta:
+        # Prevent duplicate party entries
+        unique_together = ("proposal", "user")
