@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
-           "Agreement", "AgreementParticipant", "DeclarationComment"]
+           "Agreement", "AgreementParty", "DeclarationComment"]
 
 
 class UserManager(BaseUserManager):
@@ -116,7 +116,7 @@ class Agreement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class AgreementParticipant(models.Model):
+class AgreementParty(models.Model):
     agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

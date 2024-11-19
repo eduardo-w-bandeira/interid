@@ -55,9 +55,9 @@ class AgreementSlizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AgreementParticipantSlizer(serializers.ModelSerializer):
+class AgreementPartySlizer(serializers.ModelSerializer):
     class Meta:
-        model = AgreementParticipant
+        model = AgreementParty
         fields = '__all__'
 
 

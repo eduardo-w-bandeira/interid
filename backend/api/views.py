@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
 from .models import (User, Individual, LegalEntity, Declaration,
-                     DeclarationComment, Agreement, AgreementParticipant)
+                     DeclarationComment, Agreement, AgreementParty)
 from .slizer import *
 from trails import Wizrouter
 
@@ -122,9 +122,9 @@ class AgreementViewSet(ModelViewSet):
 
 
 @wizrouter.auto_route()
-class AgreementParticipantViewSet(ModelViewSet):
-    queryset = AgreementParticipant.objects.all()
-    serializer_class = AgreementParticipantSlizer
+class AgreementPartyViewSet(ModelViewSet):
+    queryset = AgreementParty.objects.all()
+    serializer_class = AgreementPartySlizer
 
 
 @wizrouter.auto_route()
