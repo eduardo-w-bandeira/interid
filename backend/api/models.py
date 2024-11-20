@@ -117,8 +117,8 @@ class Proposal(models.Model):
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    # Indicates if the proposal has been converted to an agreement
-    is_finalized = models.BooleanField(default=False)
+    # None for pending, True/False for decision
+    has_approved = models.BooleanField(default=None, null=True)
 
 
 class Agreement(models.Model):
