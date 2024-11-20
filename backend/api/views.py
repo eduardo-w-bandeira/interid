@@ -159,3 +159,13 @@ class LoginView(generics.GenericAPIView):
 @wizrouter.auto_route()
 class TokenRefreshView(TokenRefreshView):
     pass
+
+
+@wizrouter.auto_route()
+class NotificationViewSet(ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSlizer
+
+    def get_queryset(self):
+        receiver_id = self.request.GET.get('receiver')
+        return Notification.objects.filter(user=receiver_id)

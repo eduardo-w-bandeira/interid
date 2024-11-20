@@ -4,7 +4,7 @@ from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
            "Agreement", "AgreementParty", "DeclarationComment",
-           "Proposal", "ProposalParty"]
+           "Proposal", "ProposalParty", "Notification"]
 
 
 class UserManager(BaseUserManager):
@@ -149,3 +149,23 @@ class AgreementParty(models.Model):
 
     class Meta:
         unique_together = ("agreement", "user")
+
+
+class Notification(models.Model):
+    NOTIFICATION_TYPE_CHOICES = [
+        ('proposal', 'Agreement Proposal Notification'),
+        ('letter', 'Letter Notification'),
+    ]
+
+    receiver = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="notifications")
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL,
+                               null=True, blank=True, related_name="sent_notifications")
+    type = models.CharField(max_length=20, choices=NOTIFICATION_TYPE_CHOICES)
+    body = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    proposal = models.ForeignKey(
+        Proposal, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")
+    agreement = models.ForeignKey(
+        Agreement, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")

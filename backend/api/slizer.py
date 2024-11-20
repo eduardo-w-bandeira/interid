@@ -69,6 +69,12 @@ class ProposalPartySlizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class NotificationSlizer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
+
+
 class LoginSlizer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
