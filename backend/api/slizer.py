@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 class UserSlizer(serializers.ModelSerializer):
     related_user = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -18,6 +19,11 @@ class UserSlizer(serializers.ModelSerializer):
         if obj.user_type == "individual":
             return IndividualSlizer(obj.individual).data
         return LegalEntitySlizer(obj.legalentity).data
+
+    def get_full_name(self, obj):
+        if obj.user_type == "individual":
+            return f"{obj.individual.first_name} {obj.individual.last_name}"
+        return obj.legalentity.business_name or obj.legalentity.legal_name
 
 
 class IndividualSlizer(serializers.ModelSerializer):

@@ -125,6 +125,16 @@ class ProposalViewSet(ModelViewSet):
     queryset = Proposal.objects.all()
     serializer_class = ProposalSlizer
 
+    def perform_create(self, serializer):
+        proposal = serializer.save()
+        Notification.objects.create(
+            receiver=proposal.receiver,
+            sender=proposal.sender,
+            type='proposal',
+            body=(f'New agreement proposal from {proposal.sender.full_name} '
+                  f'(ID: {proposal.sender.id}).'),
+            proposal=proposal)
+
 
 @wizrouter.auto_route()
 class LoginView(generics.GenericAPIView):
