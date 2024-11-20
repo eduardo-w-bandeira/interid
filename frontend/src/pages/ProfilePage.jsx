@@ -116,6 +116,7 @@ const ProfilePage = () => {
                 <ActionPanel
                     userData={userData}
                     postAndShow={postAndShow}
+                    accessToken={accessToken} // Pass accessToken as a prop
                 />
                 <UserProfile
                     thirdData={thirdData}

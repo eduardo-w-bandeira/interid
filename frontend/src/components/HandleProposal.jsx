@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
-const HandleProposal = ({ onClose, onSend, user }) => {
+const HandleProposal = ({ onClose, onSend, user, accessToken }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [receiverId, setReceiverId] = useState('');
+    const [receiverFullName, setReceiverFullName] = useState('');
+    const [loading, setLoading] = useState(false);
     const dialogRef = useRef(null);
-
+    
     const handleSend = () => {
         onSend({ title, body, receiverId });
         onClose();
@@ -24,6 +27,34 @@ const HandleProposal = ({ onClose, onSend, user }) => {
         };
     }, []);
 
+    useEffect(() => {
+        // Debounce the fetch function
+        const fetchReceiver = async () => {
+            if (receiverId) {
+                setLoading(true);
+                try {
+                    const response = await axios.get(`http://localhost:8000/api/users/${receiverId}/`, {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        },
+                    });
+                    setReceiverFullName(response.data.full_name);
+                } catch (error) {
+                    console.error('Error fetching receiver name:', error);
+                    setReceiverFullName(''); // Clear the name on error
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                setReceiverFullName('');
+            }
+        };
+
+        const debounceFetch = setTimeout(fetchReceiver, 300); // Debounce for 300ms
+
+        return () => clearTimeout(debounceFetch);
+    }, [receiverId, accessToken]);
+
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
             <div ref={dialogRef} className="bg-white p-6 rounded shadow-lg w-1/3 relative">
@@ -36,20 +67,30 @@ const HandleProposal = ({ onClose, onSend, user }) => {
                 <input
                     type="text"
                     placeholder="Receiver ID"
-                    value={receiverId}
+                    value={receiverId || ''}
                     onChange={(e) => setReceiverId(e.target.value)}
                     className="w-full p-2 mb-4 border rounded"
                 />
+                {loading ? (
+                    <div className="w-full p-2 mb-4 text-gray-600">Loading...</div>
+                ) : (
+                    <input
+                        type="text"
+                        value={receiverFullName || ''}
+                        readOnly
+                        className="w-full p-2 mb-4 border rounded bg-gray-100"
+                    />
+                )}
                 <input
                     type="text"
                     placeholder="Title"
-                    value={title}
+                    value={title || ''}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full p-2 mb-4 border rounded"
                 />
                 <textarea
                     placeholder="Body"
-                    value={body}
+                    value={body || ''}
                     onChange={(e) => setBody(e.target.value)}
                     className="w-full p-2 mb-4 border rounded"
                 />

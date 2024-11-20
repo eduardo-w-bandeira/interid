@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import MakeADeclaration from './MakeADeclaration';
 import HandleProposal from './HandleProposal';
 
-const ActionPanel = ({ userData, postAndShow }) => {
+const ActionPanel = ({ userData, postAndShow, accessToken }) => {
     const [showDialog, setShowDialog] = useState(false);
     const [showAgreementDialog, setShowAgreementDialog] = useState(false);
 
@@ -67,6 +67,7 @@ const ActionPanel = ({ userData, postAndShow }) => {
                         onClose={() => setShowAgreementDialog(false)}
                         onSend={postAndShow}
                         user={userData}
+                        accessToken={accessToken} // Pass accessToken to HandleProposal
                     />
                 )}
             </div>
