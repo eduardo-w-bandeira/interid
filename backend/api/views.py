@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
 from .models import *
-from .slizer import *
+from .serializer import *
 from trails import Wizrouter
 
 wizrouter = Wizrouter()
@@ -25,7 +25,7 @@ def home(request):
 @wizrouter.auto_route()
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSlizer
+    serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
     # def get_permissions(self):
@@ -37,7 +37,7 @@ class UserViewSet(ModelViewSet):
 @wizrouter.auto_route()
 class IndividualViewSet(ModelViewSet):
     queryset = Individual.objects.all()
-    serializer_class = IndividualSlizer
+    serializer_class = IndividualSerializer
 
     def get_permissions(self):
         if self.action == 'create':
@@ -45,13 +45,13 @@ class IndividualViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
-        user_slizer = UserSlizer(data=request.data)
+        user_slizer = UserSerializer(data=request.data)
         if user_slizer.is_valid():
             user = user_slizer.save()  # Save the user first
             individual_data = request.data.copy()
             # Add the user ID to the individual data
             individual_data['user'] = user.id
-            individual_slizer = IndividualSlizer(data=individual_data)
+            individual_slizer = IndividualSerializer(data=individual_data)
             if individual_slizer.is_valid():
                 individual_slizer.save()
                 return Response(individual_slizer.data, status=status.HTTP_201_CREATED)
@@ -65,7 +65,7 @@ class IndividualViewSet(ModelViewSet):
 @wizrouter.auto_route()
 class LegalEntityViewSet(ModelViewSet):
     queryset = LegalEntity.objects.all()
-    serializer_class = LegalEntitySlizer
+    serializer_class = LegalEntitySerializer
     permission_classes = [IsAuthenticated]
 
     def get_permissions(self):
@@ -74,13 +74,13 @@ class LegalEntityViewSet(ModelViewSet):
         return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
-        user_slizer = UserSlizer(data=request.data)
+        user_slizer = UserSerializer(data=request.data)
         if user_slizer.is_valid():
             user = user_slizer.save()  # Save the user first
             leg_entity_data = request.data.copy()
             # Add the user ID to the individual data
             leg_entity_data['user'] = user.id
-            leg_entity_slizer = LegalEntitySlizer(data=leg_entity_data)
+            leg_entity_slizer = LegalEntitySerializer(data=leg_entity_data)
             if leg_entity_slizer.is_valid():
                 leg_entity_slizer.save()
                 return Response(leg_entity_slizer.data, status=status.HTTP_201_CREATED)
@@ -93,7 +93,7 @@ class LegalEntityViewSet(ModelViewSet):
 @wizrouter.auto_route()
 class DeclarationViewSet(ModelViewSet):
     queryset = Declaration.objects.all()
-    serializer_class = DeclarationSlizer
+    serializer_class = DeclarationSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -111,40 +111,52 @@ class DeclarationViewSet(ModelViewSet):
 @wizrouter.auto_route()
 class DeclarationCommentViewSet(ModelViewSet):
     queryset = DeclarationComment.objects.all()
-    serializer_class = DeclarationCommentSlizer
+    serializer_class = DeclarationCommentSerializer
 
 
 @wizrouter.auto_route()
 class AgreementViewSet(ModelViewSet):
     queryset = Agreement.objects.all()
-    serializer_class = AgreementSlizer
+    serializer_class = AgreementSerializer
 
 
 @wizrouter.auto_route()
 class ProposalViewSet(ModelViewSet):
     queryset = Proposal.objects.all()
-    serializer_class = ProposalSlizer
+    serializer_class = ProposalSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        proposal = serializer.save()
+        # Save the proposal instance
+        proposal = serializer.save(sender=self.request.user)
+        notification_body = (f'You have received an agreement proposal from '
+                             f'{proposal.sender.full_name} '
+                             f'(ID: {proposal.sender.id}).')
+        # Create the associated notification
         Notification.objects.create(
             receiver=proposal.receiver,
             type='proposal',
-            body=(f'New agreement proposal from {proposal.sender.full_name} '
-                  f'(ID: {proposal.sender.id}).'),
+            body=notification_body,
             proposal=proposal)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-@wizrouter.auto_route()
+
+@ wizrouter.auto_route()
 class LoginView(generics.GenericAPIView):
-    serializer_class = LoginSlizer
+    serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        user_data = UserSlizer(user).data
+        user_data = UserSerializer(user).data
         refresh = RefreshToken.for_user(user)
         return Response(
             {'refresh': str(refresh),
@@ -153,12 +165,12 @@ class LoginView(generics.GenericAPIView):
             status=status.HTTP_200_OK)
 
 
-@wizrouter.auto_route()
+@ wizrouter.auto_route()
 class TokenRefreshView(TokenRefreshView):
     pass
 
 
-@wizrouter.auto_route()
+@ wizrouter.auto_route()
 class NotificationViewSet(ModelViewSet):
     queryset = Notification.objects.all()
-    serializer_class = NotificationSlizer
+    serializer_class = NotificationSerializer

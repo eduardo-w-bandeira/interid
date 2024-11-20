@@ -4,7 +4,7 @@ from .models import *
 from django.contrib.auth.hashers import make_password
 
 
-class UserSlizer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     related_user = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
 
@@ -17,8 +17,8 @@ class UserSlizer(serializers.ModelSerializer):
 
     def get_related_user(self, obj):
         if obj.user_type == "individual":
-            return IndividualSlizer(obj.individual).data
-        return LegalEntitySlizer(obj.legalentity).data
+            return IndividualSerializer(obj.individual).data
+        return LegalEntitySerializer(obj.legalentity).data
 
     def get_full_name(self, obj):
         if obj.user_type == "individual":
@@ -26,50 +26,50 @@ class UserSlizer(serializers.ModelSerializer):
         return obj.legalentity.business_name or obj.legalentity.legal_name
 
 
-class IndividualSlizer(serializers.ModelSerializer):
+class IndividualSerializer(serializers.ModelSerializer):
     class Meta:
         model = Individual
         fields = '__all__'
 
 
-class LegalEntitySlizer(serializers.ModelSerializer):
+class LegalEntitySerializer(serializers.ModelSerializer):
     class Meta:
         model = LegalEntity
         fields = '__all__'
 
 
-class DeclarationSlizer(serializers.ModelSerializer):
+class DeclarationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Declaration
         fields = '__all__'
 
 
-class DeclarationCommentSlizer(serializers.ModelSerializer):
+class DeclarationCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = DeclarationComment
         fields = '__all__'
 
 
-class AgreementSlizer(serializers.ModelSerializer):
+class AgreementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agreement
         fields = '__all__'
 
 
-class ProposalSlizer(serializers.ModelSerializer):
+class ProposalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proposal
         fields = '__all__'
 
 
-class NotificationSlizer(serializers.ModelSerializer):
+class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = '__all__'
 
 
-class LoginSlizer(serializers.Serializer):
+class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
