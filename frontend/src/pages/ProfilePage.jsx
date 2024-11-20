@@ -109,6 +109,19 @@ const ProfilePage = () => {
         }
     };
 
+    const postProposal = async (proposalData) => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/proposals/', proposalData, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        } catch (err) {
+            console.error("Error posting proposal", err);
+        }
+    };
+
+
     return (
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
             <Navbar />
@@ -117,6 +130,7 @@ const ProfilePage = () => {
                     userData={userData}
                     postAndShowDeclaration={postAndShowDeclaration}
                     accessToken={accessToken} // Pass accessToken as a prop
+                    postProposal={postProposal} // Pass postProposal as a prop
                 />
                 <UserProfile
                     thirdData={thirdData}

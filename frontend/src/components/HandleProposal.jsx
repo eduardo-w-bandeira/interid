@@ -10,7 +10,7 @@ const HandleProposal = ({ onClose, onSend, user, accessToken }) => {
     const dialogRef = useRef(null);
     
     const handleSend = () => {
-        onSend({ title, body, receiverId });
+        onSend({ sender: user.id, receiver: receiverId, title, body });
         onClose();
     };
 
