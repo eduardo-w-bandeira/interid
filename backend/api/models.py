@@ -52,6 +52,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.individual
         return self.legalentity
 
+    @property
+    def full_name(self):
+        if self.user_type == "individual":
+            return f"{self.individual.first_name} {self.individual.last_name}"
+        return self.legalentity.business_name or self.legalentity.legal_name
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['user_type', 'gov_id',
                        'gov_id_type', 'issuing_authority', 'country']

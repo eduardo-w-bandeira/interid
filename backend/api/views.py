@@ -124,27 +124,29 @@ class AgreementViewSet(ModelViewSet):
 class ProposalViewSet(ModelViewSet):
     queryset = Proposal.objects.all()
     serializer_class = ProposalSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # Save the proposal instance
-        proposal = serializer.save(sender=self.request.user)
-        notification_body = (f'You have received an agreement proposal from '
-                             f'{proposal.sender.full_name} '
-                             f'(ID: {proposal.sender.id}).')
-        # Create the associated notification
-        Notification.objects.create(
-            receiver=proposal.receiver,
-            type='proposal',
-            body=notification_body,
-            proposal=proposal)
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        proposal_slizer = ProposalSerializer(data=request.data)
+        if proposal_slizer.is_valid():
+            proposal = proposal_slizer.save()
+        else:
+            return Response(proposal_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
+        notification_body = (
+            f'You have received an agreement proposal from '
+            f'{proposal.sender.full_name} '
+            f'(ID: {proposal.sender.id}).')
+        try:
+            Notification.objects.create(
+                receiver=proposal.receiver,
+                type='proposal',
+                body=notification_body,
+                proposal=proposal)
+        except Exception as err:
+            proposal.delete()  # Delete the proposal if the notification fails
+            return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(proposal_slizer.data, status=status.HTTP_201_CREATED)
 
 
 @ wizrouter.auto_route()
