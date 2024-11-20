@@ -89,7 +89,7 @@ const ProfilePage = () => {
     );
 
 
-    const postAndShow = async (declarationData) => {
+    const postAndShowDeclaration = async (declarationData) => {
         const completeData = {
             ...declarationData,
             user: userData.id,
@@ -115,7 +115,7 @@ const ProfilePage = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 <ActionPanel
                     userData={userData}
-                    postAndShow={postAndShow}
+                    postAndShowDeclaration={postAndShowDeclaration}
                     accessToken={accessToken} // Pass accessToken as a prop
                 />
                 <UserProfile
