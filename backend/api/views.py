@@ -121,21 +121,9 @@ class AgreementViewSet(ModelViewSet):
 
 
 @wizrouter.auto_route()
-class AgreementPartyViewSet(ModelViewSet):
-    queryset = AgreementParty.objects.all()
-    serializer_class = AgreementPartySlizer
-
-
-@wizrouter.auto_route()
 class ProposalViewSet(ModelViewSet):
     queryset = Proposal.objects.all()
     serializer_class = ProposalSlizer
-
-
-@wizrouter.auto_route()
-class ProposalPartyViewSet(ModelViewSet):
-    queryset = ProposalParty.objects.all()
-    serializer_class = ProposalPartySlizer
 
 
 @wizrouter.auto_route()
@@ -165,7 +153,3 @@ class TokenRefreshView(TokenRefreshView):
 class NotificationViewSet(ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSlizer
-
-    def get_queryset(self):
-        receiver_id = self.request.GET.get('receiver')
-        return Notification.objects.filter(user=receiver_id)

@@ -51,21 +51,9 @@ class AgreementSlizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AgreementPartySlizer(serializers.ModelSerializer):
-    class Meta:
-        model = AgreementParty
-        fields = '__all__'
-
-
 class ProposalSlizer(serializers.ModelSerializer):
     class Meta:
         model = Proposal
-        fields = '__all__'
-
-
-class ProposalPartySlizer(serializers.ModelSerializer):
-    class Meta:
-        model = ProposalParty
         fields = '__all__'
 
 

@@ -3,8 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
-           "Agreement", "AgreementParty", "DeclarationComment",
-           "Proposal", "ProposalParty", "Notification"]
+           "Agreement", "DeclarationComment",
+           "Proposal", "Notification"]
 
 
 class UserManager(BaseUserManager):
@@ -106,11 +106,14 @@ class DeclarationComment(models.Model):
     declaration = models.ForeignKey(Declaration, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField(null=False)
-    # parent_comment_id = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Proposal(models.Model):
+    # Proposal sender
+    sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="sent_proposals")
+    receiver = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -118,37 +121,16 @@ class Proposal(models.Model):
     is_finalized = models.BooleanField(default=False)
 
 
-class ProposalParty(models.Model):
-    PROPOSAL_ROLE_CHOICES = [
-        ('proponent', 'Proponent'),
-        ('recipient', 'Recipient'),
-    ]
-    proposal = models.ForeignKey(
-        Proposal, on_delete=models.CASCADE, related_name="parties")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=PROPOSAL_ROLE_CHOICES)
-    # None for pending, True/False for decision
-    has_approved = models.BooleanField(default=None, null=True)
-
-    class Meta:
-        # Prevent duplicate party entries
-        unique_together = ("proposal", "user")
-
-
 class Agreement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user1 = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user1")
+    user2 = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user2")
+    proposal = models.OneToOneField(
+        Proposal, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-class AgreementParty(models.Model):
-    agreement = models.ForeignKey(
-        Agreement, on_delete=models.CASCADE, related_name="parties")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ("agreement", "user")
 
 
 class Notification(models.Model):
@@ -167,5 +149,3 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     proposal = models.ForeignKey(
         Proposal, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")
-    agreement = models.ForeignKey(
-        Agreement, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")
