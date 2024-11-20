@@ -66,6 +66,7 @@ const ActionPanel = ({ userData, postAndShow }) => {
                     <HandleProposal
                         onClose={() => setShowAgreementDialog(false)}
                         onSend={postAndShow}
+                        user={userData}
                     />
                 )}
             </div>

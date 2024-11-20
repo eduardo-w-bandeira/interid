@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const HandleProposal = ({ onClose, onSend }) => {
+const HandleProposal = ({ onClose, onSend, user }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [receiverId, setReceiverId] = useState('');
     const dialogRef = useRef(null);
 
     const handleSend = () => {
-        onSend({ title, body });
+        onSend({ title, body, receiverId });
         onClose();
     };
 
@@ -30,6 +31,15 @@ const HandleProposal = ({ onClose, onSend }) => {
                     &times;
                 </button>
                 <h2 className="text-xl font-bold mb-4">Propose an Agreement</h2>
+                <label className="block mb-2">From: {user.full_name} (ID: {user.id})</label>
+                <label className="block mb-2">To:</label>
+                <input
+                    type="text"
+                    placeholder="Receiver ID"
+                    value={receiverId}
+                    onChange={(e) => setReceiverId(e.target.value)}
+                    className="w-full p-2 mb-4 border rounded"
+                />
                 <input
                     type="text"
                     placeholder="Title"

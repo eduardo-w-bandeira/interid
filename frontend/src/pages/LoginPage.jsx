@@ -18,11 +18,11 @@ const LoginPage = () => {
                 password,
             });
             const data = response.data;
-            if (data.user.user_type === "individual") {
-                data.user["full_name"] = data.user.related_user.first_name + " " + data.user.related_user.last_name;
-            } else {
-                data.user["full_name"] = data.user.related_user.business_name || data.user.related_user.legal_name;
-            }
+            // if (data.user.user_type === "individual") {
+            //     data.user["full_name"] = data.user.related_user.first_name + " " + data.user.related_user.last_name;
+            // } else {
+            //     data.user["full_name"] = data.user.related_user.business_name || data.user.related_user.legal_name;
+            // }
             // alert(JSON.stringify(data.user, null, 2));
             if (data.refresh && data.access) {
                 // Set tokens and user info in local storage
