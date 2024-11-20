@@ -129,7 +129,6 @@ class ProposalViewSet(ModelViewSet):
         proposal = serializer.save()
         Notification.objects.create(
             receiver=proposal.receiver,
-            sender=proposal.sender,
             type='proposal',
             body=(f'New agreement proposal from {proposal.sender.full_name} '
                   f'(ID: {proposal.sender.id}).'),
