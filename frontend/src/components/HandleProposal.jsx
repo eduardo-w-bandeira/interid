@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const HandleAgreement = ({ onClose, onSend }) => {
+const HandleProposal = ({ onClose, onSend }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const dialogRef = useRef(null);
@@ -29,7 +29,7 @@ const HandleAgreement = ({ onClose, onSend }) => {
                 <button onClick={onClose} className="absolute top-2 right-2 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 text-lg">
                     &times;
                 </button>
-                <h2 className="text-xl font-bold mb-4">Create a Proposal</h2>
+                <h2 className="text-xl font-bold mb-4">Propose an Agreement</h2>
                 <input
                     type="text"
                     placeholder="Title"
@@ -52,4 +52,4 @@ const HandleAgreement = ({ onClose, onSend }) => {
     );
 };
 
-export default HandleAgreement;
+export default HandleProposal;

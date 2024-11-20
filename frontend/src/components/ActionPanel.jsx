@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MakeADeclaration from './MakeADeclaration';
-import HandleAgreement from './HandleAgreement';
+import HandleProposal from './HandleProposal';
 
 const ActionPanel = ({ userData, postAndShow }) => {
     const [showDialog, setShowDialog] = useState(false);
@@ -63,7 +63,7 @@ const ActionPanel = ({ userData, postAndShow }) => {
                     />
                 )}
                 {showAgreementDialog && (
-                    <HandleAgreement
+                    <HandleProposal
                         onClose={() => setShowAgreementDialog(false)}
                         onSend={postAndShow}
                     />
