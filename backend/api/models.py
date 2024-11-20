@@ -110,21 +110,6 @@ class DeclarationComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Agreement(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, blank=True)
-    body = models.TextField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
-class AgreementParty(models.Model):
-    agreement = models.ForeignKey(Agreement, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ("agreement", "user")
-
-
 class Proposal(models.Model):
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)
@@ -148,3 +133,19 @@ class ProposalParty(models.Model):
     class Meta:
         # Prevent duplicate party entries
         unique_together = ("proposal", "user")
+
+
+class Agreement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, blank=True)
+    body = models.TextField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AgreementParty(models.Model):
+    agreement = models.ForeignKey(
+        Agreement, on_delete=models.CASCADE, related_name="parties")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("agreement", "user")
