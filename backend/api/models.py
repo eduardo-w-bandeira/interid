@@ -141,5 +141,5 @@ class Notification(models.Model):
     body = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    proposal = models.ForeignKey(
+    agreement = models.ForeignKey(
         Agreement, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")

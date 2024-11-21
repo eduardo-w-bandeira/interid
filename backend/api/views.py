@@ -136,7 +136,7 @@ class AgreementViewSet(ModelViewSet):
                 user=agreement.receiver,
                 type='proposal',
                 body=notification_body,
-                proposal=agreement)
+                agreement=agreement)
         except Exception as err:
             agreement.delete()  # Delete the proposal if the notification fails
             return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)

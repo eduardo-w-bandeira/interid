@@ -42,7 +42,7 @@ const NotificationsDialog = ({ userId, accessToken, onClose }) => {
             }
         }
         if (notification.type === 'proposal') {
-            setSelectedProposalId(notification.proposal);
+            setSelectedProposalId(notification.agreement);
         }
     };
 
