@@ -114,21 +114,21 @@ class DeclarationCommentViewSet(ModelViewSet):
     serializer_class = DeclarationCommentSerializer
 
 
-@wizrouter.auto_route()
-class AgreementViewSet(ModelViewSet):
-    queryset = Agreement.objects.all()
-    serializer_class = AgreementSerializer
-    permission_classes = [AllowAny]
+# @wizrouter.auto_route()
+# class AgreementViewSet(ModelViewSet):
+#     queryset = Agreement.objects.all()
+#     serializer_class = AgreementSerializer
+#     permission_classes = [AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        proposal_id = request.data.get('proposal')
-        proposal = Proposal.objects.get(id=proposal_id)
-        proposal.has_approved = True
-        agreement_slizer = AgreementSerializer(data=request.data)
-        agreement_slizer.is_valid()
-        agreement_slizer.save()
-        proposal.save()
-        return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
+#     def create(self, request, *args, **kwargs):
+#         proposal_id = request.data.get('proposal')
+#         proposal = Proposal.objects.get(id=proposal_id)
+#         proposal.has_approved = True
+#         agreement_slizer = AgreementSerializer(data=request.data)
+#         agreement_slizer.is_valid()
+#         agreement_slizer.save()
+#         proposal.save()
+#         return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
 
 
 @wizrouter.auto_route()
@@ -211,8 +211,7 @@ def get_notifications(request, user_id):
 @csrf_exempt
 def mark_notification_as_read(request, notification_id):
     try:
-        notification = Notification.objects.get(
-            id=notification_id)
+        notification = Notification.objects.get(id=notification_id)
         notification.is_read = True
         notification.save()
     except Notification.DoesNotExist:

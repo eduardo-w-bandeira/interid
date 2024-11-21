@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
-           "Agreement", "DeclarationComment",
+           "DeclarationComment",
            "Proposal", "Notification"]
 
 
@@ -127,16 +127,16 @@ class Proposal(models.Model):
     has_approved = models.BooleanField(default=None, null=True)
 
 
-class Agreement(models.Model):
-    user1 = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user1")
-    user2 = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user2")
-    proposal = models.OneToOneField(
-        Proposal, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, blank=True)
-    body = models.TextField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+# class Agreement(models.Model):
+#     user1 = models.ForeignKey(
+#         User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user1")
+#     user2 = models.ForeignKey(
+#         User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user2")
+#     proposal = models.OneToOneField(
+#         Proposal, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=100, blank=True)
+#     body = models.TextField(null=False)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Notification(models.Model):
