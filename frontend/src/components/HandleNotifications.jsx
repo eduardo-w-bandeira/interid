@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import ReviewProposal from './ReviewProposal'; // Import ReviewProposal
 
 const HandleNotifications = ({ userId, accessToken, onClose }) => {
     const [notifications, setNotifications] = useState([]);
+    const [selectedProposalId, setSelectedProposalId] = useState(null);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -21,6 +23,12 @@ const HandleNotifications = ({ userId, accessToken, onClose }) => {
         fetchNotifications();
     }, [userId, accessToken]);
 
+    const handleNotificationClick = (notification) => {
+        if (notification.type === 'proposal') {
+            setSelectedProposalId(notification.proposal);
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded shadow-lg w-1/3 relative">
@@ -30,12 +38,19 @@ const HandleNotifications = ({ userId, accessToken, onClose }) => {
                 <h2 className="text-xl font-bold mb-4">Notifications</h2>
                 <ul>
                     {notifications.map((notification, index) => (
-                        <li key={index} className={`mb-2 p-2 border rounded ${!notification.is_read ? 'font-bold' : ''} hover:bg-gray-200`}>
+                        <li key={index} className={`mb-2 p-2 border rounded ${!notification.is_read ? 'font-bold' : ''} hover:bg-gray-200`} onClick={() => handleNotificationClick(notification)}>
                             {notification.body}
                         </li>
                     ))}
                 </ul>
             </div>
+            {selectedProposalId && (
+                <ReviewProposal
+                    proposalId={selectedProposalId}
+                    accessToken={accessToken}
+                    onClose={() => setSelectedProposalId(null)}
+                />
+            )}
         </div>
     );
 };
