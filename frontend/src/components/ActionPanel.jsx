@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MakeADeclaration from './MakeADeclaration';
 import HandleProposal from './HandleProposal';
@@ -6,6 +6,25 @@ import HandleProposal from './HandleProposal';
 const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postProposal }) => {
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
     const [showProposalDialog, setShowProposalDialog] = useState(false);
+    const [unreadNotifications, setUnreadNotifications] = useState(0);
+
+    useEffect(() => {
+        const fetchUnreadNotifications = async () => {
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/count-unread-notifications/${userData.id}/`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                const data = await response.json();
+                setUnreadNotifications(data.unread_count);
+            } catch (error) {
+                console.error('Error fetching unread notifications:', error);
+            }
+        };
+
+        fetchUnreadNotifications();
+    }, [userData.id, accessToken]);
 
     return (
         <div className="md:w-1/4 p-5 bg-white rounded-lg shadow-lg">
@@ -38,6 +57,11 @@ const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postPropos
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
                         <span>Notifications</span>
+                        {unreadNotifications > 0 && (
+                            <span className="ml-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                                {unreadNotifications}
+                            </span>
+                        )}
                     </button>
                     <button className="flex items-center text-gray-600 hover:text-gray-800"  onClick={() => setShowProposalDialog(true)}>
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

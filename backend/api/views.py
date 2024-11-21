@@ -181,9 +181,9 @@ class NotificationViewSet(ModelViewSet):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 @wizrouter.auto_route(param='<int:user_id>')
 def count_unread_notifications(request, user_id):
     count = Notification.objects.filter(
         user=user_id, is_read=False).count()
-    return JsonResponse({'count_unread_notifications': count}, status=status.HTTP_200_OK)
+    return JsonResponse({'unread_count': count}, status=status.HTTP_200_OK)
