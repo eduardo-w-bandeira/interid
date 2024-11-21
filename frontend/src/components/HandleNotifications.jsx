@@ -30,7 +30,7 @@ const HandleNotifications = ({ userId, accessToken, onClose }) => {
                 <h2 className="text-xl font-bold mb-4">Notifications</h2>
                 <ul>
                     {notifications.map((notification, index) => (
-                        <li key={index} className="mb-2 p-2 border rounded">
+                        <li key={index} className={`mb-2 p-2 border rounded ${!notification.is_read ? 'font-bold' : ''} hover:bg-gray-200`}>
                             {notification.body}
                         </li>
                     ))}
