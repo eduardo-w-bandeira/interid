@@ -13,6 +13,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.decorators import api_view, permission_classes
 from django.http import JsonResponse
+from rest_framework.renderers import JSONRenderer
 from .models import *
 from .serializer import *
 from trails import Wizrouter
@@ -183,9 +184,20 @@ class TokenRefreshView(TokenRefreshView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 @wizrouter.auto_route(param='<int:user_id>')
 def count_unread_notifications(request, user_id):
     count = Notification.objects.filter(
         user=user_id, is_read=False).count()
     return JsonResponse({'unread_count': count}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+@wizrouter.auto_route(param='<int:user_id>')
+def get_notifications(request, user_id):
+    notifications = Notification.objects.filter(
+        user=user_id).order_by('-created_at')
+    serializer = NotificationSerializer(notifications, many=True)
+    data = {'notifications': serializer.data}
+    return JsonResponse(data, status=status.HTTP_200_OK)
