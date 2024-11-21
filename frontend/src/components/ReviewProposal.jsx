@@ -59,6 +59,14 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                     <h3 className="text-lg font-semibold">Body</h3>
                     <p>{proposal.body}</p>
                 </div>
+                <div className="mb-4">
+                    <h3 className="text-lg font-semibold">Status</h3>
+                    <p>
+                        {proposal.has_approved === null && "Pending of decision"}
+                        {proposal.has_approved === true && "Approved and in effect"}
+                        {proposal.has_approved === false && "Rejected"}
+                    </p>
+                </div>
                 <div className="flex justify-end space-x-2">
                     {proposal.has_approved === null && (
                         <>
