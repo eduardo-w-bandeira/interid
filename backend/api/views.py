@@ -192,9 +192,9 @@ def count_unread_notifications(request, user_id):
     return JsonResponse({'unread_count': count}, status=status.HTTP_200_OK)
 
 
+# @permission_classes([AllowAny])
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-# @permission_classes([AllowAny])
 @wizrouter.auto_route(param='<int:user_id>')
 def get_notifications(request, user_id):
     notifications = Notification.objects.filter(
@@ -202,3 +202,19 @@ def get_notifications(request, user_id):
     slizer = NotificationSerializer(notifications, many=True)
     data = {'notifications': slizer.data}
     return JsonResponse(data, status=status.HTTP_200_OK)
+
+
+# @permission_classes([AllowAny])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@wizrouter.auto_route(param='<int:notification_id>')
+@csrf_exempt
+def mark_notification_as_read(request, notification_id):
+    try:
+        notification = Notification.objects.get(
+            id=notification_id)
+        notification.is_read = True
+        notification.save()
+    except Notification.DoesNotExist:
+        return JsonResponse({'error': 'Notification not found'}, status=status.HTTP_404_NOT_FOUND)
+    return JsonResponse({'message': 'Notification marked as read'}, status=status.HTTP_200_OK)
