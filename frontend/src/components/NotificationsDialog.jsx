@@ -23,7 +23,24 @@ const NotificationsDialog = ({ userId, accessToken, onClose }) => {
         fetchNotifications();
     }, [userId, accessToken]);
 
-    const handleNotificationClick = (notification) => {
+    const handleNotificationClick = async (notification) => {
+        if (!notification.is_read) {
+            try {
+                await fetch(`http://127.0.0.1:8000/api/mark-notification-as-read/${notification.id}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                setNotifications((prevNotifications) =>
+                    prevNotifications.map((n) =>
+                        n.id === notification.id ? { ...n, is_read: true } : n
+                    )
+                );
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
         if (notification.type === 'proposal') {
             setSelectedProposalId(notification.proposal);
         }
