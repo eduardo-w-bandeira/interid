@@ -154,20 +154,24 @@ def update_agreement_decision(request, agreement_id):
     agreement.has_approved = data.get('has_approved')
     agreement.approved_at = datetime.now()
     agreement.save()
-    if agreement.has_approved:
-        for user in [agreement.sender, agreement.receiver]:
+    for user in [agreement.sender, agreement.receiver]:
+        if agreement.has_approved:
             notification_body = (
                 f'{user.full_name} '
                 f'(ID: {user.id}) has approved your agreement proposal.')
-            try:
-                Notification.objects.create(
-                    user=user,
-                    type='agreement decision',
-                    body=notification_body,
-                    agreement=agreement)
-            except Exception as err:
-                agreement.delete()  # Delete the proposal if the notification fails
-                return JsonResponse({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
+        elif agreement.has_approved is False:
+            notification_body = (
+                f'{user.full_name} '
+                f'(ID: {user.id}) has rejected your agreement proposal.')
+        try:
+            Notification.objects.create(
+                user=user,
+                type='agreement decision',
+                body=notification_body,
+                agreement=agreement)
+        except Exception as err:
+            agreement.delete()  # Delete the proposal if the notification fails
+            return JsonResponse({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse({'message': 'Agreement decision updated'}, status=status.HTTP_200_OK)
 
 

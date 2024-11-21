@@ -41,7 +41,7 @@ const NotificationsDialog = ({ userId, accessToken, onClose }) => {
                 console.error('Error marking notification as read:', error);
             }
         }
-        if (notification.type === 'proposal') {
+        if (notification.type === 'proposal' || notification.type === 'agreement decision') {
             setSelectedProposalId(notification.agreement);
         }
     };
