@@ -125,6 +125,7 @@ class Agreement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # None for pending, True/False for decision
     has_approved = models.BooleanField(default=None, null=True)
+    approved_at = models.DateTimeField(null=True)
 
 
 # class Agreement(models.Model):

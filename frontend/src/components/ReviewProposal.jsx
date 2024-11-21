@@ -8,7 +8,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
     useEffect(() => {
         const fetchProposal = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/proposals/${proposalId}/`, {
+                const response = await axios.get(`http://localhost:8000/api/agreements/${proposalId}/`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`
                     }
