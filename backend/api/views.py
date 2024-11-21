@@ -104,10 +104,12 @@ class DeclarationViewSet(ModelViewSet):
             return Declaration.objects.filter(user=user_id)
         return Declaration.objects.all()
 
-    # def get_permissions(self):
-    #     if self.request.method == 'GET':
-    #         return [AllowAny()]
-    #     return super().get_permissions()
+    def list(self, request, *args, **kwargs):
+        user_id = request.GET.get('user')
+        declarations = Declaration.objects.filter(
+            user=user_id).order_by('-created_at')
+        serializer = DeclarationSerializer(declarations, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @wizrouter.auto_route()
@@ -174,10 +176,10 @@ class TokenRefreshView(TokenRefreshView):
     pass
 
 
-@wizrouter.auto_route()
-class NotificationViewSet(ModelViewSet):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
+# @wizrouter.auto_route()
+# class NotificationViewSet(ModelViewSet):
+#     queryset = Notification.objects.all()
+#     serializer_class = NotificationSerializer
 
 
 @api_view(['GET'])
