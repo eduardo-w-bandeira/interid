@@ -133,6 +133,7 @@ class Notification(models.Model):
     NOTIFICATION_TYPE_CHOICES = [
         ('proposal', 'Agreement Proposal Notification'),
         ('letter', 'Letter Notification'),
+        ("agreement decision", "Agreement Decision Notification"),
     ]
 
     user = models.ForeignKey(
