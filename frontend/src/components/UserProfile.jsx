@@ -31,7 +31,7 @@ const UserProfile = ({ thirdData, Declarations }) => {
             )}
             <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
-                {Declarations && Declarations.reverse().map(declaration => (
+                {Declarations && Declarations.map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
                         <h4 className="font-bold">{declaration.title}</h4>
                         <p>{declaration.body}</p>
