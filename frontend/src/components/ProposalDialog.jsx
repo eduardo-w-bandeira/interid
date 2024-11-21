@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
-const HandleProposal = ({ onClose, onSend, user, accessToken }) => {
+const ProposalDialog = ({ onClose, onSend, user, accessToken }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [receiverId, setReceiverId] = useState('');
@@ -103,4 +103,4 @@ const HandleProposal = ({ onClose, onSend, user, accessToken }) => {
     );
 };
 
-export default HandleProposal;
+export default ProposalDialog;

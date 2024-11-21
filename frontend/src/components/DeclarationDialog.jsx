@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MakeADeclaration = ({ onClose, onPublish }) => {
+const DeclarationDialog = ({ onClose, onPublish }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const dialogRef = useRef(null);
@@ -52,4 +52,4 @@ const MakeADeclaration = ({ onClose, onPublish }) => {
     );
 };
 
-export default MakeADeclaration;
+export default DeclarationDialog;

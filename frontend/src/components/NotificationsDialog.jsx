@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReviewProposal from './ReviewProposal'; // Import ReviewProposal
 
-const HandleNotifications = ({ userId, accessToken, onClose }) => {
+const NotificationsDialog = ({ userId, accessToken, onClose }) => {
     const [notifications, setNotifications] = useState([]);
     const [selectedProposalId, setSelectedProposalId] = useState(null);
 
@@ -55,4 +55,4 @@ const HandleNotifications = ({ userId, accessToken, onClose }) => {
     );
 };
 
-export default HandleNotifications;
+export default NotificationsDialog;

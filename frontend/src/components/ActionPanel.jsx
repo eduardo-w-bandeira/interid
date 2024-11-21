@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import MakeADeclaration from './MakeADeclaration';
-import HandleProposal from './HandleProposal';
-import HandleNotifications from './HandleNotifications';
+import DeclarationDialog from './DeclarationDialog';
+import ProposalDialog from './ProposalDialog';
+import NotificationsDialog from './NotificationsDialog';
 
 const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postProposal }) => {
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
@@ -83,21 +83,21 @@ const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postPropos
                     </button>
                 </nav>
                 {showDeclarationDialog && (
-                    <MakeADeclaration
+                    <DeclarationDialog
                         onClose={() => setShowDeclarationDialog(false)}
                         onPublish={postAndShowDeclaration}
                     />
                 )}
                 {showProposalDialog && (
-                    <HandleProposal
+                    <ProposalDialog
                         onClose={() => setShowProposalDialog(false)}
-                        onSend={postProposal} // Pass postProposal to HandleProposal
+                        onSend={postProposal} // Pass postProposal to ProposalDialog
                         user={userData}
-                        accessToken={accessToken} // Pass accessToken to HandleProposal
+                        accessToken={accessToken} // Pass accessToken to ProposalDialog
                     />
                 )}
                 {showNotificationsDialog && (
-                    <HandleNotifications
+                    <NotificationsDialog
                         userId={userData.id}
                         accessToken={accessToken}
                         onClose={() => setShowNotificationsDialog(false)}
