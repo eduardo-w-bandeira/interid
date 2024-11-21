@@ -24,13 +24,37 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
         fetchProposal();
     }, [proposalId, accessToken]);
 
-    const handleApprove = async () => {
-        // Handle approve logic
+    const handleDecision = async (hasApproved) => {
+        try {
+            const data = {
+                "has_approved": hasApproved
+            }
+            await axios.post(`http://localhost:8000/api/update-agreement-decision/${proposalId}/`, data, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            onClose();
+        } catch (error) {
+            console.error('Error approving proposal:', error);
+        }
     };
 
-    const handleReject = async () => {
-        // Handle reject logic
-    };
+    // const handleReject = async () => {
+    //     try {
+    //         const data = {
+    //             "has_approved": false
+    //         }
+    //         await axios.put(`http://localhost:8000/api/agreements/${proposalId}`, data, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${accessToken}`
+    //             }
+    //         });
+    //         onClose();
+    //     } catch (error) {
+    //         console.error('Error approving proposal:', error);
+    //     }
+    // };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -52,8 +76,8 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                     <p>{proposal.body}</p>
                 </div>
                 <div className="flex justify-end space-x-2">
-                    <button onClick={handleApprove} className="px-4 py-2 bg-green-500 text-white rounded">Approve</button>
-                    <button onClick={handleReject} className="px-4 py-2 bg-red-500 text-white rounded">Reject</button>
+                    <button onClick={() => handleDecision(true)} className="px-4 py-2 bg-green-500 text-white rounded">Approve</button>
+                    <button onClick={() => handleDecision(false)} className="px-4 py-2 bg-red-500 text-white rounded">Reject</button>
                     <button onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded">Dismiss</button>
                 </div>
             </div>
