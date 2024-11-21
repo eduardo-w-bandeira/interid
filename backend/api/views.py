@@ -1,4 +1,5 @@
-# import json
+import json
+from datetime import datetime
 from django.shortcuts import redirect
 # from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -141,6 +142,33 @@ class AgreementViewSet(ModelViewSet):
             agreement.delete()  # Delete the proposal if the notification fails
             return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+@wizrouter.auto_route(param='<int:agreement_id>')
+@csrf_exempt
+def update_agreement_decision(request, agreement_id):
+    agreement = Agreement.objects.get(id=agreement_id)
+    data = json.loads(request.body)
+    agreement.has_approved = data.get('has_approved')
+    agreement.approved_at = datetime.now()
+    agreement.save()
+    if agreement.has_approved:
+        for user in [agreement.sender, agreement.receiver]:
+            notification_body = (
+                f'{user.full_name} '
+                f'(ID: {user.id}) has approved your agreement proposal.')
+            try:
+                Notification.objects.create(
+                    user=user,
+                    type='agreement decision',
+                    body=notification_body,
+                    agreement=agreement)
+            except Exception as err:
+                agreement.delete()  # Delete the proposal if the notification fails
+                return JsonResponse({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse({'message': 'Agreement decision updated'}, status=status.HTTP_200_OK)
 
 
 @wizrouter.auto_route()
