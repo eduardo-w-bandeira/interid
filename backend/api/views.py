@@ -123,6 +123,17 @@ class DeclarationCommentViewSet(ModelViewSet):
 class AgreementViewSet(ModelViewSet):
     queryset = Agreement.objects.all()
     serializer_class = AgreementSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        proposal_id = request.data.get('proposal')
+        proposal = Proposal.objects.get(id=proposal_id)
+        proposal.has_approved = True
+        agreement_slizer = AgreementSerializer(data=request.data)
+        agreement_slizer.is_valid()
+        agreement_slizer.save()
+        proposal.save()
+        return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
 
 
 @wizrouter.auto_route()
