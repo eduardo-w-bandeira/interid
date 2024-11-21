@@ -177,14 +177,8 @@ class TokenRefreshView(TokenRefreshView):
     pass
 
 
-# @wizrouter.auto_route()
-# class NotificationViewSet(ModelViewSet):
-#     queryset = Notification.objects.all()
-#     serializer_class = NotificationSerializer
-
-
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 @wizrouter.auto_route(param='<int:user_id>')
 def count_unread_notifications(request, user_id):
     count = Notification.objects.filter(
@@ -193,7 +187,7 @@ def count_unread_notifications(request, user_id):
 
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 @wizrouter.auto_route(param='<int:user_id>')
 def get_notifications(request, user_id):
     notifications = Notification.objects.filter(
