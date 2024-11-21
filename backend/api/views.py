@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.decorators import api_view, permission_classes
+from django.http import JsonResponse
 from .models import *
 from .serializer import *
 from trails import Wizrouter
@@ -139,7 +141,7 @@ class ProposalViewSet(ModelViewSet):
             f'(ID: {proposal.sender.id}).')
         try:
             Notification.objects.create(
-                receiver=proposal.receiver,
+                user=proposal.receiver,
                 type='proposal',
                 body=notification_body,
                 proposal=proposal)
@@ -149,7 +151,7 @@ class ProposalViewSet(ModelViewSet):
         return Response(proposal_slizer.data, status=status.HTTP_201_CREATED)
 
 
-@ wizrouter.auto_route()
+@wizrouter.auto_route()
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
@@ -167,12 +169,21 @@ class LoginView(generics.GenericAPIView):
             status=status.HTTP_200_OK)
 
 
-@ wizrouter.auto_route()
+@wizrouter.auto_route()
 class TokenRefreshView(TokenRefreshView):
     pass
 
 
-@ wizrouter.auto_route()
+@wizrouter.auto_route()
 class NotificationViewSet(ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+@wizrouter.auto_route(param='<int:user_id>')
+def count_unread_notifications(request, user_id):
+    count = Notification.objects.filter(
+        user=user_id, is_read=False).count()
+    return JsonResponse({'count_unread_notifications': count}, status=status.HTTP_200_OK)

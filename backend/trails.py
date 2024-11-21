@@ -60,7 +60,7 @@ class Wizrouter:
         kebab = breakdown.core.replace('_', '-')
         return breakdown.prefix + kebab + breakdown.suffix
 
-    def auto_route(self, endpoint: str | None = None, url_name: str | None = None, **kwargs):
+    def auto_route(self, endpoint: str | None = None, param: str | None = None, url_name: str | None = None, **kwargs):
         """A decorator to automatically generate and register a django.urls.path() for a given view.
 
         Args:
@@ -115,6 +115,8 @@ class Wizrouter:
                 # print("is_view_set:", endpoint, view, kwargs)
             else:
                 endpoint += "/"
+                if param:
+                    endpoint += f"{param.strip("/")}/"
                 url_patt = path(endpoint, bound_view, name=url_name, **kwargs)
                 # print("is_not_view_set:", endpoint, bound_view, kwargs)
                 self.non_view_set_url_patts.append(url_patt)
