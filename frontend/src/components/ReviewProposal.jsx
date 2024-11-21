@@ -54,7 +54,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                 <div className="flex justify-end space-x-2">
                     <button onClick={handleApprove} className="px-4 py-2 bg-green-500 text-white rounded">Approve</button>
                     <button onClick={handleReject} className="px-4 py-2 bg-red-500 text-white rounded">Reject</button>
-                    <button onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded">Cancel</button>
+                    <button onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded">Dismiss</button>
                 </div>
             </div>
         </div>
