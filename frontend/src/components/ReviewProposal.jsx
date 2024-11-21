@@ -50,7 +50,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                 <button onClick={onClose} className="absolute top-2 right-2 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:text-gray-900 text-lg">
                     &times;
                 </button>
-                <h2 className="text-xl font-bold mb-4">Review Proposal</h2>
+                <h2 className="text-xl font-bold mb-4">Review Agreement Proposal #{proposal.id}</h2>
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold">Title</h3>
                     <p>{proposal.title}</p>
