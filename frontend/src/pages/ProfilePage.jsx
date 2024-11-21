@@ -4,7 +4,7 @@ import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ActionPanel from '@/components/ActionPanel';
-import UserProfile from '@/components/UserProfile';
+import DeclarationsPanel from '@/components/DeclarationsPanel';
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -132,7 +132,7 @@ const ProfilePage = () => {
                     accessToken={accessToken} // Pass accessToken as a prop
                     postProposal={postProposal} // Pass postProposal as a prop
                 />
-                <UserProfile
+                <DeclarationsPanel
                     thirdData={thirdData}
                     Declarations={Declarations}
                 />

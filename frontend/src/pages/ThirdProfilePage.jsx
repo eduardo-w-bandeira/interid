@@ -4,7 +4,7 @@ import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ActionPanel from '@/components/ActionPanel';
-import UserProfile from '@/components/UserProfile';
+import DeclarationsPanel from '@/components/DeclarationsPanel';
 
 const ThirdProfilePage = () => {
     const { userId } = useParams();
@@ -76,7 +76,7 @@ const ThirdProfilePage = () => {
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 {userData && <ActionPanel userData={userData} />}
-                <UserProfile
+                <DeclarationsPanel
                     userDeclarations={userDeclarations}
                     isDeclaring={isDeclaring}
                     newDeclaration={newDeclaration}

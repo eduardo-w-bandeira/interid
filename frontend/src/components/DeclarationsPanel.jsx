@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import userImage from '@/assets/generic-user.png';
 
-const UserProfile = ({ thirdData, Declarations }) => {
+const DeclarationsPanel = ({ thirdData, Declarations }) => {
     let [fullName, setFullName] = useState('');
 
     useEffect(() => {
@@ -42,4 +42,4 @@ const UserProfile = ({ thirdData, Declarations }) => {
     );
 };
 
-export default UserProfile;
+export default DeclarationsPanel;
