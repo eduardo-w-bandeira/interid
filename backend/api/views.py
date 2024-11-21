@@ -155,14 +155,26 @@ def update_agreement_decision(request, agreement_id):
     agreement.approved_at = datetime.now()
     agreement.save()
     for user in [agreement.sender, agreement.receiver]:
-        if agreement.has_approved:
-            notification_body = (
-                f'{user.full_name} '
-                f'(ID: {user.id}) has approved your agreement proposal.')
-        elif agreement.has_approved is False:
-            notification_body = (
-                f'{user.full_name} '
-                f'(ID: {user.id}) has rejected your agreement proposal.')
+        if user is agreement.sender:
+            if agreement.has_approved:
+                notification_body = (
+                    f'{agreement.receiver.full_name} '
+                    f'(ID: {user.id}) has APPROVED your agreement proposal #{agreement.id}.')
+            elif agreement.has_approved is False:
+                notification_body = (
+                    f'{agreement.receiver.full_name} '
+                    f'(ID: {user.id}) has REJECTED your agreement proposal #{agreement.id}.')
+        else:
+            if agreement.has_approved:
+                notification_body = (
+                    f'You have APPROVED the agreement proposal #{
+                        agreement.id} '
+                    f'from {agreement.sender.full_name} (ID: {user.id})')
+            elif agreement.has_approved is False:
+                notification_body = (
+                    f'You have REJECTED the agreement proposal #{
+                        agreement.id} '
+                    f'from {agreement.sender.full_name} (ID: {user.id})')
         try:
             Notification.objects.create(
                 user=user,
