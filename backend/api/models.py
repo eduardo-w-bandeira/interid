@@ -119,25 +119,14 @@ class Agreement(models.Model):
     # Proposal sender
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, related_name="sent_proposals")
+    # Proposal receiver
     receiver = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    proposed_at = models.DateTimeField(auto_now_add=True)
     # None for pending, True/False for decision
     has_approved = models.BooleanField(default=None, null=True)
     approved_at = models.DateTimeField(null=True)
-
-
-# class Agreement(models.Model):
-#     user1 = models.ForeignKey(
-#         User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user1")
-#     user2 = models.ForeignKey(
-#         User, on_delete=models.CASCADE, null=False, related_name="agreements_as_user2")
-#     proposal = models.OneToOneField(
-#         Proposal, on_delete=models.CASCADE)
-#     title = models.CharField(max_length=100, blank=True)
-#     body = models.TextField(null=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Notification(models.Model):
