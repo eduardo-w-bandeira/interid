@@ -31,11 +31,6 @@ class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    # def get_permissions(self):
-    #     if self.action == 'retrieve':
-    #         return [AllowAny()]
-    #     return super().get_permissions()
-
 
 @wizrouter.auto_route()
 class IndividualViewSet(ModelViewSet):
@@ -199,10 +194,11 @@ def count_unread_notifications(request, user_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+# @permission_classes([AllowAny])
 @wizrouter.auto_route(param='<int:user_id>')
 def get_notifications(request, user_id):
     notifications = Notification.objects.filter(
         user=user_id).order_by('-created_at')
-    serializer = NotificationSerializer(notifications, many=True)
-    data = {'notifications': serializer.data}
+    slizer = NotificationSerializer(notifications, many=True)
+    data = {'notifications': slizer.data}
     return JsonResponse(data, status=status.HTTP_200_OK)
