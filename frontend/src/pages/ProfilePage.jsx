@@ -111,7 +111,7 @@ const ProfilePage = () => {
 
     const postProposal = async (proposalData) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/proposals/', proposalData, {
+            const response = await axios.post('http://localhost:8000/api/agreements/', proposalData, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

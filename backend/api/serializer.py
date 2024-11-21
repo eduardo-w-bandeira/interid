@@ -51,9 +51,9 @@ class DeclarationCommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProposalSerializer(serializers.ModelSerializer):
+class AgreementSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Proposal
+        model = Agreement
         fields = '__all__'
 
 

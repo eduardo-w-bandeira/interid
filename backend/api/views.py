@@ -115,32 +115,32 @@ class DeclarationCommentViewSet(ModelViewSet):
 
 
 @wizrouter.auto_route()
-class ProposalViewSet(ModelViewSet):
-    queryset = Proposal.objects.all()
-    serializer_class = ProposalSerializer
+class AgreementViewSet(ModelViewSet):
+    queryset = Agreement.objects.all()
+    serializer_class = AgreementSerializer
     # permission_classes = [IsAuthenticated]
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
-        proposal_slizer = ProposalSerializer(data=request.data)
-        if proposal_slizer.is_valid():
-            proposal = proposal_slizer.save()
+        agreement_slizer = AgreementSerializer(data=request.data)
+        if agreement_slizer.is_valid():
+            agreement = agreement_slizer.save()
         else:
-            return Response(proposal_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(agreement_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
         notification_body = (
             f'You have received an agreement proposal from '
-            f'{proposal.sender.full_name} '
-            f'(ID: {proposal.sender.id}).')
+            f'{agreement.sender.full_name} '
+            f'(ID: {agreement.sender.id}).')
         try:
             Notification.objects.create(
-                user=proposal.receiver,
+                user=agreement.receiver,
                 type='proposal',
                 body=notification_body,
-                proposal=proposal)
+                proposal=agreement)
         except Exception as err:
-            proposal.delete()  # Delete the proposal if the notification fails
+            agreement.delete()  # Delete the proposal if the notification fails
             return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(proposal_slizer.data, status=status.HTTP_201_CREATED)
+        return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
 
 
 @wizrouter.auto_route()

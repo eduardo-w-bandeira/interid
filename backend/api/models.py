@@ -4,7 +4,7 @@ from django.db import models
 
 __all__ = ["User", "Individual", "LegalEntity", "Declaration",
            "DeclarationComment",
-           "Proposal", "Notification"]
+           "Agreement", "Notification"]
 
 
 class UserManager(BaseUserManager):
@@ -115,7 +115,7 @@ class DeclarationComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Proposal(models.Model):
+class Agreement(models.Model):
     # Proposal sender
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, related_name="sent_proposals")
@@ -152,4 +152,4 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     proposal = models.ForeignKey(
-        Proposal, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")
+        Agreement, null=True, blank=True, on_delete=models.CASCADE, related_name="notifications")
