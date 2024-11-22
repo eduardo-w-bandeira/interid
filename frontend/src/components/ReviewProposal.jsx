@@ -65,7 +65,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                 </div>
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold">Body</h3>
-                    <p>{proposal.body}</p>
+                    <p dangerouslySetInnerHTML={{ __html: proposal.body.replace(/\n/g, '<br />') }}></p>
                 </div>
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold">Status</h3>
