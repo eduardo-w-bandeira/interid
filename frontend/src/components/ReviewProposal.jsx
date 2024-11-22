@@ -52,8 +52,12 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                 </button>
                 <h2 className="text-xl font-bold mb-4">Review Agreement Proposal #{proposal.id}</h2>
                 <div className="mb-4">
-                    <h3 className="text-lg font-semibold">From</h3>
+                    <h4 className="text-base font-semibold">Sender</h4>
                     <p>{proposal.sender_full_name} (ID: {proposal.sender_id})</p>
+                </div>
+                <div className="mb-4">
+                    <h4 className="text-base font-semibold">Receiver</h4>
+                    <p>{proposal.receiver_full_name} (ID: {proposal.receiver_id})</p>
                 </div>
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold">Title</h3>

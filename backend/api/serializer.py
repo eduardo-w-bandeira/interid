@@ -54,6 +54,8 @@ class DeclarationCommentSerializer(serializers.ModelSerializer):
 class AgreementSerializer(serializers.ModelSerializer):
     sender_full_name = serializers.SerializerMethodField()
     sender_id = serializers.SerializerMethodField()
+    receiver_full_name = serializers.SerializerMethodField()
+    receiver_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Agreement
@@ -64,6 +66,12 @@ class AgreementSerializer(serializers.ModelSerializer):
 
     def get_sender_id(self, obj):
         return obj.sender.id
+
+    def get_receiver_full_name(self, obj):
+        return obj.receiver.full_name
+
+    def get_receiver_id(self, obj):
+        return obj.receiver.id
 
 
 class NotificationSerializer(serializers.ModelSerializer):
