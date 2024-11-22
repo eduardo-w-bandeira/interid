@@ -52,6 +52,10 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                 </button>
                 <h2 className="text-xl font-bold mb-4">Review Agreement Proposal #{proposal.id}</h2>
                 <div className="mb-4">
+                    <h3 className="text-lg font-semibold">From</h3>
+                    <p>{proposal.sender_full_name} (ID: {proposal.sender_id})</p>
+                </div>
+                <div className="mb-4">
                     <h3 className="text-lg font-semibold">Title</h3>
                     <p>{proposal.title}</p>
                 </div>
