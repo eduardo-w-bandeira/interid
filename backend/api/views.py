@@ -3,6 +3,7 @@ from datetime import datetime
 from django.shortcuts import redirect
 # from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 # from rest_framework.views import APIView
@@ -244,3 +245,11 @@ def mark_notification_as_read(request, notification_id):
     except Notification.DoesNotExist:
         return JsonResponse({'error': 'Notification not found'}, status=status.HTTP_404_NOT_FOUND)
     return JsonResponse({'message': 'Notification marked as read'}, status=status.HTTP_200_OK)
+
+
+def get_user_approved_agreements(user_id):
+    agreements = Agreement.objects.filter(
+        Q(sender=user_id) | Q(receiver=user_id), has_approved=True)
+    slizer = AgreementSerializer(agreements, many=True)
+    data = {'agreements': slizer.data}
+    return JsonResponse(data, status=status.HTTP_200_OK)
