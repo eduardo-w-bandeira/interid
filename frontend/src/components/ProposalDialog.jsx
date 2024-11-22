@@ -93,6 +93,7 @@ const ProposalDialog = ({ onClose, onSend, user, accessToken }) => {
                     value={body || ''}
                     onChange={(e) => setBody(e.target.value)}
                     className="w-full p-2 mb-4 border rounded"
+                    rows="10"
                 />
                 <div className="flex justify-end space-x-2">
                     <button onClick={handleSend} className="px-4 py-2 bg-blue-500 text-white rounded">Send Proposal</button>
