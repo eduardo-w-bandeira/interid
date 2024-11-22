@@ -247,6 +247,10 @@ def mark_notification_as_read(request, notification_id):
     return JsonResponse({'message': 'Notification marked as read'}, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@wizrouter.auto_route(param='<int:user_id>')
+@csrf_exempt
 def get_user_approved_agreements(user_id):
     agreements = Agreement.objects.filter(
         Q(sender=user_id) | Q(receiver=user_id), has_approved=True)
