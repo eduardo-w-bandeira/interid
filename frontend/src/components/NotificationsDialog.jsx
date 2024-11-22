@@ -55,8 +55,10 @@ const NotificationsDialog = ({ userId, accessToken, onClose }) => {
                 <h2 className="text-xl font-bold mb-4">Notifications</h2>
                 <ul>
                     {notifications.map((notification, index) => (
-                        <li key={index} className={`mb-2 p-2 border rounded ${!notification.is_read ? 'font-bold' : ''} hover:bg-gray-200`} onClick={() => handleNotificationClick(notification)}>
-                            {notification.body}
+                        <li key={index} className={`mb-2 p-2 border rounded ${!notification.is_read ? 'font-bold' : ''}`}>
+                            <button className="w-full text-left" onClick={() => handleNotificationClick(notification)}>
+                                {notification.body}
+                            </button>
                         </li>
                     ))}
                 </ul>
