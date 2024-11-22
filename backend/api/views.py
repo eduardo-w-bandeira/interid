@@ -129,19 +129,27 @@ class AgreementViewSet(ModelViewSet):
             agreement = agreement_slizer.save()
         else:
             return Response(agreement_slizer.errors, status=status.HTTP_400_BAD_REQUEST)
-        notification_body = (
-            f'You have received an agreement proposal from '
-            f'{agreement.sender.full_name} '
-            f'(ID: {agreement.sender.id}).')
-        try:
-            Notification.objects.create(
-                user=agreement.receiver,
-                type='proposal',
-                body=notification_body,
-                agreement=agreement)
-        except Exception as err:
-            agreement.delete()  # Delete the proposal if the notification fails
-            return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
+        for user in [agreement.sender, agreement.receiver]:
+            if user is agreement.sender:
+                notification_body = (
+                    f'You have sent the agreement proposal #{agreement.id} to '
+                    f'{agreement.receiver.full_name} '
+                    f'(ID: {agreement.receiver.id}).')
+            else:
+                notification_body = (
+                    f'You have received the agreement proposal #{
+                        agreement.id} from '
+                    f'{agreement.sender.full_name} '
+                    f'(ID: {agreement.sender.id}).')
+            try:
+                Notification.objects.create(
+                    user=user,
+                    type='proposal',
+                    body=notification_body,
+                    agreement=agreement)
+            except Exception as err:
+                agreement.delete()  # Delete the proposal if the notification fails
+                return Response({'error': str(err)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(agreement_slizer.data, status=status.HTTP_201_CREATED)
 
 

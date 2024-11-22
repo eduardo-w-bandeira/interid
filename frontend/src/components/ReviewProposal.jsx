@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
+const ReviewProposal = ({ proposalId, accessToken, onClose, userId }) => {
     const [proposal, setProposal] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -76,7 +76,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose }) => {
                     </p>
                 </div>
                 <div className="flex justify-end space-x-2">
-                    {proposal.has_approved === null && (
+                    {proposal.has_approved === null && proposal.sender_id !== userId && (
                         <>
                             <button onClick={() => handleDecision(true)} className="px-4 py-2 bg-green-500 text-white rounded">Approve</button>
                             <button onClick={() => handleDecision(false)} className="px-4 py-2 bg-red-500 text-white rounded">Reject</button>

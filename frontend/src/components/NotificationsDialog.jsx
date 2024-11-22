@@ -66,6 +66,7 @@ const NotificationsDialog = ({ userId, accessToken, onClose }) => {
                     proposalId={selectedProposalId}
                     accessToken={accessToken}
                     onClose={() => setSelectedProposalId(null)}
+                    userId={userId}
                 />
             )}
         </div>
