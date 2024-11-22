@@ -4,6 +4,7 @@ import axios from 'axios';
 const ReviewProposal = ({ proposalId, accessToken, onClose, userId }) => {
     const [proposal, setProposal] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [hasApproved, setHasApproved] = useState("");
 
     useEffect(() => {
         const fetchProposal = async () => {
@@ -14,6 +15,7 @@ const ReviewProposal = ({ proposalId, accessToken, onClose, userId }) => {
                     }
                 });
                 setProposal(response.data);
+                setHasApproved(response.data.has_approved);
             } catch (error) {
                 console.error('Error fetching proposal:', error);
             } finally {
@@ -24,17 +26,17 @@ const ReviewProposal = ({ proposalId, accessToken, onClose, userId }) => {
         fetchProposal();
     }, [proposalId, accessToken]);
 
-    const handleDecision = async (hasApproved) => {
+    const handleDecision = async (hasApprovedArg) => {
         try {
             const data = {
-                "has_approved": hasApproved
+                "has_approved": hasApprovedArg
             }
             await axios.post(`http://localhost:8000/api/update-agreement-decision/${proposalId}/`, data, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            onClose();
+            setHasApproved(hasApprovedArg);
         } catch (error) {
             console.error('Error approving proposal:', error);
         }
@@ -70,13 +72,13 @@ const ReviewProposal = ({ proposalId, accessToken, onClose, userId }) => {
                 <div className="mb-4">
                     <h3 className="text-lg font-semibold">Status</h3>
                     <p>
-                        {proposal.has_approved === null && "Pending of decision"}
-                        {proposal.has_approved === true && "Approved and in effect"}
-                        {proposal.has_approved === false && "Rejected"}
+                        {hasApproved === null && "Pending of decision"}
+                        {hasApproved === true && "Approved and in effect"}
+                        {hasApproved === false && "Rejected"}
                     </p>
                 </div>
                 <div className="flex justify-end space-x-2">
-                    {proposal.has_approved === null && proposal.sender_id !== userId && (
+                    {hasApproved === null && proposal.sender_id !== userId && (
                         <>
                             <button onClick={() => handleDecision(true)} className="px-4 py-2 bg-green-500 text-white rounded">Approve</button>
                             <button onClick={() => handleDecision(false)} className="px-4 py-2 bg-red-500 text-white rounded">Reject</button>
