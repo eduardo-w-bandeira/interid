@@ -210,7 +210,7 @@ class LoginView(generics.GenericAPIView):
         return Response(
             {'refresh': str(refresh),
              'access': str(refresh.access_token),
-             'user': user_data},
+             'user_data': user_data},
             status=status.HTTP_200_OK)
 
 

@@ -116,10 +116,10 @@ class DeclarationComment(models.Model):
 
 
 class Agreement(models.Model):
-    # Proposal sender
+    # Agreement Proposal sender
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, null=False, related_name="sent_proposals")
-    # Proposal receiver
+    # Agreement Proposal receiver
     receiver = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(null=False)

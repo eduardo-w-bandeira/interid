@@ -18,18 +18,12 @@ const LoginPage = () => {
                 password,
             });
             const data = response.data;
-            // if (data.user.user_type === "individual") {
-            //     data.user["full_name"] = data.user.related_user.first_name + " " + data.user.related_user.last_name;
-            // } else {
-            //     data.user["full_name"] = data.user.related_user.business_name || data.user.related_user.legal_name;
-            // }
-            // alert(JSON.stringify(data.user, null, 2));
             if (data.refresh && data.access) {
                 // Set tokens and user info in local storage
                 localStorage.setItem('refresh_token', data.refresh);
                 localStorage.setItem('access_token', data.access);
-                localStorage.setItem('user_data', JSON.stringify(data.user));
-                setUserId(data.user.id);
+                localStorage.setItem('user_data', JSON.stringify(data.user_data));
+                setUserId(data.user_data.id);
                 setIsLoggedIn(true);
             } else {
                 setError('Invalid credentials');
