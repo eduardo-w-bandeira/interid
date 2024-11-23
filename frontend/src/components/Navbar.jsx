@@ -12,6 +12,10 @@ const Navbar = () => {
         window.location.href = '/';
     };
 
+    const handleUserClick = () => {
+        window.location.href = `/${user_data.id}`;
+    };
+
     return (
         <header>
             <nav className="flex justify-between items-center p-5 bg-gray-950 text-lg">
@@ -27,7 +31,7 @@ const Navbar = () => {
                 <div className="flex items-center">
                     {isLoggedIn ? (
                         <>
-                            <span className="text-white mr-2">{user_data.full_name}</span>
+                            <span className="text-white mr-2 cursor-pointer" onClick={handleUserClick}>{user_data.full_name}</span>
                             <button onClick={handleSignOut} className="text-gray-400 hover:text-white py-2 px-4 cursor-pointer">(sign out)</button>
                         </>
                     ) : (
