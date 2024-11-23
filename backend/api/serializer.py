@@ -81,25 +81,22 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+    email = serializers.EmailField()
     password = serializers.CharField()
 
     def validate(self, data):
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
-
-        if username and password:
-            user = authenticate(username=username, password=password)
+        if email and password:
+            user = authenticate(username=email, password=password)
             if user:
                 if not user.is_active:
-                    msg = 'User account is disabled.'
-                    raise serializers.ValidationError(msg)
+                    raise serializers.ValidationError(
+                        'User account is disabled.')
                 data['user'] = user
             else:
-                msg = 'Unable to log in with provided credentials.'
-                raise serializers.ValidationError(msg)
+                raise serializers.ValidationError('Invalid login credentials.')
         else:
-            msg = 'Must include "username" and "password"'
-            raise serializers.ValidationError(msg)
-
+            raise serializers.ValidationError(
+                'Must include "email" and "password".')
         return data

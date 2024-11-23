@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const LoginPage = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userId, setUserId] = useState(null);
     const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ const LoginPage = () => {
         event.preventDefault();
         try {
             const response = await axios.post('http://localhost:8000/api/login/', {
-                username,
+                email,
                 password,
             });
             const data = response.data;
@@ -48,12 +48,12 @@ const LoginPage = () => {
                 <h2 className="text-4xl font-bold mb-6">Login to Your Account</h2>
                 <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-96">
                     <div className="mb-4">
-                        <label className="block text-gray-700" htmlFor="username">Email</label>
+                        <label className="block text-gray-700" htmlFor="login-email">Email</label>
                         <input
                             type="email"
-                            id="username"
-                            value={username}
-                            onChange={(event) => setUsername(event.target.value)}
+                            id="login-email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
                             className="border rounded w-full py-2 px-3 text-gray-700"
                             required
                         />
