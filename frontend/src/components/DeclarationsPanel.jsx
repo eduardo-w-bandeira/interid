@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import userImage from '@/assets/generic-user.png';
 
-const DeclarationsPanel = ({ thirdData, Declarations }) => {
+const DeclarationsPanel = ({ thirdData, declarations }) => {
     let [fullName, setFullName] = useState('');
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const DeclarationsPanel = ({ thirdData, Declarations }) => {
             )}
             <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
-                {Declarations && Declarations.map(declaration => (
+                {declarations && declarations.map(declaration => (
                     <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
                         <h4 className="font-bold">{declaration.title}</h4>
                         <p>{declaration.body}</p>

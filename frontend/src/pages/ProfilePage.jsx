@@ -15,7 +15,7 @@ const ProfilePage = () => {
     const userDataStr = localStorage.getItem('user_data');
     const [userData, setUserData] = useState(userDataStr ? JSON.parse(userDataStr) : null);
     const [thirdData, setThirdData] = useState(null);
-    const [Declarations, setDeclarations] = useState(null);
+    const [declarations, setDeclarations] = useState(null);
 
     useEffect(() => {
         if (!accessToken) {
@@ -134,7 +134,7 @@ const ProfilePage = () => {
                 />
                 <DeclarationsPanel
                     thirdData={thirdData}
-                    Declarations={Declarations}
+                    declarations={declarations}
                 />
             </div>
             <Footer />
