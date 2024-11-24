@@ -91,14 +91,11 @@ const CommandPanel = ({ postAndShowDeclaration, postProposal }) => {
                     <ProposalDialog
                         onClose={() => setShowProposalDialog(false)}
                         onSend={postProposal} // Pass postProposal to ProposalDialog
-                        userData={userData}
-                        accessToken={accessToken} // Pass accessToken to ProposalDialog
                     />
                 )}
                 {showNotificationsDialog && (
                     <NotificationsDialog
                         userId={userData.id}
-                        accessToken={accessToken}
                         onClose={() => setShowNotificationsDialog(false)}
                     />
                 )}

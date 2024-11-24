@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import Api from '@/components/Api'; // Customized Axios instance
 
-const ProposalDialog = ({ onClose, onSend, userData, accessToken }) => {
+const ProposalDialog = ({ onClose, onSend }) => {
+    const userData = JSON.parse(localStorage.getItem('user_data'));
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [receiverId, setReceiverId] = useState('');
     const [receiverFullName, setReceiverFullName] = useState('');
     const [loading, setLoading] = useState(false);
     const dialogRef = useRef(null);
-    
+
     const handleSend = () => {
         onSend({ sender: userData.id, receiver: receiverId, title, body });
         onClose();
@@ -33,11 +34,7 @@ const ProposalDialog = ({ onClose, onSend, userData, accessToken }) => {
             if (receiverId) {
                 setLoading(true);
                 try {
-                    const response = await axios.get(`http://localhost:8000/api/users/${receiverId}/`, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        },
-                    });
+                    const response = await Api.get(`/users/${receiverId}/`);
                     setReceiverFullName(response.data.full_name);
                 } catch (error) {
                     console.error('Error fetching receiver name:', error);
@@ -53,7 +50,7 @@ const ProposalDialog = ({ onClose, onSend, userData, accessToken }) => {
         const debounceFetch = setTimeout(fetchReceiver, 300); // Debounce for 300ms
 
         return () => clearTimeout(debounceFetch);
-    }, [receiverId, accessToken]);
+    }, [receiverId]);
 
     return (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
