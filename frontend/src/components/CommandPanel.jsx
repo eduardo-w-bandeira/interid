@@ -26,7 +26,7 @@ const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postPropo
         };
 
         fetchUnreadNotifications();
-    }, [userData.id, accessToken]);
+    }, [userData, accessToken]);
 
     return (
         <div className="md:w-1/4 p-5 bg-white rounded-lg shadow-lg">
