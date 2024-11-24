@@ -4,7 +4,7 @@ import DeclarationDialog from './DeclarationDialog';
 import ProposalDialog from './ProposalDialog';
 import NotificationsDialog from './NotificationsDialog';
 
-const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postProposal }) => {
+const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postProposal }) => {
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
     const [showProposalDialog, setShowProposalDialog] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
@@ -108,4 +108,4 @@ const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postPropos
     );
 };
 
-export default ActionPanel;
+export default CommandPanel;
