@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Api from '@/components/Api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CommandPanel from '@/components/CommandPanel';
@@ -11,7 +11,6 @@ const ProfilePage = () => {
     const { userId: thirdIdStr } = useParams();
     const [thirdId, setThirdId] = useState(parseInt(thirdIdStr));
     const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
-    const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refresh_token'));
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user_data')));
     const [thirdData, setThirdData] = useState(null);
     const [declarations, setDeclarations] = useState(null);
@@ -28,11 +27,7 @@ const ProfilePage = () => {
                 setThirdData(userData);
             } else {
                 try {
-                    const response = await axios.get(`http://localhost:8000/api/users/${thirdId}/`, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }
-                    });
+                    const response = await Api.get(`users/${thirdId}/`);
                     setThirdData(response.data);
                 } catch (error) {
                     console.error("Error fetching third party data", error);
@@ -42,21 +37,17 @@ const ProfilePage = () => {
 
         const fetchDeclarations = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/declarations/?user=${thirdId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
+                const response = await Api.get(`declarations/?user=${thirdId}`);
                 setDeclarations(response.data);
             } catch (error) {
-                console.error("Error fetching user data", error);
+                console.error("Error fetching user declarations", error);
             }
         };
 
         if (accessToken && userData) {
             fetchThirdData();
             fetchDeclarations();
-        };
+        }
     }, [thirdId, accessToken, userData]);
 
     const postAndShowDeclaration = async (declarationData) => {
@@ -65,11 +56,7 @@ const ProfilePage = () => {
             user: userData.id,
         };
         try {
-            const response = await axios.post('http://localhost:8000/api/declarations/', completeData, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
+            const response = await Api.post('declarations/', completeData);
             if (thirdId !== userData.id) {
                 navigate(`/${userData.id}`);
             }
@@ -81,16 +68,11 @@ const ProfilePage = () => {
 
     const postProposal = async (proposalData) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/agreements/', proposalData, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
+            const response = await Api.post('agreements/', proposalData);
         } catch (err) {
             console.error("Error posting proposal", err);
         }
     };
-
 
     return (
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
@@ -103,7 +85,7 @@ const ProfilePage = () => {
                     postProposal={postProposal} // Pass postProposal as a prop
                 />
                 <DeclarationsPanel
-                    thirdData={thirdData}
+                    userData={thirdData}
                     declarations={declarations}
                 />
             </div>
