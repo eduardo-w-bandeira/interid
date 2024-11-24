@@ -3,14 +3,12 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '@/pages/HomePage.jsx';
 import MultiplyPage from '@/pages/MultiplyPage.jsx';
-import Bla from '@/pages/Bla.jsx';
 import IndividualSignupPage from '@/pages/IndividualSignupPage.jsx';
 import SignupPage from '@/pages/SignupPage.jsx';
 import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage.jsx';
 import LoginPage from '@/pages/LoginPage.jsx';
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
 import ProfilePage from '@/pages/ProfilePage.jsx';
-// import ThirdProfilePage from '@/pages/ThirdProfilePage';
 
 const App = () => {
   return (
