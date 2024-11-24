@@ -5,7 +5,8 @@ import DeclarationDialog from './DeclarationDialog';
 import ProposalDialog from './ProposalDialog';
 import NotificationsDialog from './NotificationsDialog';
 
-const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postProposal }) => {
+const CommandPanel = ({ postAndShowDeclaration, postProposal }) => {
+    const userData = JSON.parse(localStorage.getItem('user_data'));
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
     const [showProposalDialog, setShowProposalDialog] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
@@ -24,7 +25,7 @@ const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postPropo
         if (userData) {
             fetchUnreadNotifications();
         }
-    }, [userData]);
+    });
 
     return (
         <div className="md:w-1/4 p-5 bg-white rounded-lg shadow-lg">

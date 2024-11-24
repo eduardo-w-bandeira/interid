@@ -79,9 +79,7 @@ const ProfilePage = () => {
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
                 <CommandPanel
-                    userData={userData}
                     postAndShowDeclaration={postAndShowDeclaration}
-                    accessToken={accessToken} // Pass accessToken as a prop
                     postProposal={postProposal} // Pass postProposal as a prop
                 />
                 <DeclarationsPanel
