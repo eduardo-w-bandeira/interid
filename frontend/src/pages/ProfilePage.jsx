@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import ActionPanel from '@/components/ActionPanel';
+import CommandPanel from '@/components/CommandPanel';
 import DeclarationsPanel from '@/components/DeclarationsPanel';
 
 const ProfilePage = () => {
@@ -59,35 +59,6 @@ const ProfilePage = () => {
         };
     }, [thirdId, accessToken, userData]);
 
-    const refreshAccessToken = async () => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/token-refresh/', {
-                refresh: refreshToken,
-            });
-            const newAccessToken = response.data.access;
-            setAccessToken(newAccessToken);
-            localStorage.setItem('access_token', newAccessToken);
-        } catch (error) {
-            console.error("Error refreshing token", error);
-            navigate('/login'); // Redirect to login if refresh fails
-        }
-    };
-
-    // Axios interceptor for handling token refresh
-    axios.interceptors.response.use(
-        response => response,
-        async error => {
-            const originalRequest = error.config;
-            if (error.response.status === 401 && !originalRequest._retry) {
-                originalRequest._retry = true;
-                await refreshAccessToken(); // Refresh the token
-                return axios(originalRequest); // Retry the original request
-            }
-            return Promise.reject(error);
-        }
-    );
-
-
     const postAndShowDeclaration = async (declarationData) => {
         const completeData = {
             ...declarationData,
@@ -125,7 +96,7 @@ const ProfilePage = () => {
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
             <Navbar />
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
-                <ActionPanel
+                <CommandPanel
                     userData={userData}
                     postAndShowDeclaration={postAndShowDeclaration}
                     accessToken={accessToken} // Pass accessToken as a prop
