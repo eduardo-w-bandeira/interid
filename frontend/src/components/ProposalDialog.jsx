@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
-const ProposalDialog = ({ onClose, onSend, user, accessToken }) => {
+const ProposalDialog = ({ onClose, onSend, userData, accessToken }) => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
     const [receiverId, setReceiverId] = useState('');
@@ -10,7 +10,7 @@ const ProposalDialog = ({ onClose, onSend, user, accessToken }) => {
     const dialogRef = useRef(null);
     
     const handleSend = () => {
-        onSend({ sender: user.id, receiver: receiverId, title, body });
+        onSend({ sender: userData.id, receiver: receiverId, title, body });
         onClose();
     };
 
@@ -62,8 +62,8 @@ const ProposalDialog = ({ onClose, onSend, user, accessToken }) => {
                     &times;
                 </button>
                 <h2 className="text-xl font-bold mb-4">Propose an Agreement</h2>
-                <label className="block mb-2">From: {user.full_name} (ID: {user.id})</label>
-                <label className="block mb-2">To:</label>
+                <label className="block mb-2">Sender: {userData.full_name} (ID: {userData.id})</label>
+                <label className="block mb-2">Receiver ID:</label>
                 <input
                     type="text"
                     placeholder="Receiver ID"
