@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Api from '@/components/Api';
 import DeclarationDialog from './DeclarationDialog';
 import ProposalDialog from './ProposalDialog';
 import NotificationsDialog from './NotificationsDialog';
@@ -13,20 +14,17 @@ const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postPropo
     useEffect(() => {
         const fetchUnreadNotifications = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/count-unread-notifications/${userData.id}/`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
-                const data = await response.json();
-                setUnreadNotifications(data.unread_count);
+                const response = await Api.get(`count-unread-notifications/${userData.id}/`);
+                setUnreadNotifications(response.data.unread_count);
             } catch (error) {
                 console.error('Error fetching unread notifications:', error);
             }
         };
 
-        fetchUnreadNotifications();
-    }, [userData, accessToken]);
+        if (userData) {
+            fetchUnreadNotifications();
+        }
+    }, [userData]);
 
     return (
         <div className="md:w-1/4 p-5 bg-white rounded-lg shadow-lg">
@@ -65,7 +63,7 @@ const CommandPanel = ({ userData, postAndShowDeclaration, accessToken, postPropo
                             </span>
                         )}
                     </button>
-                    <button className="flex items-center text-gray-600 hover:text-gray-800"  onClick={() => setShowProposalDialog(true)}>
+                    <button className="flex items-center text-gray-600 hover:text-gray-800" onClick={() => setShowProposalDialog(true)}>
                         <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
