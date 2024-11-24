@@ -92,7 +92,7 @@ const ActionPanel = ({ userData, postAndShowDeclaration, accessToken, postPropos
                     <ProposalDialog
                         onClose={() => setShowProposalDialog(false)}
                         onSend={postProposal} // Pass postProposal to ProposalDialog
-                        user={userData}
+                        userData={userData}
                         accessToken={accessToken} // Pass accessToken to ProposalDialog
                     />
                 )}
