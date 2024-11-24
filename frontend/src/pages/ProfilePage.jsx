@@ -12,7 +12,7 @@ const ProfilePage = () => {
     const [thirdId, setThirdId] = useState(parseInt(thirdIdStr));
     const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
     const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refresh_token'));
-    const [userData, setUserData] = useState(localStorage.getItem('user_data'));
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user_data')));
     const [thirdData, setThirdData] = useState(null);
     const [declarations, setDeclarations] = useState(null);
 
