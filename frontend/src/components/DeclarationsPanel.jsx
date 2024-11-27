@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import userImage from '@/assets/generic-user.png';
 
 const DeclarationsPanel = ({ userData, declarations }) => {
@@ -21,9 +21,15 @@ const DeclarationsPanel = ({ userData, declarations }) => {
             <h3 className="text-lg font-semibold mb-3 mt-10">PUBLIC DECLARATIONS</h3>
             <div>
                 {declarations && declarations.map(declaration => (
-                    <div key={declaration.id} className="bg-gray-50 p-4 rounded-lg mb-5 shadow">
-                        <h4 className="font-bold">{declaration.title}</h4>
-                        <p>{declaration.body}</p>
+                    <div
+                        key={declaration.id}
+                        className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 mb-6 hover:shadow-lg transition-shadow duration-200"
+                    >
+                        <div className="flex justify-between items-center pb-1 mb-2">
+                            <h4 className="text-lg font-semibold text-gray-800">{declaration.title}</h4>
+                            <p className="text-xs text-gray-500">{new Date(declaration.created_at).toLocaleString()}</p>
+                        </div>
+                        <p className="text-gray-700 text leading-relaxed">{declaration.body}</p>
                     </div>
                 ))}
             </div>
