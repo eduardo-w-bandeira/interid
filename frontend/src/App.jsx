@@ -2,7 +2,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '@/pages/HomePage.jsx';
-import MultiplyPage from '@/pages/MultiplyPage.jsx';
 import IndividualSignupPage from '@/pages/IndividualSignupPage.jsx';
 import SignupPage from '@/pages/SignupPage.jsx';
 import LegalEntitySignupPage from '@/pages/LegalEntitySignupPage.jsx';
@@ -14,7 +13,6 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/multiply" element={<MultiplyPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/individual-signup" element={<IndividualSignupPage />} />
       <Route path="/legal-entity-signup" element={<LegalEntitySignupPage />} />
