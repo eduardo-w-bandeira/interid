@@ -18,10 +18,28 @@ class UserAdmin(admin.ModelAdmin):
     inlines = [DeclarationInline]
 
 
+class DeclarationUserFilter(admin.SimpleListFilter):
+    title = 'user'
+    parameter_name = 'user'
+
+    def lookups(self, request, model_admin):
+        users = set([d.user for d in model_admin.model.objects.all()])
+        return [(u.id, u.email) for u in users]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(user__id=self.value())
+        return queryset
+
+
+class DeclarationAdmin(admin.ModelAdmin):
+    list_filter = (DeclarationUserFilter,)
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Individual)
 admin.site.register(LegalEntity)
-admin.site.register(Declaration)
-admin.site.register(DeclarationComment)
+admin.site.register(Declaration, DeclarationAdmin)
+# admin.site.register(DeclarationComment)
 admin.site.register(Agreement)
 admin.site.register(Notification)
