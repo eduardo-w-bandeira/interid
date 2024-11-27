@@ -2,6 +2,11 @@ from django.contrib import admin
 from .models import *
 
 
+class DeclarationInline(admin.TabularInline):
+    model = Declaration
+    extra = 1
+
+
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'email', 'user_type', 'gov_id',
                     'gov_id_type', 'issuing_authority', 'country', 'is_active',
@@ -10,6 +15,7 @@ class UserAdmin(admin.ModelAdmin):
                      'issuing_authority', 'country')
     list_filter = ('user_type', 'gov_id_type', 'issuing_authority', 'country',
                    'is_active', 'is_staff')
+    inlines = [DeclarationInline]
 
 
 admin.site.register(User, UserAdmin)
