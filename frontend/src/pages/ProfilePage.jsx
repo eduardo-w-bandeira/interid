@@ -77,7 +77,7 @@ const ProfilePage = () => {
     return (
         <div className="bg-gray-100 text-gray-800 leading-relaxed">
             <Navbar />
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5 items-start">
                 <CommandPanel
                     postAndShowDeclaration={postAndShowDeclaration}
                     postProposal={postProposal} // Pass postProposal as a prop
