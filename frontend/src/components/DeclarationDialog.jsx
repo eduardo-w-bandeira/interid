@@ -41,6 +41,7 @@ const DeclarationDialog = ({ onClose, onPublish }) => {
                     placeholder="Body"
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
+                    rows="8"
                     className="w-full p-2 mb-4 border rounded"
                 />
                 <div className="flex justify-end space-x-2">
