@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CommandPanel from '@/components/CommandPanel';
 import DeclarationsPanel from '@/components/DeclarationsPanel';
+import NotificationsPanel from '@/components/NotificationsPanel'; // Import NotificationsPanel
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const ProfilePage = () => {
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('user_data')));
     const [thirdData, setThirdData] = useState(null);
     const [declarations, setDeclarations] = useState(null);
+    const [showNotificationsPanel, setShowNotificationsPanel] = useState(false); // Add state for NotificationsPanel
 
     useEffect(() => {
         if (!accessToken) {
@@ -80,12 +82,17 @@ const ProfilePage = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row p-5 items-start">
                 <CommandPanel
                     postAndShowDeclaration={postAndShowDeclaration}
-                    postProposal={postProposal} // Pass postProposal as a prop
+                    postProposal={postProposal}
+                    setShowNotificationsPanel={setShowNotificationsPanel} // Pass setShowNotificationsPanel as a prop
                 />
-                <DeclarationsPanel
-                    userData={thirdData}
-                    declarations={declarations}
-                />
+                {showNotificationsPanel ? (
+                    <NotificationsPanel />
+                ) : (
+                    <DeclarationsPanel
+                        userData={thirdData}
+                        declarations={declarations}
+                    />
+                )}
             </div>
             <Footer />
         </div>
