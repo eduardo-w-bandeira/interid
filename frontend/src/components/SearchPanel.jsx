@@ -14,6 +14,10 @@ const SearchPanel = () => {
         }
     };
 
+    const handleUserClick = (userId) => {
+        window.location.href = `/${userId}`;
+    };
+
     return (
         <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
             <h3 className="text-lg font-semibold mb-3 mt-10">SEARCH</h3>
@@ -36,7 +40,8 @@ const SearchPanel = () => {
                 {users && users.map(user => (
                     <div
                         key={user.id}
-                        className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 mb-6"
+                        onClick={() => handleUserClick(user.id)}
+                        className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 mb-6 cursor-pointer"
                     >
                         <p>Name: {user.full_name}</p>
                         <p>ID: {user.id}</p>
