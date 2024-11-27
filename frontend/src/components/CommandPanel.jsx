@@ -3,14 +3,12 @@ import { Link } from 'react-router-dom';
 import Api from '@/components/Api';
 import DeclarationDialog from './DeclarationDialog';
 import ProposalDialog from './ProposalDialog';
-import NotificationsDialog from './NotificationsDialog';
 
-const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificationsPanel }) => {
+const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificationsPanel, setShowSearchPanel }) => {
     const userData = JSON.parse(localStorage.getItem('user_data'));
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
     const [showProposalDialog, setShowProposalDialog] = useState(false);
     const [unreadNotifications, setUnreadNotifications] = useState(0);
-    const [showNotificationsDialog, setShowNotificationsDialog] = useState(false);
 
     useEffect(() => {
         const fetchUnreadNotifications = async () => {
@@ -40,7 +38,7 @@ const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificatio
                     </svg>
                     <span>My Profile</span>
                 </Link>)}
-                <button className="flex items-center text-gray-600 hover:text-gray-800">
+                <button className="flex items-center text-gray-600 hover:text-gray-800" onClick={() => setShowSearchPanel(true)}>
                     <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -90,12 +88,6 @@ const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificatio
                 <ProposalDialog
                     onClose={() => setShowProposalDialog(false)}
                     onSend={postProposal} // Pass postProposal to ProposalDialog
-                />
-            )}
-            {showNotificationsDialog && (
-                <NotificationsDialog
-                    userId={userData.id}
-                    onClose={() => setShowNotificationsDialog(false)}
                 />
             )}
         </div>

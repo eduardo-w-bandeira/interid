@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import CommandPanel from '@/components/CommandPanel';
 import DeclarationsPanel from '@/components/DeclarationsPanel';
 import NotificationsPanel from '@/components/NotificationsPanel'; // Import NotificationsPanel
+import SearchPanel from '@/components/SearchPanel'; // Import SearchPanel
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const ProfilePage = () => {
     const [thirdData, setThirdData] = useState(null);
     const [declarations, setDeclarations] = useState(null);
     const [showNotificationsPanel, setShowNotificationsPanel] = useState(false); // Add state for NotificationsPanel
+    const [showSearchPanel, setShowSearchPanel] = useState(false); // Add state for SearchPanel
 
     useEffect(() => {
         if (!accessToken) {
@@ -83,9 +85,12 @@ const ProfilePage = () => {
                 <CommandPanel
                     postAndShowDeclaration={postAndShowDeclaration}
                     postProposal={postProposal}
-                    setShowNotificationsPanel={setShowNotificationsPanel} // Pass setShowNotificationsPanel as a prop
+                    setShowNotificationsPanel={setShowNotificationsPanel}
+                    setShowSearchPanel={setShowSearchPanel} // Pass setShowSearchPanel as a prop
                 />
-                {showNotificationsPanel ? (
+                {showSearchPanel ? (
+                    <SearchPanel />
+                ) : showNotificationsPanel ? (
                     <NotificationsPanel />
                 ) : (
                     <DeclarationsPanel

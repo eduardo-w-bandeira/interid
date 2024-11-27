@@ -265,3 +265,18 @@ def get_user_approved_agreements(user_id):
     slizer = AgreementSerializer(agreements, many=True)
     data = {'agreements': slizer.data}
     return JsonResponse(data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@wizrouter.auto_route(param='<term>')
+@csrf_exempt
+def search_user_by_name(term):
+    users = User.objects.filter(
+        Q(individual__first_name__icontains=term) |
+        Q(individual__last_name__icontains=term) |
+        Q(legalentity__legal_name__icontains=term) |
+        Q(legalentity__business_name__icontains=term))
+    slizer = UserSerializer(users, many=True)
+    data = {'users': slizer.data}
+    return JsonResponse(data, status=status.HTTP_200_OK)

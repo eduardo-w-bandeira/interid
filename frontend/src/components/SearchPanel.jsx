@@ -1,0 +1,49 @@
+import React, { useState } from 'react';
+import Api from "@/components/Api";
+
+const SearchPanel = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [results, setResults] = useState([]);
+
+    const handleSearch = async () => {
+        try {
+            const response = await Api.get(`/search-user-by-name/${searchTerm}`);
+            setResults(response.data.results);
+        } catch (error) {
+            console.error("Error searching:", error);
+        }
+    };
+
+    return (
+        <div className="md:w-2/3 p-5 bg-white rounded-lg shadow-lg ml-0 md:ml-5">
+            <h3 className="text-lg font-semibold mb-3 mt-10">SEARCH</h3>
+            <div className="mb-4">
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded"
+                    placeholder="Search for individuals or legal entities..."
+                />
+                <button
+                    onClick={handleSearch}
+                    className="mt-2 p-2 bg-blue-500 text-white rounded"
+                >
+                    Search
+                </button>
+            </div>
+            <div>
+                {results && results.map(result => (
+                    <div
+                        key={result.id}
+                        className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 mb-6"
+                    >
+                        <p>{result.name}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default SearchPanel;
