@@ -29,7 +29,10 @@ const DeclarationsPanel = ({ userData, declarations }) => {
                             <h4 className="text-lg font-semibold text-gray-800">{declaration.title}</h4>
                             <p className="text-xs text-gray-500">{new Date(declaration.created_at).toLocaleString()}</p>
                         </div>
-                        <p className="text-gray-700 text leading-relaxed">{declaration.body}</p>
+                        <p className="text-gray-700 text leading-relaxed" dangerouslySetInnerHTML={{
+                            __html: declaration.body.replace(/\n/g, "<br />"),
+                        }}
+                        ></p>
                     </div>
                 ))}
             </div>
