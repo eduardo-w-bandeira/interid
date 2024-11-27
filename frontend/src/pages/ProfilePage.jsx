@@ -18,6 +18,7 @@ const ProfilePage = () => {
     const [declarations, setDeclarations] = useState(null);
     const [showNotificationsPanel, setShowNotificationsPanel] = useState(false); // Add state for NotificationsPanel
     const [showSearchPanel, setShowSearchPanel] = useState(false); // Add state for SearchPanel
+    const [showDeclarationsPanel, setShowDeclarationsPanel] = useState(false); // Add state for DeclarationsPanel
 
     useEffect(() => {
         if (!accessToken) {
@@ -85,13 +86,31 @@ const ProfilePage = () => {
                 <CommandPanel
                     postAndShowDeclaration={postAndShowDeclaration}
                     postProposal={postProposal}
-                    setShowNotificationsPanel={setShowNotificationsPanel}
-                    setShowSearchPanel={setShowSearchPanel} // Pass setShowSearchPanel as a prop
+                    setShowNotificationsPanel={(show) => {
+                        setShowNotificationsPanel(show);
+                        setShowSearchPanel(false);
+                        setShowDeclarationsPanel(false);
+                    }}
+                    setShowSearchPanel={(show) => {
+                        setShowSearchPanel(show);
+                        setShowNotificationsPanel(false);
+                        setShowDeclarationsPanel(false);
+                    }}
+                    setShowDeclarationsPanel={(show) => {
+                        setShowDeclarationsPanel(show);
+                        setShowNotificationsPanel(false);
+                        setShowSearchPanel(false);
+                    }}
                 />
                 {showSearchPanel ? (
                     <SearchPanel />
                 ) : showNotificationsPanel ? (
                     <NotificationsPanel />
+                ) : showDeclarationsPanel ? (
+                    <DeclarationsPanel
+                        userData={thirdData}
+                        declarations={declarations}
+                    />
                 ) : (
                     <DeclarationsPanel
                         userData={thirdData}
