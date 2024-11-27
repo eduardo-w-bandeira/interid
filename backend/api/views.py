@@ -269,9 +269,8 @@ def get_user_approved_agreements(user_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@wizrouter.auto_route(param='<term>')
-@csrf_exempt
-def search_user_by_name(term):
+@wizrouter.auto_route(param='<str:term>')
+def search_users_by_name(request, term):
     users = User.objects.filter(
         Q(individual__first_name__icontains=term) |
         Q(individual__last_name__icontains=term) |

@@ -3,12 +3,12 @@ import Api from "@/components/Api";
 
 const SearchPanel = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const handleSearch = async () => {
         try {
-            const response = await Api.get(`/search-user-by-name/${searchTerm}`);
-            setResults(response.data.results);
+            const response = await Api.get(`/search-users-by-name/${searchTerm}/`);
+            setUsers(response.data.users);
         } catch (error) {
             console.error("Error searching:", error);
         }
@@ -23,7 +23,7 @@ const SearchPanel = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded"
-                    placeholder="Search for individuals or legal entities..."
+                    placeholder="Name of the individual or legal entity"
                 />
                 <button
                     onClick={handleSearch}
@@ -33,12 +33,14 @@ const SearchPanel = () => {
                 </button>
             </div>
             <div>
-                {results && results.map(result => (
+                {users && users.map(user => (
                     <div
-                        key={result.id}
+                        key={user.id}
                         className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 mb-6"
                     >
-                        <p>{result.name}</p>
+                        <p>Name: {user.full_name}</p>
+                        <p>ID: {user.id}</p>
+                        <p>Type: {user.user_type}</p>
                     </div>
                 ))}
             </div>
