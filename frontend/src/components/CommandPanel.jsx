@@ -28,7 +28,7 @@ const CommandPanel = ({ postAndShowDeclaration, postProposal }) => {
     });
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-4 inline-block">
+        <div className="bg-white rounded-lg shadow-lg p-7 inline-block">
             <div className="flex items-center mb-4">
                 <img src="/logo.png" alt="InterId Logo" className="h-8 w-8 mr-2" />
                 <span className="font-bold text-gray-800 text-lg">InterId</span>
