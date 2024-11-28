@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Api from '@/components/Api';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -13,7 +13,7 @@ const LoginPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/login/', {
+            const response = await Api.post('login/', {
                 email,
                 password,
             });
