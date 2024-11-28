@@ -168,11 +168,11 @@ def update_agreement_decision(request, agreement_id):
             if agreement.has_approved:
                 notification_body = (
                     f'{agreement.receiver.full_name} '
-                    f'(ID: {user.id}) has APPROVED your Agreement Proposal #{agreement.id}.')
+                    f'(ID: {agreement.receiver.id}) has APPROVED your Agreement Proposal #{agreement.id}.')
             elif agreement.has_approved is False:
                 notification_body = (
                     f'{agreement.receiver.full_name} '
-                    f'(ID: {user.id}) has REJECTED your Agreement Proposal #{agreement.id}.')
+                    f'(ID: {agreement.receiver.id}) has REJECTED your Agreement Proposal #{agreement.id}.')
         else:
             if agreement.has_approved:
                 notification_body = (
