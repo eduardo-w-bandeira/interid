@@ -128,9 +128,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Customization
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite development server
-]
+ALLOWED_HOSTS = ['*']
+
+# CORS_ALLOW_ALL_ORIGINS = True = [
+#     "http://localhost:5173",  # Vite development server
+# ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -174,3 +176,5 @@ SIMPLE_JWT = {
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
