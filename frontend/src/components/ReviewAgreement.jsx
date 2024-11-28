@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from "react";
-import Api from "@/components/Api"; // Import the custom Axios instance
+import Api from "@/components/Api";
 
-const ReviewProposal = ({ proposalId, onClose, userId }) => {
-  const [proposal, setProposal] = useState(null);
+const ReviewAgreement = ({ agreementId, onClose, userId }) => {
+  const [agreement, setAgreement] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hasApproved, setHasApproved] = useState("");
 
   useEffect(() => {
-    const fetchProposal = async () => {
+    const fetchAgreement = async () => {
       try {
-        const response = await Api.get(`/agreements/${proposalId}/`);
-        setProposal(response.data);
+        const response = await Api.get(`/agreements/${agreementId}/`);
+        setAgreement(response.data);
         setHasApproved(response.data.has_approved);
       } catch (error) {
-        console.error("Error fetching proposal:", error);
+        console.error("Error fetching agreement:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProposal();
-  }, [proposalId]);
+    fetchAgreement();
+  }, [agreementId]);
 
   const handleDecision = async (hasApprovedArg) => {
     try {
       const data = {
         has_approved: hasApprovedArg,
       };
-      await Api.post(`/update-agreement-decision/${proposalId}/`, data);
+      await Api.post(`/update-agreement-decision/${agreementId}/`, data);
       setHasApproved(hasApprovedArg);
     } catch (error) {
-      console.error("Error approving proposal:", error);
+      console.error("Error approving agreement:", error);
     }
   };
 
@@ -48,25 +48,25 @@ const ReviewProposal = ({ proposalId, onClose, userId }) => {
           &times;
         </button>
         <h2 className="text-xl font-bold mb-4">
-          Review Agreement Proposal #{proposal.id}
+          Review Agreement Proposal #{agreement.id}
         </h2>
         <div className="mb-4">
           <h4 className="text-base font-semibold">Sender</h4>
-          <p>{proposal.sender_full_name} (ID: {proposal.sender_id})</p>
+          <p>{agreement.sender_full_name} (ID: {agreement.sender_id})</p>
         </div>
         <div className="mb-4">
           <h4 className="text-base font-semibold">Receiver</h4>
-          <p>{proposal.receiver_full_name} (ID: {proposal.receiver_id})</p>
+          <p>{agreement.receiver_full_name} (ID: {agreement.receiver_id})</p>
         </div>
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Title</h3>
-          <p>{proposal.title}</p>
+          <p>{agreement.title}</p>
         </div>
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Body</h3>
           <p
             dangerouslySetInnerHTML={{
-              __html: proposal.body.replace(/\n/g, "<br />"),
+              __html: agreement.body.replace(/\n/g, "<br />"),
             }}
           ></p>
         </div>
@@ -79,7 +79,7 @@ const ReviewProposal = ({ proposalId, onClose, userId }) => {
           </p>
         </div>
         <div className="flex justify-end space-x-2">
-          {hasApproved === null && proposal.sender_id !== userId && (
+          {hasApproved === null && agreement.sender_id !== userId && (
             <>
               <button
                 onClick={() => handleDecision(true)}
@@ -107,4 +107,4 @@ const ReviewProposal = ({ proposalId, onClose, userId }) => {
   );
 };
 
-export default ReviewProposal;
+export default ReviewAgreement;

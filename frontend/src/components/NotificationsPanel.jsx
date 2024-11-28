@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Api from "@/components/Api"; // Import the configured Axios instance
-import ReviewProposal from "./ReviewProposal"; // Import ReviewProposal
+import ReviewAgreement from "./ReviewAgreement"; // Import ReviewAgreement
 
 const NotificationsPanel = () => {
     const userData = JSON.parse(localStorage.getItem('user_data'));
     const [notifications, setNotifications] = useState([]);
-    const [selectedProposalId, setSelectedProposalId] = useState(null);
+    const [selectedAgreementId, setSelectedAgreementId] = useState(null);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -35,7 +35,7 @@ const NotificationsPanel = () => {
         }
 
         if (notification.type === "proposal" || notification.type === "agreement decision") {
-            setSelectedProposalId(notification.agreement);
+            setSelectedAgreementId(notification.agreement);
         }
     };
 
@@ -60,10 +60,10 @@ const NotificationsPanel = () => {
                     </div>
                 ))}
             </div>
-            {selectedProposalId && (
-                <ReviewProposal
-                    proposalId={selectedProposalId}
-                    onClose={() => setSelectedProposalId(null)}
+            {selectedAgreementId && (
+                <ReviewAgreement
+                    agreementId={selectedAgreementId}
+                    onClose={() => setSelectedAgreementId(null)}
                     userId={userData.id}
                 />
             )}
