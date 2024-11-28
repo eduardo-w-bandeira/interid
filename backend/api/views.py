@@ -132,12 +132,12 @@ class AgreementViewSet(ModelViewSet):
         for user in [agreement.sender, agreement.receiver]:
             if user is agreement.sender:
                 notification_body = (
-                    f'You have sent the agreement proposal #{agreement.id} to '
+                    f'You have sent the Agreement Proposal #{agreement.id} to '
                     f'{agreement.receiver.full_name} '
                     f'(ID: {agreement.receiver.id}).')
             else:
                 notification_body = (
-                    f'You have received the agreement proposal #{
+                    f'You have received the Agreement Proposal #{
                         agreement.id} from '
                     f'{agreement.sender.full_name} '
                     f'(ID: {agreement.sender.id}).')
@@ -168,22 +168,22 @@ def update_agreement_decision(request, agreement_id):
             if agreement.has_approved:
                 notification_body = (
                     f'{agreement.receiver.full_name} '
-                    f'(ID: {user.id}) has APPROVED your agreement proposal #{agreement.id}.')
+                    f'(ID: {user.id}) has APPROVED your Agreement Proposal #{agreement.id}.')
             elif agreement.has_approved is False:
                 notification_body = (
                     f'{agreement.receiver.full_name} '
-                    f'(ID: {user.id}) has REJECTED your agreement proposal #{agreement.id}.')
+                    f'(ID: {user.id}) has REJECTED your Agreement Proposal #{agreement.id}.')
         else:
             if agreement.has_approved:
                 notification_body = (
-                    f'You have APPROVED the agreement proposal #{
+                    f'You have APPROVED the Agreement Proposal #{
                         agreement.id} '
-                    f'from {agreement.sender.full_name} (ID: {user.id})')
+                    f'from {agreement.sender.full_name} (ID: {agreement.sender.id})')
             elif agreement.has_approved is False:
                 notification_body = (
-                    f'You have REJECTED the agreement proposal #{
+                    f'You have REJECTED the Agreement Proposal #{
                         agreement.id} '
-                    f'from {agreement.sender.full_name} (ID: {user.id})')
+                    f'from {agreement.sender.full_name} (ID: {agreement.sender.id})')
         try:
             Notification.objects.create(
                 user=user,
@@ -259,7 +259,7 @@ def mark_notification_as_read(request, notification_id):
 @permission_classes([IsAuthenticated])
 @wizrouter.auto_route(param='<int:user_id>')
 @csrf_exempt
-def get_user_approved_agreements(user_id):
+def get_approved_agreements_by_user(user_id):
     agreements = Agreement.objects.filter(
         Q(sender=user_id) | Q(receiver=user_id), has_approved=True)
     slizer = AgreementSerializer(agreements, many=True)
