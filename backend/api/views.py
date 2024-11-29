@@ -259,7 +259,7 @@ def mark_notification_as_read(request, notification_id):
 @permission_classes([IsAuthenticated])
 @wizrouter.auto_route(param='<int:user_id>')
 @csrf_exempt
-def get_approved_agreements_by_user(user_id):
+def get_approved_agreements_by_user(request, user_id):
     agreements = Agreement.objects.filter(
         Q(sender=user_id) | Q(receiver=user_id), has_approved=True)
     slizer = AgreementSerializer(agreements, many=True)

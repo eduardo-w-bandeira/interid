@@ -7,6 +7,7 @@ import CommandPanel from '@/components/CommandPanel';
 import DeclarationsPanel from '@/components/DeclarationsPanel';
 import NotificationsPanel from '@/components/NotificationsPanel'; // Import NotificationsPanel
 import SearchPanel from '@/components/SearchPanel'; // Import SearchPanel
+import AgreementsPanel from '@/components/AgreementsPanel'; // Import AgreementsPanel
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ProfilePage = () => {
     const [showNotificationsPanel, setShowNotificationsPanel] = useState(false); // Add state for NotificationsPanel
     const [showSearchPanel, setShowSearchPanel] = useState(false); // Add state for SearchPanel
     const [showDeclarationsPanel, setShowDeclarationsPanel] = useState(false); // Add state for DeclarationsPanel
+    const [showAgreementsPanel, setShowAgreementsPanel] = useState(false); // Add state for AgreementsPanel
 
     useEffect(() => {
         if (!accessToken) {
@@ -90,22 +92,33 @@ const ProfilePage = () => {
                         setShowNotificationsPanel(show);
                         setShowSearchPanel(false);
                         setShowDeclarationsPanel(false);
+                        setShowAgreementsPanel(false);
                     }}
                     setShowSearchPanel={(show) => {
                         setShowSearchPanel(show);
                         setShowNotificationsPanel(false);
                         setShowDeclarationsPanel(false);
+                        setShowAgreementsPanel(false);
                     }}
                     setShowDeclarationsPanel={(show) => {
                         setShowDeclarationsPanel(show);
                         setShowNotificationsPanel(false);
                         setShowSearchPanel(false);
+                        setShowAgreementsPanel(false);
+                    }}
+                    setShowAgreementsPanel={(show) => {
+                        setShowAgreementsPanel(show);
+                        setShowNotificationsPanel(false);
+                        setShowSearchPanel(false);
+                        setShowDeclarationsPanel(false);
                     }}
                 />
                 {showSearchPanel ? (
                     <SearchPanel />
                 ) : showNotificationsPanel ? (
                     <NotificationsPanel />
+                ) : showAgreementsPanel ? (
+                    <AgreementsPanel />
                 ) : showDeclarationsPanel ? (
                     <DeclarationsPanel
                         userData={thirdData}

@@ -4,7 +4,7 @@ import Api from '@/components/Api';
 import DeclarationDialog from './DeclarationDialog';
 import ProposalDialog from './ProposalDialog';
 
-const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificationsPanel, setShowSearchPanel, setShowDeclarationsPanel }) => {
+const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificationsPanel, setShowSearchPanel, setShowDeclarationsPanel, setShowAgreementsPanel }) => {
     const userData = JSON.parse(localStorage.getItem('user_data'));
     const [showDeclarationDialog, setShowDeclarationDialog] = useState(false);
     const [showProposalDialog, setShowProposalDialog] = useState(false);
@@ -44,7 +44,7 @@ const CommandPanel = ({ postAndShowDeclaration, postProposal, setShowNotificatio
                     </svg>
                     <span>Search</span>
                 </button>
-                <button className="flex items-center text-gray-600 hover:text-gray-800">
+                <button className="flex items-center text-gray-600 hover:text-gray-800" onClick={() => { setShowNotificationsPanel(false); setShowSearchPanel(false); setShowDeclarationsPanel(false); setShowAgreementsPanel(true);}}>
                     <svg className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
