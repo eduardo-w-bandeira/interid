@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Api from './Api';
 
 const LegalEntitySignupForm = () => {
     const userType = 'legal entity';
@@ -27,7 +27,7 @@ const LegalEntitySignupForm = () => {
             issuing_authority: issuingAuthority,
             country: country
         };
-        axios.post('http://localhost:8000/api/legal-entitys/', data)
+        Api.post('legal-entitys/', data)
             .then((response) => {
                 window.location.href = '/login';
             })

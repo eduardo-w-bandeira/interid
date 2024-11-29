@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Api from '@/components/Api';
 
 const IndividualSignupForm = () => {
     const userType = 'individual';
@@ -27,7 +27,7 @@ const IndividualSignupForm = () => {
             issuing_authority: issuingAuthority,
             country: country
         };
-        axios.post('http://localhost:8000/api/individuals/', data)
+        Api.post('individuals/', data)
             .then((response) => {
                 window.location.href = '/login';
             })
