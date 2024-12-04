@@ -32,3 +32,4 @@ Built with Tailwind.
 
 # Highlight: Advanced Python
 ![Decorator developed](docs/media/wizrouter2.png)
+A magic router decorator was developed, so declaring the endpoints in `urls.py` was not necessary.
